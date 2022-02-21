@@ -1,11 +1,20 @@
-
+/* ---------- */
 /* SNAKE GAME */
+/* ---------- */
 
-/* FIELD */
+const fieldWrapper = document.querySelector('.field-wrapper');
+const scoreField = document.querySelector('.score');
 
 let field = document.createElement('div');
-document.body.appendChild(field);
+fieldWrapper.appendChild(field);
 field.classList.add('field');
+
+let score = 0;
+scoreField.innerText = `Your score: ${score}`;
+
+/* ----- */
+/* FIELD */
+/* ----- */
 
 for (let i = 1; i <= 100; i++) {
     let excel = document.createElement('div');
@@ -31,7 +40,9 @@ for (let i = 0; i < excel.length; i++) {
     x++
 };
 
+/* ----- */
 /* SNAKE */
+/* ----- */
 
 function generateSnake() {
     let posX = Math.round(Math.random() * (10 - 3) + 3);
@@ -51,7 +62,9 @@ for (let i = 0; i < snakeBody.length; i++) {
 
 snakeBody[0].classList.add('head');
 
+/* ----- */
 /* MOUSE */
+/* ----- */
 
 let mouse;
 
@@ -77,22 +90,12 @@ function createMouse() {
 
 createMouse();
 
+/* ---- */
 /* MOVE */
+/* ---- */
 
 let direction = 'right';
 let steps = false;
-
-let input = document.createElement('input');
-document.body.appendChild(input);
-input.style.cssText = `
-margin: auto;
-margin-top: 40px;
-font-size: 30px;
-display: block;
-`;
-
-let score = 0;
-input.value = `Your score: ${score}`;
 
 function move() {
     let snakeCoordinates = [snakeBody[0].getAttribute('posX'), snakeBody[0].getAttribute('posY')];
@@ -100,7 +103,9 @@ function move() {
     snakeBody[snakeBody.length - 1].classList.remove('snakeBody');
     snakeBody.pop();
 
+    /* -------- */
     /* ROTATING */
+    /* -------- */
 
     if (direction == 'right') {
         if (snakeCoordinates[0] < 10) {
@@ -128,7 +133,9 @@ function move() {
         };
     };
 
+    /* ------------ */
     /* MOUSE EATING */
+    /* ------------ */
 
     if (snakeBody[0].getAttribute('posX') == mouse.getAttribute('posX') &&
         snakeBody[0].getAttribute('posY') == mouse.getAttribute('posY')) {
@@ -139,19 +146,21 @@ function move() {
         snakeBody.push(document.querySelector('[posX = "' + a + '"][posY = "' + b + '"]'));
         createMouse();
         score++;
-        input.value = `Your score: ${score}`;
+        scoreField.innerText = `Your score: ${score}`;
     };
 
+    /* ----------- */
     /* SNAKE DEATH */
+    /* ----------- */
 
     if (snakeBody[0].classList.contains('snakeBody')) {
         
         setTimeout(() => {
-            alert(`Game Over!\nYour score: ${score}`);
+            scoreField.innerText = `Game Over! Your score: ${score}`;
         }, 200);
 
         clearInterval(interval);
-        snakeBody[0].style.backgroundColor = 'blue';
+        snakeBody[0].classList.add('death');
     };
 
     /**/

@@ -1,10 +1,6 @@
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 100px;
-}
+/* ---------- */
+/* SNAKE GAME */
+/* ---------- */
 
 .field {
     width: 500px;
@@ -12,7 +8,14 @@ body {
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
-    background-color: #CCCCCC;
+    background-color: var(--color-d);
+    outline: 2px dashed var(--color-border);
+}
+
+@media (prefers-color-scheme: dark) {
+    .field {
+        background-color: var(--color-a-monocromatic-d);
+    }
 }
 
 .excel {
@@ -22,14 +25,41 @@ body {
 }
 
 .snakeBody {
-    background-color: greenyellow;
+    background-color: var(--color-a-monocromatic-b);
 }
 
 .head {
-    background-color: green;
+    background-color: var(--color-a-monocromatic-a);
 }
 
 .mouse {
-    background-color: palevioletred;
+    background-color: var(--color-e);
+}
+
+.death {
+    background-color: var(--color-a-monocromatic-d);
+}
+
+@media (prefers-color-scheme: dark) {
+    .death {
+        background-color: var(--color-c);
+    }
+}
+
+/**/
+
+.centered {
+    text-align: center;
+}
+
+.score {
+    display: block;
+    text-align: center;
+    font-size: 32px;
+    margin-block-end: 32px;
+}
+
+.field-wrapper {
+    margin-block-end: 32px;
 }
 
