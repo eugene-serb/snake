@@ -2,6 +2,11 @@
 /* SNAKE GAME */
 /* ---------- */
 
+.snake-game-app {
+    width: 500px;
+    margin: 0 auto;
+}
+
 .field {
     width: 500px;
     height: 500px;
@@ -10,6 +15,7 @@
     flex-wrap: wrap;
     background-color: var(--color-d);
     outline: 2px dashed var(--color-border);
+    border-radius: 4px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,7 +24,7 @@
     }
 }
 
-.excel {
+.cell {
     width: 50px;
     height: 50px;
     padding: 5px;
@@ -60,6 +66,13 @@
 }
 
 .field-wrapper {
+    margin-block-end: 32px;
+}
+
+.interface-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     margin-block-end: 32px;
 }
 

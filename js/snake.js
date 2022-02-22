@@ -2,40 +2,81 @@
 /* SNAKE GAME */
 /* ---------- */
 
-const fieldWrapper = document.querySelector('.field-wrapper');
-const scoreField = document.querySelector('.score');
+/* ------- */
+/* RESTART */
+/* ------- */
 
-let field = document.createElement('div');
-fieldWrapper.appendChild(field);
-field.classList.add('field');
+const restartButton = document.querySelector('.restart-Button');
+
+restartButton.addEventListener('click', () => {
+    /* Will be after refactoring */
+});
+
+/* ----- */
+/* SCORE */
+/* ----- */
+
+const scoreField = document.querySelector('.score');
 
 let score = 0;
 scoreField.innerText = `Your score: ${score}`;
 
 /* ----- */
+/* SPEED */
+/* ----- */
+
+let speed = 300;
+
+const lightSpeed = document.querySelector('.speed-light-Button');
+const mediumSpeed = document.querySelector('.speed-medium-Button');
+const hardSpeed = document.querySelector('.speed-hard-Button');
+
+lightSpeed.addEventListener('click', () => {
+    speed = 300;
+    clearInterval(interval);
+    interval = setInterval(move, speed);
+});
+mediumSpeed.addEventListener('click', () => {
+    speed = 200;
+    clearInterval(interval);
+    interval = setInterval(move, speed);
+});
+hardSpeed.addEventListener('click', () => {
+    speed = 100;
+    clearInterval(interval);
+    interval = setInterval(move, speed);
+});
+
+/* ----- */
 /* FIELD */
 /* ----- */
 
+const fieldWrapper = document.querySelector('.field-wrapper');
+
+let field = document.createElement('div');
+fieldWrapper.appendChild(field);
+field.classList.add('field');
+
 for (let i = 1; i <= 100; i++) {
-    let excel = document.createElement('div');
-    field.appendChild(excel);
-    excel.classList.add('excel')
+    let cell = document.createElement('div');
+    field.appendChild(cell);
+    cell.classList.add('cell')
 };
 
-let excel = document.getElementsByClassName('excel');
+let cell = document.getElementsByClassName('cell');
 
 let x = 1,
     y = 10;
 
-for (let i = 0; i < excel.length; i++) {
+for (let i = 0; i < cell.length; i++) {
 
     if (x > 10) {
         x = 1;
         y--;
     };
 
-    excel[i].setAttribute('posX', x);
-    excel[i].setAttribute('posY', y);
+    cell[i].setAttribute('posX', x);
+    cell[i].setAttribute('posY', y);
 
     x++
 };
@@ -174,7 +215,11 @@ function move() {
     steps = true;
 };
 
-let interval = setInterval(move, 300);
+let interval = setInterval(move, speed);
+
+/* -------------------------------------- */
+/* ROTATION SWITCHER & KEY PRESS LISTENER */
+/* -------------------------------------- */
 
 window.addEventListener('keydown', function (e) {
 
