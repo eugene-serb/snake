@@ -1,0 +1,72 @@
+/* ---------- */
+/* SNAKE GAME */
+/* ---------- */
+
+/* --------- */
+/* INTERFACE */
+/* --------- */
+
+.snake-game {
+    width: 500px;
+    margin: 0 auto;
+}
+
+.snake-game__header {
+    text-align: center;
+}
+
+.snake-game__field-wrapper {
+    margin-block-end: 32px;
+}
+
+.snake-game__score {
+    display: block;
+    text-align: center;
+    font-size: 32px;
+    margin-block-end: 32px;
+}
+
+.snake-game__control-rules {
+    text-align: center;
+    font-size: 24px;
+}
+
+/* ---- */
+/* GAME */
+/* ---- */
+
+.field {
+    width: 500px;
+    height: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: var(--color-d);
+    outline: 2px dashed var(--color-border);
+    border-radius: 4px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .field {
+        background-color: var(--color-a-monocromatic-d);
+    }
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    padding: 5px;
+}
+
+.food {
+    background-color: var(--color-e);
+}
+
+.snakeTail {
+    background-color: var(--color-a-monocromatic-b);
+}
+
+.snakeHead {
+    background-color: var(--color-a-monocromatic-a);
+}
+
