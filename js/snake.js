@@ -66,8 +66,7 @@ const generateFood = () => {
     do {
         x = getRandomInteger(1, 10);
         y = getRandomInteger(1, 10);
-    } while (document.querySelector('[x = "' + x + '"][y = "' + y + '"]').classList.contains('snakeTail') ||
-            document.querySelector('[x = "' + x + '"][y = "' + y + '"]').classList.contains('snakeHead'));
+    } while (x === snake.x && y === snake.y);
 
     let food = new Food(x, y);
 
