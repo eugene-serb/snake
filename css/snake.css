@@ -2,7 +2,9 @@
 /* SNAKE GAME */
 /* ---------- */
 
+/* --------- */
 /* INTERFACE */
+/* --------- */
 
 .snake-game {
     width: 500px;
@@ -29,7 +31,10 @@
     font-size: 24px;
 }
 
+/* ---- */
 /* GAME */
+/* ---- */
+
 .field {
     width: 500px;
     height: 500px;
