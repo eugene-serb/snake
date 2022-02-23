@@ -66,10 +66,8 @@ const generateFood = () => {
     do {
         x = getRandomInteger(1, 10);
         y = getRandomInteger(1, 10);
-    } while (document.querySelector('[x = "' + x + '"][y = "' + y + '"]').classList.contains('snakeTail') ||
-            document.querySelector('[x = "' + x + '"][y = "' + y + '"]').classList.contains('snakeHead'));
-
-    /* (x === snake.x && y === snake.y) */
+    } while (document.querySelector('[x = "' + x + '"][y = "' + y + '"]').classList.contains('snakeHead') ||
+        document.querySelector('[x = "' + x + '"][y = "' + y + '"]').classList.contains('snakeTail') || (x === snake.x && y === snake.y));
 
     let food = new Food(x, y);
 
@@ -131,15 +129,12 @@ const drawSnake = (snake) => {
 
     collisionBorder();
 
-    // add to start array
     snake.tails.unshift({ x: snake.x, y: snake.y });
 
-    // delete from end array
     if (snake.tails.length > snake.maxTails) {
         snake.tails.pop();
     };
 
-    // draw snake at the field
     snake.tails.forEach((item, index) => {
         if (index == 0) {
             document.querySelector('[x = "' + item.x + '"][y = "' + item.y + '"]').classList.add('snakeHead');
@@ -148,15 +143,12 @@ const drawSnake = (snake) => {
         };
     });
 
-    // eat the food
     if (snake.x === food.x && snake.y === food.y) {
         snake.maxTails++;
         addScore();
         food = generateFood();
         drawFood(food);
     };
-
-    // end game rule
 
     if (document.querySelector('.snakeHead').classList.contains('snakeTail')) {
         scoreBlock.innerText = `Game Over! Your score: ${score}`;
