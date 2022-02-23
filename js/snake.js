@@ -6,11 +6,11 @@
 /* RESTART */
 /* ------- */
 
-const restartButton = document.querySelector('.restart-Button');
+/*const restartButton = document.querySelector('.restart-Button');
 
 restartButton.addEventListener('click', () => {
-    /* Will be after refactoring */
-});
+    *//* Will be after refactoring *//*
+});*/
 
 /* ----- */
 /* SCORE */
@@ -25,7 +25,7 @@ scoreField.innerText = `Your score: ${score}`;
 /* SPEED */
 /* ----- */
 
-let speed = 300;
+/*let speed = 300;
 
 const lightSpeed = document.querySelector('.speed-light-Button');
 const mediumSpeed = document.querySelector('.speed-medium-Button');
@@ -45,7 +45,7 @@ hardSpeed.addEventListener('click', () => {
     speed = 100;
     clearInterval(interval);
     interval = setInterval(move, speed);
-});
+});*/
 
 /* ----- */
 /* FIELD */
@@ -215,7 +215,7 @@ function move() {
     steps = true;
 };
 
-let interval = setInterval(move, speed);
+let interval = setInterval(move, 300);
 
 /* -------------------------------------- */
 /* ROTATION SWITCHER & KEY PRESS LISTENER */
