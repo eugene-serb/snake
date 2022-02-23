@@ -74,7 +74,7 @@ const generateFood = () => {
     return food;
 };
 
-const drawFood = (food) => {
+const drawFood = () => {
     document.querySelector('[x = "' + food.x + '"][y = "' + food.y + '"]').classList.add('food');
 };
 
@@ -89,7 +89,7 @@ function Snake(x, y) {
     this.dy = 0;
     this.direction = 'right';
     this.steps = false;
-    this.tails = [];
+    this.tails = [{ x: this.x, y: this.y }, { x: this.x - 1, y: this.y }, { x: this.x - 2, y: this.y}];
     this.maxTails = 3;
 };
 
@@ -99,6 +99,16 @@ const generateSnake = () => {
     let snake = new Snake(x, y);
 
     return snake;
+};
+
+const drawSnake = () => {
+    snake.tails.forEach((item, index) => {
+        if (index == 0) {
+            document.querySelector('[x = "' + item.x + '"][y = "' + item.y + '"]').classList.add('snakeHead');
+        } else {
+            document.querySelector('[x = "' + item.x + '"][y = "' + item.y + '"]').classList.add('snakeTail');
+        };
+    });
 };
 
 /* ---------- */
@@ -111,18 +121,27 @@ let snake = generateSnake();
 let food = generateFood();
 
 const gameLoop = () => {
-    drawField();
-    drawSnake(snake);
-    drawFood(food);
+    frameUpdate();
+    move();
 };
 
 let interval = setInterval(gameLoop, 250);
+
+/* ------------- */
+/* RENDER FRAMES */
+/* ------------- */
+
+const frameUpdate = () => {
+    drawField();
+    drawSnake();
+    drawFood();
+};
 
 /* ---- */
 /* MOVE */
 /* ---- */
 
-const drawSnake = (snake) => {
+const move = () => {
 
     snake.x += snake.dx;
     snake.y += snake.dy;
@@ -135,13 +154,7 @@ const drawSnake = (snake) => {
         snake.tails.pop();
     };
 
-    snake.tails.forEach((item, index) => {
-        if (index == 0) {
-            document.querySelector('[x = "' + item.x + '"][y = "' + item.y + '"]').classList.add('snakeHead');
-        } else {
-            document.querySelector('[x = "' + item.x + '"][y = "' + item.y + '"]').classList.add('snakeTail');
-        };
-    });
+    frameUpdate();
 
     if (snake.x === food.x && snake.y === food.y) {
         snake.maxTails++;
@@ -158,7 +171,7 @@ const drawSnake = (snake) => {
     snake.steps = true;
 };
 
-function collisionBorder() {
+const collisionBorder = () => {
     if (snake.x > 10) {
         snake.x = 1;
     } else if (snake.x < 1) {
@@ -213,8 +226,8 @@ window.addEventListener('keydown', function (e) {
 
         drawField();
 
-        snake.pop;
-        food.pop;
+        snake = '';
+        food = '';
 
         snake = generateSnake();
         food = generateFood();
