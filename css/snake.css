@@ -2,10 +2,29 @@
 /* SNAKE GAME */
 /* ---------- */
 
-.snake-game-app {
+/* INTERFACE */
+
+.snake-game {
     width: 500px;
     margin: 0 auto;
 }
+
+.snake-game__header {
+    text-align: center;
+}
+
+.field-wrapper {
+    margin-block-end: 32px;
+}
+
+.snake-game__score {
+    display: block;
+    text-align: center;
+    font-size: 32px;
+    margin-block-end: 32px;
+}
+
+/* GAME */
 
 .field {
     width: 500px;
@@ -30,51 +49,15 @@
     padding: 5px;
 }
 
-.snakeBody {
-    background-color: var(--color-a-monocromatic-b);
-}
-
-.head {
-    background-color: var(--color-a-monocromatic-a);
-}
-
-.mouse {
+.food {
     background-color: var(--color-e);
 }
 
-.death {
-    background-color: var(--color-a-monocromatic-d);
+.snakeTail {
+    background-color: var(--color-a-monocromatic-b);
 }
 
-@media (prefers-color-scheme: dark) {
-    .death {
-        background-color: var(--color-c);
-    }
+.snakeHead {
+    background-color: var(--color-a-monocromatic-a);
 }
-
-/**/
-
-.centered {
-    text-align: center;
-}
-
-.score {
-    display: block;
-    text-align: center;
-    font-size: 32px;
-    margin-block-end: 32px;
-}
-
-.field-wrapper {
-    margin-block-end: 32px;
-}
-
-/*.interface-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-block-end: 32px;
-}
-
-*/
 

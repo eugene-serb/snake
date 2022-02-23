@@ -2,242 +2,230 @@
 /* SNAKE GAME */
 /* ---------- */
 
-/* ------- */
-/* RESTART */
-/* ------- */
+const fieldWrapper = document.querySelector('.field-wrapper');
+const scoreBlock = document.querySelector('.snake-game__score');
 
-/*const restartButton = document.querySelector('.restart-Button');
+/* ------ */
+/* RANDOM */
+/* ------ */
 
-restartButton.addEventListener('click', () => {
-    *//* Will be after refactoring *//*
-});*/
+const getRandomInteger = (min, max) => {
+    return Math.floor(Math.random() * (max - min) + min);
+};
 
 /* ----- */
 /* SCORE */
 /* ----- */
 
-const scoreField = document.querySelector('.score');
-
 let score = 0;
-scoreField.innerText = `Your score: ${score}`;
 
-/* ----- */
-/* SPEED */
-/* ----- */
+const addScore = () => {
+    score++;
+    drawScore();
+};
 
-/*let speed = 300;
-
-const lightSpeed = document.querySelector('.speed-light-Button');
-const mediumSpeed = document.querySelector('.speed-medium-Button');
-const hardSpeed = document.querySelector('.speed-hard-Button');
-
-lightSpeed.addEventListener('click', () => {
-    speed = 300;
-    clearInterval(interval);
-    interval = setInterval(move, speed);
-});
-mediumSpeed.addEventListener('click', () => {
-    speed = 200;
-    clearInterval(interval);
-    interval = setInterval(move, speed);
-});
-hardSpeed.addEventListener('click', () => {
-    speed = 100;
-    clearInterval(interval);
-    interval = setInterval(move, speed);
-});*/
+const drawScore = () => {
+    scoreBlock.innerText = `Your Score: ${score}`;
+};
 
 /* ----- */
 /* FIELD */
 /* ----- */
 
-const fieldWrapper = document.querySelector('.field-wrapper');
+const drawField = () => {
+    fieldWrapper.innerHTML = '';
 
-let field = document.createElement('div');
-fieldWrapper.appendChild(field);
-field.classList.add('field');
+    let field = document.createElement('div');
+    field.classList.add('field');
+    fieldWrapper.appendChild(field);
 
-for (let i = 1; i <= 100; i++) {
-    let cell = document.createElement('div');
-    field.appendChild(cell);
-    cell.classList.add('cell')
+    for (let y = 10; y >= 1; y--) {
+        for (let x = 1; x <= 10; x++) {
+            let cell = document.createElement('div');
+            cell.classList.add('cell');
+            cell.setAttribute('x', x);
+            cell.setAttribute('y', y);
+            field.appendChild(cell);
+        };
+    };
 };
 
-let cell = document.getElementsByClassName('cell');
+/* ---- */
+/* FOOD */
+/* ---- */
 
-let x = 1,
-    y = 10;
+function Food(x, y) {
+    this.x = x;
+    this.y = y;
+};
 
-for (let i = 0; i < cell.length; i++) {
+const generateFood = () => {
+    let x = 0,
+        y = 0;
 
-    if (x > 10) {
-        x = 1;
-        y--;
-    };
+    do {
+        x = getRandomInteger(1, 10);
+        y = getRandomInteger(1, 10);
+    } while (document.querySelector('[x = "' + x + '"][y = "' + y + '"]').classList.contains('snakeTail') ||
+            document.querySelector('[x = "' + x + '"][y = "' + y + '"]').classList.contains('snakeHead'));
 
-    cell[i].setAttribute('posX', x);
-    cell[i].setAttribute('posY', y);
+    let food = new Food(x, y);
 
-    x++
+    return food;
+};
+
+const drawFood = (food) => {
+    document.querySelector('[x = "' + food.x + '"][y = "' + food.y + '"]').classList.add('food');
 };
 
 /* ----- */
 /* SNAKE */
 /* ----- */
 
-function generateSnake() {
-    let posX = Math.round(Math.random() * (10 - 3) + 3);
-    let posY = Math.round(Math.random() * (10 - 1) + 1);
-    return [posX, posY];
+function Snake(x, y) {
+    this.x = x;
+    this.y = y;
+    this.dx = 1;
+    this.dy = 0;
+    this.direction = 'right';
+    this.steps = false;
+    this.tails = [];
+    this.maxTails = 3;
 };
 
-let coordinates = generateSnake();
+const generateSnake = () => {
+    let x = getRandomInteger(3, 10);
+    let y = getRandomInteger(1, 10);
+    let snake = new Snake(x, y);
 
-let snakeBody = [document.querySelector('[posX = "' + coordinates[0] + '"][posY = "' + coordinates[1] + '"]'),
-    document.querySelector('[posX = "' + (coordinates[0] - 1) + '"][posY = "' + coordinates[1] + '"]'),
-    document.querySelector('[posX = "' + (coordinates[0] - 2) + '"][posY = "' + coordinates[1] + '"]')];
-
-for (let i = 0; i < snakeBody.length; i++) {
-    snakeBody[i].classList.add('snakeBody');
+    return snake;
 };
 
-snakeBody[0].classList.add('head');
+/* ---------- */
+/* GAME LOOPS */
+/* ---------- */
 
-/* ----- */
-/* MOUSE */
-/* ----- */
+drawField();
 
-let mouse;
+let snake = generateSnake();
+let food = generateFood();
 
-function createMouse() {
-
-    function generateMouse() {
-        let posX = Math.round(Math.random() * (10 - 3) + 3);
-        let posY = Math.round(Math.random() * (10 - 1) + 1);
-        return [posX, posY];
-    };
-
-    let mouseCoordinates = generateMouse();
-
-    mouse = document.querySelector('[posX = "' + mouseCoordinates[0] + '"][posY = "' + mouseCoordinates[1] + '"]');
-
-    while (mouse.classList.contains('snakeBody')) {
-        let mouseCoordinates = generateMouse();
-        mouse = document.querySelector('[posX = "' + mouseCoordinates[0] + '"][posY = "' + mouseCoordinates[1] + '"]');
-    }
-
-    mouse.classList.add('mouse');
+const gameLoop = () => {
+    drawField();
+    drawSnake(snake);
+    drawFood(food);
 };
 
-createMouse();
+let interval = setInterval(gameLoop, 250);
 
 /* ---- */
 /* MOVE */
 /* ---- */
 
-let direction = 'right';
-let steps = false;
+const drawSnake = (snake) => {
 
-function move() {
-    let snakeCoordinates = [snakeBody[0].getAttribute('posX'), snakeBody[0].getAttribute('posY')];
-    snakeBody[0].classList.remove('head');
-    snakeBody[snakeBody.length - 1].classList.remove('snakeBody');
-    snakeBody.pop();
+    snake.x += snake.dx;
+    snake.y += snake.dy;
 
-    /* -------- */
-    /* ROTATING */
-    /* -------- */
+    collisionBorder();
 
-    if (direction == 'right') {
-        if (snakeCoordinates[0] < 10) {
-            snakeBody.unshift(document.querySelector('[posX = "' + (+snakeCoordinates[0] + 1) + '"][posY = "' + snakeCoordinates[1] + '"]'));
-        } else {
-            snakeBody.unshift(document.querySelector('[posX = "1"][posY = "' + snakeCoordinates[1] + '"]'));
-        };
-    } else if (direction == 'left') {
-        if (snakeCoordinates[0] > 1) {
-            snakeBody.unshift(document.querySelector('[posX = "' + (+snakeCoordinates[0] - 1) + '"][posY = "' + snakeCoordinates[1] + '"]'));
-        } else {
-            snakeBody.unshift(document.querySelector('[posX = "10"][posY = "' + snakeCoordinates[1] + '"]'));
-        };
-    } else if (direction == 'up') {
-        if (snakeCoordinates[1] < 10) {
-            snakeBody.unshift(document.querySelector('[posX = "' + snakeCoordinates[0] + '"][posY = "' + (+snakeCoordinates[1] + 1) + '"]'));
-        } else {
-            snakeBody.unshift(document.querySelector('[posX = "' + snakeCoordinates[0] + '"][posY = "1"]'));
-        };
-    } else if (direction == 'down') {
-        if (snakeCoordinates[1] > 1) {
-            snakeBody.unshift(document.querySelector('[posX = "' + snakeCoordinates[0] + '"][posY = "' + (+snakeCoordinates[1] - 1) + '"]'));
-        } else {
-            snakeBody.unshift(document.querySelector('[posX = "' + snakeCoordinates[0] + '"][posY = "10"]'));
-        };
+    // add to start array
+    snake.tails.unshift({ x: snake.x, y: snake.y });
+
+    // delete from end array
+    if (snake.tails.length > snake.maxTails) {
+        snake.tails.pop();
     };
 
-    /* ------------ */
-    /* MOUSE EATING */
-    /* ------------ */
+    // draw snake at the field
+    snake.tails.forEach((item, index) => {
+        if (index == 0) {
+            document.querySelector('[x = "' + item.x + '"][y = "' + item.y + '"]').classList.add('snakeHead');
+        } else {
+            document.querySelector('[x = "' + item.x + '"][y = "' + item.y + '"]').classList.add('snakeTail');
+        };
+    });
 
-    if (snakeBody[0].getAttribute('posX') == mouse.getAttribute('posX') &&
-        snakeBody[0].getAttribute('posY') == mouse.getAttribute('posY')) {
-
-        mouse.classList.remove('mouse');
-        let a = snakeBody[snakeBody.length - 1].getAttribute('posX');
-        let b = snakeBody[snakeBody.length - 1].getAttribute('posY');
-        snakeBody.push(document.querySelector('[posX = "' + a + '"][posY = "' + b + '"]'));
-        createMouse();
-        score++;
-        scoreField.innerText = `Your score: ${score}`;
+    // eat the food
+    if (snake.x === food.x && snake.y === food.y) {
+        snake.maxTails++;
+        addScore();
+        food = generateFood();
+        drawFood(food);
     };
 
-    /* ----------- */
-    /* SNAKE DEATH */
-    /* ----------- */
+    // end game rule
 
-    if (snakeBody[0].classList.contains('snakeBody')) {
-        
-        setTimeout(() => {
-            scoreField.innerText = `Game Over! Your score: ${score}`;
-        }, 200);
-
+    if (document.querySelector('.snakeHead').classList.contains('snakeTail')) {
+        scoreBlock.innerText = `Game Over! Your score: ${score}`;
         clearInterval(interval);
-        snakeBody[0].classList.add('death');
     };
 
-    /**/
-
-    snakeBody[0].classList.add('head');
-
-    for (let i = 0; i < snakeBody.length; i++) {
-        snakeBody[i].classList.add('snakeBody');
-    };
-
-    steps = true;
+    snake.steps = true;
 };
 
-let interval = setInterval(move, 300);
+function collisionBorder() {
+    if (snake.x > 10) {
+        snake.x = 1;
+    } else if (snake.x < 1) {
+        snake.x = 10;
+    };
 
-/* -------------------------------------- */
-/* ROTATION SWITCHER & KEY PRESS LISTENER */
-/* -------------------------------------- */
+    if (snake.y > 10) {
+        snake.y = 1;
+    } else if (snake.y < 1) {
+        snake.y = 10
+    };
+};
+
+/* ------------------ */
+/* KEY PRESS LISTENER */
+/* ------------------ */
 
 window.addEventListener('keydown', function (e) {
 
-    if (steps == true) {
-        if (e.keyCode == 37 && direction != 'right') {
-            direction = 'left';
-            steps = false;
-        } else if (e.keyCode == 38 && direction != 'down') {
-            direction = 'up';
-            steps = false;
-        } else if (e.keyCode == 39 && direction != 'left') {
-            direction = 'right';
-            steps = false;
-        } else if (e.keyCode == 40 && direction != 'up') {
-            direction = 'down';
-            steps = false;
+    if (snake.steps === true) {
+        if ((e.keyCode == 37 || e.code == "KeyA") && snake.direction != 'right') {
+            snake.dx = -1;
+            snake.dy = 0;
+            snake.direction = 'left';
+            snake.steps = false;
+        } else if ((e.keyCode == 38 || e.code == "KeyW") && snake.direction != 'down') {
+            snake.dx = 0;
+            snake.dy = 1;
+            snake.direction = 'up';
+            snake.steps = false;
+        } else if ((e.keyCode == 39 || e.code == "KeyD") && snake.direction != 'left') {
+            snake.dx = 1;
+            snake.dy = 0;
+            snake.direction = 'right';
+            snake.steps = false;
+        } else if ((e.keyCode == 40 || e.code == "KeyS") && snake.direction != 'up') {
+            snake.dx = 0;
+            snake.dy = -1;
+            snake.direction = 'down';
+            snake.steps = false;
         };
     };
+});
 
+window.addEventListener('keydown', function (e) {
+
+    if (e.code == "KeyR") {
+        this.clearInterval(interval);
+
+        score = 0;
+        drawScore();
+
+        drawField();
+
+        snake.pop;
+        food.pop;
+
+        snake = generateSnake();
+        food = generateFood();
+
+        interval = setInterval(gameLoop, 250);
+    };
 });
 
