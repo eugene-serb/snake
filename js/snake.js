@@ -2,7 +2,7 @@
 /* SNAKE GAME */
 /* ---------- */
 
-const fieldWrapper = document.querySelector('.field-wrapper');
+const fieldWrapper = document.querySelector('.snake-game__field-wrapper');
 const scoreBlock = document.querySelector('.snake-game__score');
 
 /* ------ */
