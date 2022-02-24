@@ -226,9 +226,6 @@ window.addEventListener('keydown', function (e) {
 
         drawField();
 
-        snake = '';
-        food = '';
-
         snake = generateSnake();
         food = generateFood();
 
