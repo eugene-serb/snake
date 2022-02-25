@@ -66,8 +66,8 @@ const generateFood = () => {
     do {
         x = getRandomInteger(1, 10);
         y = getRandomInteger(1, 10);
-    } while (document.querySelector('[x = "' + x + '"][y = "' + y + '"]').classList.contains('snakeHead') ||
-        document.querySelector('[x = "' + x + '"][y = "' + y + '"]').classList.contains('snakeTail') || (x === snake.x && y === snake.y));
+    } while (document.querySelector(`[x = "${x}"][y = "${y}"]`).classList.contains('snakeHead') ||
+        document.querySelector(`[x = "${x}"][y = "${y}"]`).classList.contains('snakeTail') || (x === snake.x && y === snake.y));
 
     let food = new Food(x, y);
 
@@ -75,7 +75,7 @@ const generateFood = () => {
 };
 
 const drawFood = () => {
-    document.querySelector('[x = "' + food.x + '"][y = "' + food.y + '"]').classList.add('food');
+    document.querySelector(`[x = "${food.x}"][y = "${food.y}"]`).classList.add('food');
 };
 
 /* ----- */
@@ -104,9 +104,9 @@ const generateSnake = () => {
 const drawSnake = () => {
     snake.tails.forEach((item, index) => {
         if (index == 0) {
-            document.querySelector('[x = "' + item.x + '"][y = "' + item.y + '"]').classList.add('snakeHead');
+            document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.add('snakeHead');
         } else {
-            document.querySelector('[x = "' + item.x + '"][y = "' + item.y + '"]').classList.add('snakeTail');
+            document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.add('snakeTail');
         };
     });
 };
