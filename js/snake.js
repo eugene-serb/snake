@@ -67,7 +67,8 @@ const generateFood = () => {
         x = getRandomInteger(1, 10);
         y = getRandomInteger(1, 10);
     } while (document.querySelector(`[x = "${x}"][y = "${y}"]`).classList.contains('snakeHead') ||
-        document.querySelector(`[x = "${x}"][y = "${y}"]`).classList.contains('snakeTail') || (x === snake.x && y === snake.y));
+        document.querySelector(`[x = "${x}"][y = "${y}"]`).classList.contains('snakeTail') || (x === snake.x && y === snake.y) ||
+            document.querySelector(`[x = "${x}"][y = "${y}"]`).classList.contains('food'));
 
     return new Food(x, y);
 };
