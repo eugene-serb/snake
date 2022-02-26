@@ -1,7 +1,7 @@
 # Snake Game
 This is a simple browser snake-game. Let's have fun!
 
-This is a simple browser snake-game in JavaScript, HTML and CSS, no libraries or frameworks.
+This is a simple browser snake-game in JavaScript, HTML and CSS, no canvas, no libraries or frameworks.
 
 This project contains:
 1. ***index.html*** – is the html markup with game-form;

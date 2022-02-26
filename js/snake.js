@@ -3,7 +3,7 @@
 /* ---------- */
 
 const fieldWrapper = document.querySelector('.snake-game__field-wrapper');
-const scoreBlock = document.querySelector('.snake-game__score');
+const scoreBlock = document.querySelector('.snake-game__score-banner');
 
 /* ------ */
 /* RANDOM */
@@ -19,7 +19,7 @@ const getRandomInteger = (min, max) => {
 
 let score = 0;
 
-const addScore = () => {
+const increaseScore = () => {
     score++;
     drawScore();
 };
@@ -69,9 +69,7 @@ const generateFood = () => {
     } while (document.querySelector(`[x = "${x}"][y = "${y}"]`).classList.contains('snakeHead') ||
         document.querySelector(`[x = "${x}"][y = "${y}"]`).classList.contains('snakeTail') || (x === snake.x && y === snake.y));
 
-    let food = new Food(x, y);
-
-    return food;
+    return new Food(x, y);
 };
 
 const drawFood = () => {
@@ -96,9 +94,8 @@ function Snake(x, y) {
 const generateSnake = () => {
     let x = getRandomInteger(3, 10);
     let y = getRandomInteger(1, 10);
-    let snake = new Snake(x, y);
 
-    return snake;
+    return new Snake(x, y);
 };
 
 const drawSnake = () => {
@@ -158,9 +155,9 @@ const move = () => {
 
     if (snake.x === food.x && snake.y === food.y) {
         snake.maxTails++;
-        addScore();
+        increaseScore();
         food = generateFood();
-        drawFood(food);
+        frameUpdate();
     };
 
     if (document.querySelector('.snakeHead').classList.contains('snakeTail')) {
@@ -189,25 +186,25 @@ const collisionBorder = () => {
 /* KEY PRESS LISTENER */
 /* ------------------ */
 
-window.addEventListener('keydown', function (e) {
+window.addEventListener('keydown', (e) => {
 
     if (snake.steps === true) {
-        if ((e.keyCode == 37 || e.code == "KeyA") && snake.direction != 'right') {
+        if ((e.keyCode == 37 || e.code == 'KeyA') && snake.direction != 'right') {
             snake.dx = -1;
             snake.dy = 0;
             snake.direction = 'left';
             snake.steps = false;
-        } else if ((e.keyCode == 38 || e.code == "KeyW") && snake.direction != 'down') {
+        } else if ((e.keyCode == 38 || e.code == 'KeyW') && snake.direction != 'down') {
             snake.dx = 0;
             snake.dy = 1;
             snake.direction = 'up';
             snake.steps = false;
-        } else if ((e.keyCode == 39 || e.code == "KeyD") && snake.direction != 'left') {
+        } else if ((e.keyCode == 39 || e.code == 'KeyD') && snake.direction != 'left') {
             snake.dx = 1;
             snake.dy = 0;
             snake.direction = 'right';
             snake.steps = false;
-        } else if ((e.keyCode == 40 || e.code == "KeyS") && snake.direction != 'up') {
+        } else if ((e.keyCode == 40 || e.code == 'KeyS') && snake.direction != 'up') {
             snake.dx = 0;
             snake.dy = -1;
             snake.direction = 'down';
@@ -216,9 +213,9 @@ window.addEventListener('keydown', function (e) {
     };
 });
 
-window.addEventListener('keydown', function (e) {
+window.addEventListener('keydown', (e) => {
 
-    if (e.code == "KeyR") {
+    if (e.code == 'KeyR') {
         this.clearInterval(interval);
 
         score = 0;
@@ -228,6 +225,8 @@ window.addEventListener('keydown', function (e) {
 
         snake = generateSnake();
         food = generateFood();
+
+        frameUpdate();
 
         interval = setInterval(gameLoop, 250);
     };
