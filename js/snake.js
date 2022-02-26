@@ -77,8 +77,6 @@ const generateFood = () => {
     x = +emptyCell[rnd].getAttribute('x');
     y = +emptyCell[rnd].getAttribute('y');
 
-    console.log(x + ' ' + y);
-
     return new Food(x, y);
 };
 
