@@ -63,12 +63,21 @@ const generateFood = () => {
     let x = 0,
         y = 0;
 
-    do {
-        x = getRandomInteger(1, 10);
-        y = getRandomInteger(1, 10);
-    } while (document.querySelector(`[x = "${x}"][y = "${y}"]`).classList.contains('snakeHead') ||
-        document.querySelector(`[x = "${x}"][y = "${y}"]`).classList.contains('snakeTail') || (x === snake.x && y === snake.y) ||
-            document.querySelector(`[x = "${x}"][y = "${y}"]`).classList.contains('food'));
+    let temp = document.querySelectorAll('.cell');
+    let emptyCell = [];
+
+    temp.forEach((item, index) => {
+        if (!item.classList.contains('snakeTail') && !item.classList.contains('snakeHead') && !item.classList.contains('food')) {
+            emptyCell.push(item);
+        };
+    });
+
+    let rnd = getRandomInteger(1, emptyCell.length);
+
+    x = +emptyCell[rnd].getAttribute('x');
+    y = +emptyCell[rnd].getAttribute('y');
+
+    console.log(x + ' ' + y);
 
     return new Food(x, y);
 };
@@ -114,8 +123,8 @@ const drawSnake = () => {
 /* ---------- */
 
 drawField();
-
 let snake = generateSnake();
+drawSnake();
 let food = generateFood();
 
 const gameLoop = () => {
@@ -155,6 +164,7 @@ const move = () => {
     frameUpdate();
 
     if (snake.x === food.x && snake.y === food.y) {
+        console.log('cross');
         snake.maxTails++;
         increaseScore();
         food = generateFood();
