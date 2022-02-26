@@ -162,7 +162,6 @@ const move = () => {
     frameUpdate();
 
     if (snake.x === food.x && snake.y === food.y) {
-        console.log('cross');
         snake.maxTails++;
         increaseScore();
         food = generateFood();
