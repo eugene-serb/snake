@@ -66,7 +66,7 @@ const generateFood = () => {
     let temp = document.querySelectorAll('.cell');
     let emptyCell = [];
 
-    temp.forEach((item, index) => {
+    temp.forEach((item) => {
         if (!item.classList.contains('snakeTail') && !item.classList.contains('snakeHead') && !item.classList.contains('food')) {
             emptyCell.push(item);
         };
@@ -197,22 +197,22 @@ const collisionBorder = () => {
 window.addEventListener('keydown', (e) => {
 
     if (snake.steps === true) {
-        if ((e.keyCode == 37 || e.code == 'KeyA') && snake.direction != 'right') {
+        if ((e.code === 'ArrowLeft' || e.code === 'KeyA') && snake.direction !== 'right') {
             snake.dx = -1;
             snake.dy = 0;
             snake.direction = 'left';
             snake.steps = false;
-        } else if ((e.keyCode == 38 || e.code == 'KeyW') && snake.direction != 'down') {
+        } else if ((e.code === 'ArrowUp' || e.code === 'KeyW') && snake.direction !== 'down') {
             snake.dx = 0;
             snake.dy = 1;
             snake.direction = 'up';
             snake.steps = false;
-        } else if ((e.keyCode == 39 || e.code == 'KeyD') && snake.direction != 'left') {
+        } else if ((e.code === 'ArrowRight' || e.code === 'KeyD') && snake.direction !== 'left') {
             snake.dx = 1;
             snake.dy = 0;
             snake.direction = 'right';
             snake.steps = false;
-        } else if ((e.keyCode == 40 || e.code == 'KeyS') && snake.direction != 'up') {
+        } else if ((e.code === 'ArrowDown' || e.code === 'KeyS') && snake.direction !== 'up') {
             snake.dx = 0;
             snake.dy = -1;
             snake.direction = 'down';
@@ -223,7 +223,7 @@ window.addEventListener('keydown', (e) => {
 
 window.addEventListener('keydown', (e) => {
 
-    if (e.code == 'KeyR') {
+    if (e.code === 'KeyR') {
         this.clearInterval(interval);
 
         score = 0;

@@ -11,23 +11,23 @@
     margin: 0 auto;
 }
 
-@media only screen and (min-width: 350px) {
-    .snake-game {
-        width: 300px;
+    @media only screen and (min-width: 350px) {
+        .snake-game {
+            width: 300px;
+        }
     }
-}
 
-@media only screen and (min-width: 450px) {
-    .snake-game {
-        width: 400px;
+    @media only screen and (min-width: 450px) {
+        .snake-game {
+            width: 400px;
+        }
     }
-}
 
-@media only screen and (min-width: 550px) {
-    .snake-game {
-        width: 500px;
+    @media only screen and (min-width: 550px) {
+        .snake-game {
+            width: 500px;
+        }
     }
-}
 
 .snake-game__header {
     text-align: center;
@@ -64,11 +64,11 @@
     border-radius: 4px;
 }
 
-@media (prefers-color-scheme: dark) {
-    .field {
-        background-color: var(--color-a-monocromatic-d);
+    @media (prefers-color-scheme: dark) {
+        .field {
+            background-color: var(--color-a-monocromatic-d);
+        }
     }
-}
 
 .cell {
     width: 20px;
@@ -88,60 +88,42 @@
     background-color: var(--color-a-monocromatic-a);
 }
 
-@media only screen and (min-width: 350px) {
-    .field {
-        width: 300px;
-        height: 300px;
-        margin: 0 auto;
-        display: flex;
-        flex-wrap: wrap;
-        background-color: var(--color-d);
-        outline: 2px dashed var(--color-border);
-        border-radius: 4px;
+    @media only screen and (min-width: 350px) {
+        .field {
+            width: 300px;
+            height: 300px;
+        }
+
+        .cell {
+            width: 30px;
+            height: 30px;
+            padding: 3px;
+        }
     }
 
-    .cell {
-        width: 30px;
-        height: 30px;
-        padding: 3px;
-    }
-}
+    @media only screen and (min-width: 450px) {
+        .field {
+            width: 400px;
+            height: 400px;
+        }
 
-@media only screen and (min-width: 450px) {
-    .field {
-        width: 400px;
-        height: 400px;
-        margin: 0 auto;
-        display: flex;
-        flex-wrap: wrap;
-        background-color: var(--color-d);
-        outline: 2px dashed var(--color-border);
-        border-radius: 4px;
+        .cell {
+            width: 40px;
+            height: 40px;
+            padding: 4px;
+        }
     }
 
-    .cell {
-        width: 40px;
-        height: 40px;
-        padding: 4px;
-    }
-}
+    @media only screen and (min-width: 550px) {
+        .field {
+            width: 500px;
+            height: 500px;
+        }
 
-@media only screen and (min-width: 550px) {
-    .field {
-        width: 500px;
-        height: 500px;
-        margin: 0 auto;
-        display: flex;
-        flex-wrap: wrap;
-        background-color: var(--color-d);
-        outline: 2px dashed var(--color-border);
-        border-radius: 4px;
+        .cell {
+            width: 50px;
+            height: 50px;
+            padding: 5px;
+        }
     }
-
-    .cell {
-        width: 50px;
-        height: 50px;
-        padding: 5px;
-    }
-}
 
