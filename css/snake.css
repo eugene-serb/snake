@@ -7,9 +7,27 @@
 /* --------- */
 
 .snake-game {
-    width: 500px;
+    width: 200px;
     margin: 0 auto;
 }
+
+    @media only screen and (min-width: 350px) {
+        .snake-game {
+            width: 300px;
+        }
+    }
+
+    @media only screen and (min-width: 450px) {
+        .snake-game {
+            width: 400px;
+        }
+    }
+
+    @media only screen and (min-width: 550px) {
+        .snake-game {
+            width: 500px;
+        }
+    }
 
 .snake-game__header {
     text-align: center;
@@ -19,14 +37,14 @@
     margin-block-end: 32px;
 }
 
-.snake-game__score {
+.snake-game__score-banner {
     display: block;
     text-align: center;
     font-size: 32px;
     margin-block-end: 32px;
 }
 
-.snake-game__control-rules {
+.snake-game__rules {
     text-align: center;
     font-size: 24px;
 }
@@ -36,8 +54,8 @@
 /* ---- */
 
 .field {
-    width: 500px;
-    height: 500px;
+    width: 200px;
+    height: 200px;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
@@ -46,16 +64,16 @@
     border-radius: 4px;
 }
 
-@media (prefers-color-scheme: dark) {
-    .field {
-        background-color: var(--color-a-monocromatic-d);
+    @media (prefers-color-scheme: dark) {
+        .field {
+            background-color: var(--color-a-monocromatic-d);
+        }
     }
-}
 
 .cell {
-    width: 50px;
-    height: 50px;
-    padding: 5px;
+    width: 20px;
+    height: 20px;
+    padding: 2px;
 }
 
 .food {
@@ -69,4 +87,43 @@
 .snakeHead {
     background-color: var(--color-a-monocromatic-a);
 }
+
+    @media only screen and (min-width: 350px) {
+        .field {
+            width: 300px;
+            height: 300px;
+        }
+
+        .cell {
+            width: 30px;
+            height: 30px;
+            padding: 3px;
+        }
+    }
+
+    @media only screen and (min-width: 450px) {
+        .field {
+            width: 400px;
+            height: 400px;
+        }
+
+        .cell {
+            width: 40px;
+            height: 40px;
+            padding: 4px;
+        }
+    }
+
+    @media only screen and (min-width: 550px) {
+        .field {
+            width: 500px;
+            height: 500px;
+        }
+
+        .cell {
+            width: 50px;
+            height: 50px;
+            padding: 5px;
+        }
+    }
 

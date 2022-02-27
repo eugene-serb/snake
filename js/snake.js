@@ -2,12 +2,9 @@
 /* SNAKE GAME */
 /* ---------- */
 
-const fieldWrapper = document.querySelector('.snake-game__field-wrapper');
-const scoreBlock = document.querySelector('.snake-game__score');
-
-/* ------ */
-/* RANDOM */
-/* ------ */
+/* ---------- */
+/* RANDOMIZER */
+/* ---------- */
 
 const getRandomInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min) + min);
@@ -17,36 +14,143 @@ const getRandomInteger = (min, max) => {
 /* SCORE */
 /* ----- */
 
-let score = 0;
+class Score {
 
-const addScore = () => {
-    score++;
-    drawScore();
-};
+    constructor(banner) {
+        this.banner = banner;
+        this.score = 0;
 
-const drawScore = () => {
-    scoreBlock.innerText = `Your Score: ${score}`;
+        this.draw();
+    };
+
+    increase = () => {
+        this.score++;
+        this.draw();
+    };
+
+    draw = () => {
+        this.banner.innerText = `Your Score: ${this.score}`;
+    };
+
+    end = () => {
+        this.banner.innerText = `Game Over! Your Score: ${this.score}`;
+    };
 };
 
 /* ----- */
 /* FIELD */
 /* ----- */
 
-const drawField = () => {
-    fieldWrapper.innerHTML = '';
+class Field {
 
-    let field = document.createElement('div');
-    field.classList.add('field');
-    fieldWrapper.appendChild(field);
+    constructor(container) {
+        this.container = container;
 
-    for (let y = 10; y >= 1; y--) {
-        for (let x = 1; x <= 10; x++) {
-            let cell = document.createElement('div');
-            cell.classList.add('cell');
-            cell.setAttribute('x', x);
-            cell.setAttribute('y', y);
-            field.appendChild(cell);
+        this.draw();
+    };
+
+    draw = () => {
+        this.container.innerHTML = '';
+
+        let field = document.createElement('div');
+        field.classList.add('field');
+
+        this.container.appendChild(field);
+
+        for (let y = 10; y >= 1; y--) {
+            for (let x = 1; x <= 10; x++) {
+                let cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.setAttribute('x', x);
+                cell.setAttribute('y', y);
+                field.appendChild(cell);
+            };
         };
+    };
+};
+
+/* ----- */
+/* SNAKE */
+/* ----- */
+
+class Snake {
+
+    constructor() {
+        this.x = 0;
+        this.y = 0;
+        this.dx = 1;
+        this.dy = 0;
+        this.direction = 'right';
+        this.steps = false;
+        this.tails = [];
+        this.maxTails = 3;
+
+        this.generate();
+        this.draw();
+    };
+
+    generate = () => {
+        this.x = getRandomInteger(3, 10);
+        this.y = getRandomInteger(1, 10);
+        this.tails = [{ x: this.x, y: this.y }, { x: this.x - 1, y: this.y }, { x: this.x - 2, y: this.y }];
+    };
+
+    draw = () => {
+        this.tails.forEach((item, index) => {
+            if (index === 0) {
+                document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.add('snakeHead');
+            } else {
+                document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.add('snakeTail');
+            };
+        });
+    };
+
+    _collisionBorder = () => {
+        if (this.x > 10) {
+            this.x = 1;
+        } else if (this.x < 1) {
+            this.x = 10;
+        };
+
+        if (this.y > 10) {
+            this.y = 1;
+        } else if (this.y < 1) {
+            this.y = 10
+        };
+    };
+
+    update = (field, score, food, interval) => {
+
+        this.x += this.dx;
+        this.y += this.dy;
+
+        this._collisionBorder();
+
+        this.tails.unshift({ x: this.x, y: this.y });
+
+        if (this.tails.length > this.maxTails) {
+            this.tails.pop();
+        };
+
+        field.draw();
+        this.draw();
+
+        if (this.x === food.x && this.y === food.y) {
+            this.maxTails++;
+            score.increase();
+
+            field.draw();
+            this.draw();
+            food.generate();
+            food.draw();
+        };
+
+        if (document.querySelector('.snakeHead').classList.contains('snakeTail')) {
+            score.end();
+            clearInterval(interval);
+        };
+
+        this.steps = true;
     };
 };
 
@@ -54,185 +158,117 @@ const drawField = () => {
 /* FOOD */
 /* ---- */
 
-function Food(x, y) {
-    this.x = x;
-    this.y = y;
-};
+class Food {
 
-const generateFood = () => {
-    let x = 0,
-        y = 0;
+    constructor() {
+        this.x = 0;
+        this.y = 0;
 
-    do {
-        x = getRandomInteger(1, 10);
-        y = getRandomInteger(1, 10);
-    } while (document.querySelector('[x = "' + x + '"][y = "' + y + '"]').classList.contains('snakeHead') ||
-        document.querySelector('[x = "' + x + '"][y = "' + y + '"]').classList.contains('snakeTail') || (x === snake.x && y === snake.y));
+        this.generate();
+        this.draw();
+    };
 
-    let food = new Food(x, y);
+    generate = () => {
+        let allCells = document.querySelectorAll('.cell');
+        let emptyCell = [];
 
-    return food;
-};
+        allCells.forEach((item) => {
+            if (!item.classList.contains('snakeTail') && !item.classList.contains('snakeHead') && !item.classList.contains('food')) {
+                emptyCell.push(item);
+            };
+        });
 
-const drawFood = () => {
-    document.querySelector('[x = "' + food.x + '"][y = "' + food.y + '"]').classList.add('food');
-};
+        let rnd = getRandomInteger(1, emptyCell.length);
 
-/* ----- */
-/* SNAKE */
-/* ----- */
+        this.x = +emptyCell[rnd].getAttribute('x');
+        this.y = +emptyCell[rnd].getAttribute('y');
+    };
 
-function Snake(x, y) {
-    this.x = x;
-    this.y = y;
-    this.dx = 1;
-    this.dy = 0;
-    this.direction = 'right';
-    this.steps = false;
-    this.tails = [{ x: this.x, y: this.y }, { x: this.x - 1, y: this.y }, { x: this.x - 2, y: this.y}];
-    this.maxTails = 3;
-};
-
-const generateSnake = () => {
-    let x = getRandomInteger(3, 10);
-    let y = getRandomInteger(1, 10);
-    let snake = new Snake(x, y);
-
-    return snake;
-};
-
-const drawSnake = () => {
-    snake.tails.forEach((item, index) => {
-        if (index == 0) {
-            document.querySelector('[x = "' + item.x + '"][y = "' + item.y + '"]').classList.add('snakeHead');
-        } else {
-            document.querySelector('[x = "' + item.x + '"][y = "' + item.y + '"]').classList.add('snakeTail');
-        };
-    });
-};
-
-/* ---------- */
-/* GAME LOOPS */
-/* ---------- */
-
-drawField();
-
-let snake = generateSnake();
-let food = generateFood();
-
-const gameLoop = () => {
-    frameUpdate();
-    move();
-};
-
-let interval = setInterval(gameLoop, 250);
-
-/* ------------- */
-/* RENDER FRAMES */
-/* ------------- */
-
-const frameUpdate = () => {
-    drawField();
-    drawSnake();
-    drawFood();
+    draw = () => {
+        document.querySelector(`[x = "${this.x}"][y = "${this.y}"]`).classList.add('food');
+    };
 };
 
 /* ---- */
-/* MOVE */
+/* GAME */
 /* ---- */
 
-const move = () => {
+class Game {
 
-    snake.x += snake.dx;
-    snake.y += snake.dy;
+    constructor(container, banner) {
+        this.container = container;
+        this.banner = banner;
 
-    collisionBorder();
-
-    snake.tails.unshift({ x: snake.x, y: snake.y });
-
-    if (snake.tails.length > snake.maxTails) {
-        snake.tails.pop();
+        this.start();
     };
 
-    frameUpdate();
+    start = () => {
+        this.field = new Field(this.container);
+        this.score = new Score(this.banner);
+        this.snake = new Snake();
+        this.food = new Food();
 
-    if (snake.x === food.x && snake.y === food.y) {
-        snake.maxTails++;
-        addScore();
-        food = generateFood();
-        drawFood(food);
+        this._controls();
+        this.interval = setInterval(this._animate, 250);
     };
 
-    if (document.querySelector('.snakeHead').classList.contains('snakeTail')) {
-        scoreBlock.innerText = `Game Over! Your score: ${score}`;
-        clearInterval(interval);
+    _animate = () => {
+        this._update();
+        this._draw();
     };
 
-    snake.steps = true;
+    _update = () => {
+        this.snake.update(this.field, this.score, this.food, this.interval);
+    };
+
+    _draw = () => {
+        this.field.draw();
+        this.snake.draw();
+        this.food.draw();
+    };
+
+    _controls = () => {
+
+        window.addEventListener('keydown', (e) => {
+
+            if (this.snake.steps === true) {
+                if ((e.code === 'ArrowLeft' || e.code === "KeyA") && this.snake.direction !== 'right') {
+                    this.snake.dx = -1;
+                    this.snake.dy = 0;
+                    this.snake.direction = 'left';
+                    this.snake.steps = false;
+                } else if ((e.code === 'ArrowUp' || e.code === "KeyW") && this.snake.direction !== 'down') {
+                    this.snake.dx = 0;
+                    this.snake.dy = 1;
+                    this.snake.direction = 'up';
+                    this.snake.steps = false;
+                } else if ((e.code === 'ArrowRight' || e.code === "KeyD") && this.snake.direction !== 'left') {
+                    this.snake.dx = 1;
+                    this.snake.dy = 0;
+                    this.snake.direction = 'right';
+                    this.snake.steps = false;
+                } else if ((e.code === 'ArrowDown' || e.code === "KeyS") && this.snake.direction !== 'up') {
+                    this.snake.dx = 0;
+                    this.snake.dy = -1;
+                    this.snake.direction = 'down';
+                    this.snake.steps = false;
+                };
+            };
+
+            if (e.code === 'KeyR') {
+                clearInterval(this.interval);
+                this.start();
+            };
+        });
+    };
 };
 
-const collisionBorder = () => {
-    if (snake.x > 10) {
-        snake.x = 1;
-    } else if (snake.x < 1) {
-        snake.x = 10;
-    };
+/* -------------- */
+/* INITIALIZATION */
+/* -------------- */
 
-    if (snake.y > 10) {
-        snake.y = 1;
-    } else if (snake.y < 1) {
-        snake.y = 10
-    };
-};
+const CONTAINER = document.querySelector('.snake-game__field-wrapper');
+const BANNER = document.querySelector('.snake-game__score-banner');
 
-/* ------------------ */
-/* KEY PRESS LISTENER */
-/* ------------------ */
-
-window.addEventListener('keydown', function (e) {
-
-    if (snake.steps === true) {
-        if ((e.keyCode == 37 || e.code == "KeyA") && snake.direction != 'right') {
-            snake.dx = -1;
-            snake.dy = 0;
-            snake.direction = 'left';
-            snake.steps = false;
-        } else if ((e.keyCode == 38 || e.code == "KeyW") && snake.direction != 'down') {
-            snake.dx = 0;
-            snake.dy = 1;
-            snake.direction = 'up';
-            snake.steps = false;
-        } else if ((e.keyCode == 39 || e.code == "KeyD") && snake.direction != 'left') {
-            snake.dx = 1;
-            snake.dy = 0;
-            snake.direction = 'right';
-            snake.steps = false;
-        } else if ((e.keyCode == 40 || e.code == "KeyS") && snake.direction != 'up') {
-            snake.dx = 0;
-            snake.dy = -1;
-            snake.direction = 'down';
-            snake.steps = false;
-        };
-    };
-});
-
-window.addEventListener('keydown', function (e) {
-
-    if (e.code == "KeyR") {
-        this.clearInterval(interval);
-
-        score = 0;
-        drawScore();
-
-        drawField();
-
-        snake = '';
-        food = '';
-
-        snake = generateSnake();
-        food = generateFood();
-
-        interval = setInterval(gameLoop, 250);
-    };
-});
+const GAME = new Game(CONTAINER, BANNER);
 
