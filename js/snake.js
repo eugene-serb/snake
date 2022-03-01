@@ -10,18 +10,35 @@ const getRandomInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min) + min);
 };
 
+/* ------ */
+/* DIALOG */
+/* ------ */
+
+class Dialog {
+
+    constructor(dialogWrapper) {
+        this.dialogWrapper = dialogWrapper;
+        this.dialogWrapper.innerText = `Eat all`;
+    };
+
+    end = () => {
+        if (this.score >= 97) {
+            this.dialogWrapper.innerText = `Game Over! You won!`;
+        } else {
+            this.dialogWrapper.innerText = `Game Over! You lose!`;
+        };
+    };
+};
+
 /* ----- */
 /* SCORE */
 /* ----- */
 
 class Score {
 
-    constructor(scoreWrapper, dialogWrapper) {
+    constructor(scoreWrapper) {
         this.scoreWrapper = scoreWrapper;
-        this.dialogWrapper = dialogWrapper;
-
         this.score = 0;
-        this.dialogWrapper.innerText = `Eat all`;
 
         this.draw();
     };
@@ -33,14 +50,6 @@ class Score {
 
     draw = () => {
         this.scoreWrapper.innerText = `Your Score: ${this.score}`;
-    };
-
-    end = () => {
-        if (this.score >= 97) {
-            this.dialogWrapper.innerText = `Game Over! You won!`;
-        } else {
-            this.dialogWrapper.innerText = `Game Over! You lose!`;
-        };
     };
 };
 
@@ -166,7 +175,7 @@ class Snake {
         };
     };
 
-    update = (field, score, food, interval) => {
+    update = (field, score, dialog, food, interval) => {
 
         this.x += this.dx;
         this.y += this.dy;
@@ -193,12 +202,12 @@ class Snake {
         };
 
         if (score.score >= 97) {
-            score.end();
+            dialog.end();
             clearInterval(interval);
         };
 
         if (document.querySelector('.snakeHead').classList.contains('snakeTail')) {
-            score.end();
+            dialog.end();
             clearInterval(interval);
         };
 
@@ -259,6 +268,7 @@ class Game {
     start = () => {
         this.field = new Field(this.gameWrapper);
         this.score = new Score(this.scoreWrapper, this.dialogWrapper);
+        this.dialog = new Dialog(this.dialogWrapper);
         this.timer = new Timer(this.timerWrapper);
         this.snake = new Snake();
         this.food = new Food();
@@ -273,7 +283,7 @@ class Game {
     };
 
     _update = () => {
-        this.snake.update(this.field, this.score, this.food, this.interval);
+        this.snake.update(this.field, this.score, this.dialog, this.food, this.interval);
     };
 
     _draw = () => {
