@@ -37,6 +37,13 @@
     margin-block-end: 32px;
 }
 
+.snake-game__dialog {
+    display: block;
+    text-align: center;
+    font-size: 32px;
+    margin-block-end: 16px;
+}
+
 .snake-game__banner {
     display: flex;
     flex-direction: row;

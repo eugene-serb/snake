@@ -16,8 +16,10 @@ const getRandomInteger = (min, max) => {
 
 class Score {
 
-    constructor(scoreWrapper) {
+    constructor(scoreWrapper, dialogWrapper) {
         this.scoreWrapper = scoreWrapper;
+        this.dialogWrapper = dialogWrapper;
+
         this.score = 0;
 
         this.draw();
@@ -30,6 +32,14 @@ class Score {
 
     draw = () => {
         this.scoreWrapper.innerText = `Your Score: ${this.score}`;
+    };
+
+    end = () => {
+        if (this.score >= 97) {
+            this.dialogWrapper.innerText = `Game Over! You won!`;
+        } else {
+            this.dialogWrapper.innerText = `Game Over! You lose!`;
+        };
     };
 };
 
@@ -182,6 +192,12 @@ class Snake {
         };
 
         if (document.querySelector('.snakeHead').classList.contains('snakeTail')) {
+            score.end();
+            clearInterval(interval);
+        };
+
+        if (score >= 97) {
+            score.end();
             clearInterval(interval);
         };
 
@@ -230,17 +246,18 @@ class Food {
 
 class Game {
 
-    constructor(gameWrapper, scoreWrapper, timerWrapper) {
+    constructor(gameWrapper, scoreWrapper, timerWrapper, dialogWrapper) {
         this.gameWrapper = gameWrapper;
         this.scoreWrapper = scoreWrapper;
         this.timerWrapper = timerWrapper;
+        this.dialogWrapper = dialogWrapper;
 
         this.start();
     };
 
     start = () => {
         this.field = new Field(this.gameWrapper);
-        this.score = new Score(this.scoreWrapper);
+        this.score = new Score(this.scoreWrapper, this.dialogWrapper);
         this.timer = new Timer(this.timerWrapper);
         this.snake = new Snake();
         this.food = new Food();
@@ -309,6 +326,7 @@ class Game {
 const GAME_WRAPPER = document.querySelector('.snake-game__field-wrapper');
 const SCORE_WRAPPER = document.querySelector('.snake-game__score');
 const TIMER_WRAPPER = document.querySelector('.snake-game__timer');
+const DIALOG_WRAPPER = document.querySelector('.snake-game__dialog');
 
-const GAME = new Game(GAME_WRAPPER, SCORE_WRAPPER, TIMER_WRAPPER);
+const GAME = new Game(GAME_WRAPPER, SCORE_WRAPPER, TIMER_WRAPPER, DIALOG_WRAPPER);
 
