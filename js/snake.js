@@ -191,12 +191,12 @@ class Snake {
             food.draw();
         };
 
-        if (document.querySelector('.snakeHead').classList.contains('snakeTail')) {
+        if (score.score >= 97) {
             score.end();
             clearInterval(interval);
         };
 
-        if (score >= 97) {
+        if (document.querySelector('.snakeHead').classList.contains('snakeTail')) {
             score.end();
             clearInterval(interval);
         };
