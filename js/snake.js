@@ -21,6 +21,7 @@ class Score {
         this.dialogWrapper = dialogWrapper;
 
         this.score = 0;
+        this.dialogWrapper.innerText = `Eat all`;
 
         this.draw();
     };
