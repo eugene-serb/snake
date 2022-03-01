@@ -37,16 +37,21 @@
     margin-block-end: 32px;
 }
 
-.snake-game__score-banner {
-    display: block;
-    text-align: center;
-    font-size: 32px;
-    margin-block-end: 32px;
+.snake-game__banner {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    font-size: 24px;
+    margin-block-end: 16px;
 }
+
+.snake-game__score {}
+.snake-game__timer {}
 
 .snake-game__rules {
     text-align: center;
-    font-size: 24px;
+    font-size: 16px;
 }
 
 /* ---- */

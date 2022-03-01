@@ -16,8 +16,8 @@ const getRandomInteger = (min, max) => {
 
 class Score {
 
-    constructor(banner) {
-        this.banner = banner;
+    constructor(scoreWrapper) {
+        this.scoreWrapper = scoreWrapper;
         this.score = 0;
 
         this.draw();
@@ -29,11 +29,47 @@ class Score {
     };
 
     draw = () => {
-        this.banner.innerText = `Your Score: ${this.score}`;
+        this.scoreWrapper.innerText = `Your Score: ${this.score}`;
+    };
+};
+
+/* ----- */
+/* TIMER */
+/* ----- */
+
+class Timer {
+
+    constructor(timerWrapper) {
+        this.timerWrapper = timerWrapper;
+        this.time = '00:00';
+
+        this.timeStart = Date.now();
+        this.timeNow = this.timeStart;
+
+        this.draw();
     };
 
-    end = () => {
-        this.banner.innerText = `Game Over! Your Score: ${this.score}`;
+    draw() {
+        this._calculate();
+        this.timerWrapper.innerText = `Round Time: ${this.time}`;
+    };
+
+    _calculate() {
+        this.timeNow = Date.now();
+        let delta = this.timeNow - this.timeStart;
+
+        let seconds = Math.floor(delta / 1000);
+        let minutes = 0;
+
+        if (seconds > 60) {
+            minutes = Math.floor(seconds / 60);
+            seconds = seconds - (minutes * 60);
+        };
+
+        minutes = (minutes < 10) ? `0${minutes}` : `${minutes}`;
+        seconds = (seconds < 10) ? `0${seconds}` : `${seconds}`;
+
+        this.time = `${minutes}:${seconds}`;
     };
 };
 
@@ -146,7 +182,6 @@ class Snake {
         };
 
         if (document.querySelector('.snakeHead').classList.contains('snakeTail')) {
-            score.end();
             clearInterval(interval);
         };
 
@@ -195,16 +230,18 @@ class Food {
 
 class Game {
 
-    constructor(container, banner) {
-        this.container = container;
-        this.banner = banner;
+    constructor(gameWrapper, scoreWrapper, timerWrapper) {
+        this.gameWrapper = gameWrapper;
+        this.scoreWrapper = scoreWrapper;
+        this.timerWrapper = timerWrapper;
 
         this.start();
     };
 
     start = () => {
-        this.field = new Field(this.container);
-        this.score = new Score(this.banner);
+        this.field = new Field(this.gameWrapper);
+        this.score = new Score(this.scoreWrapper);
+        this.timer = new Timer(this.timerWrapper);
         this.snake = new Snake();
         this.food = new Food();
 
@@ -223,6 +260,8 @@ class Game {
 
     _draw = () => {
         this.field.draw();
+        this.score.draw();
+        this.timer.draw();
         this.snake.draw();
         this.food.draw();
     };
@@ -267,8 +306,9 @@ class Game {
 /* INITIALIZATION */
 /* -------------- */
 
-const CONTAINER = document.querySelector('.snake-game__field-wrapper');
-const BANNER = document.querySelector('.snake-game__score-banner');
+const GAME_WRAPPER = document.querySelector('.snake-game__field-wrapper');
+const SCORE_WRAPPER = document.querySelector('.snake-game__score');
+const TIMER_WRAPPER = document.querySelector('.snake-game__timer');
 
-const GAME = new Game(CONTAINER, BANNER);
+const GAME = new Game(GAME_WRAPPER, SCORE_WRAPPER, TIMER_WRAPPER);
 
