@@ -7,7 +7,7 @@
 /* --------- */
 
 .snake-game {
-    width: 500px;
+    width: 540px;
     margin: 0 auto;
 }
 
@@ -48,8 +48,8 @@
 /* ---- */
 
 .map {
-    width: 500px;
-    height: 500px;
+    width: 540px;
+    height: 540px;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
@@ -65,9 +65,9 @@
     }
 
 .cell {
-    width: 25px;
-    height: 25px;
-    padding: 2.5px;
+    width: 27px;
+    height: 27px;
+    padding: 2.7px;
 }
 
 .food {

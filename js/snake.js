@@ -289,7 +289,7 @@ class Game {
         this.snake = new Snake();
         this.food = new Food();
 
-        this.interval = setInterval(this._gameLoop, 200);
+        this.interval = setInterval(this._gameLoop, 150);
     };
 
     _gameLoop = () => {
