@@ -10,26 +10,6 @@ const getRandomInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min) + min);
 };
 
-/* ------ */
-/* DIALOG */
-/* ------ */
-
-class Dialog {
-
-    constructor(dialogWrapper) {
-        this.dialogWrapper = dialogWrapper;
-        this.dialogWrapper.innerText = `Eat all`;
-    };
-
-    end = () => {
-        if (this.score >= 97) {
-            this.dialogWrapper.innerText = `Game Over! You won!`;
-        } else {
-            this.dialogWrapper.innerText = `Game Over! You lose!`;
-        };
-    };
-};
-
 /* ----- */
 /* SCORE */
 /* ----- */
@@ -38,18 +18,18 @@ class Score {
 
     constructor(scoreWrapper) {
         this.scoreWrapper = scoreWrapper;
-        this.score = 0;
+        this.balance = 0;
 
         this.draw();
     };
 
     increase = () => {
-        this.score++;
+        this.balance++;
         this.draw();
     };
 
     draw = () => {
-        this.scoreWrapper.innerText = `Your Score: ${this.score}`;
+        this.scoreWrapper.innerText = `Your Score: ${this.balance}`;
     };
 };
 
@@ -93,14 +73,36 @@ class Timer {
     };
 };
 
-/* ----- */
-/* FIELD */
-/* ----- */
+/* ------ */
+/* DIALOG */
+/* ------ */
 
-class Field {
+class Dialog {
+
+    constructor(dialogWrapper) {
+        this.dialogWrapper = dialogWrapper;
+        this.dialogWrapper.innerText = `Eat all`;
+    };
+
+    end = (score) => {
+        if (score >= 100) {
+            this.dialogWrapper.innerText = `Game Over! You won!`;
+        } else {
+            this.dialogWrapper.innerText = `Game Over! You lose!`;
+        };
+    };
+};
+
+/* --- */
+/* MAP */
+/* --- */
+
+class Map {
 
     constructor(container) {
         this.container = container;
+        this.width = 10;
+        this.height = 10;
 
         this.draw();
     };
@@ -108,18 +110,17 @@ class Field {
     draw = () => {
         this.container.innerHTML = '';
 
-        let field = document.createElement('div');
-        field.classList.add('field');
+        let map = document.createElement('div');
+        map.classList.add('map');
+        this.container.appendChild(map);
 
-        this.container.appendChild(field);
-
-        for (let y = 10; y >= 1; y--) {
-            for (let x = 1; x <= 10; x++) {
+        for (let y = this.height; y >= 1; y--) {
+            for (let x = 1; x <= this.width; x++) {
                 let cell = document.createElement('div');
                 cell.classList.add('cell');
                 cell.setAttribute('x', x);
                 cell.setAttribute('y', y);
-                field.appendChild(cell);
+                map.appendChild(cell);
             };
         };
     };
@@ -134,21 +135,16 @@ class Snake {
     constructor() {
         this.x = 0;
         this.y = 0;
-        this.dx = 1;
-        this.dy = 0;
-        this.direction = 'right';
-        this.steps = false;
+        this.dx = 0;
+        this.dy = 1;
+        this.direction = 'Up';
+        this.canRotate = false;
+        this.canGrow = false;
         this.tails = [];
         this.maxTails = 3;
 
-        this.generate();
+        this._generate();
         this.draw();
-    };
-
-    generate = () => {
-        this.x = getRandomInteger(3, 10);
-        this.y = getRandomInteger(1, 10);
-        this.tails = [{ x: this.x, y: this.y }, { x: this.x - 1, y: this.y }, { x: this.x - 2, y: this.y }];
     };
 
     draw = () => {
@@ -159,6 +155,21 @@ class Snake {
                 document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.add('snakeTail');
             };
         });
+    };
+
+    move = () => {
+        this.x += this.dx;
+        this.y += this.dy;
+
+        this._collisionBorder();
+
+        this.tails.unshift({ x: this.x, y: this.y });
+
+        if (this.tails.length > this.maxTails) {
+            this.tails.pop();
+        };
+
+        this.canRotate = true;
     };
 
     _collisionBorder = () => {
@@ -175,43 +186,45 @@ class Snake {
         };
     };
 
-    update = (field, score, dialog, food, interval) => {
+    _generate = () => {
+        let randomDirection = getRandomInteger(1, 5);
+        let xMin = 0, xMax = 0, yMin = 0, yMax = 0;
 
-        this.x += this.dx;
-        this.y += this.dy;
-
-        this._collisionBorder();
-
-        this.tails.unshift({ x: this.x, y: this.y });
-
-        if (this.tails.length > this.maxTails) {
-            this.tails.pop();
+        switch (randomDirection) {
+            case 1:
+                this.dx = 0;
+                this.dy = 1;
+                this.direction = 'Up';
+                xMin = 1; xMax = 10; yMin = 3; yMax = 10;
+                break;
+            case 2:
+                this.dx = 1;
+                this.dy = 0;
+                this.direction = 'Right';
+                xMin = 3; xMax = 10; yMin = 1; yMax = 10;
+                break;
+            case 3:
+                this.dx = 0;
+                this.dy = -1;
+                this.direction = 'Down';
+                xMin = 1; xMax = 10; yMin = 1; yMax = 8;
+                break;
+            default:
+                this.dx = -1;
+                this.dy = 0;
+                this.direction = 'Left';
+                xMin = 1; xMax = 8; yMin = 3; yMax = 10;
+                break;
         };
 
-        field.draw();
-        this.draw();
+        this.x = getRandomInteger(xMin, xMax);
+        this.y = getRandomInteger(yMin, yMax);
 
-        if (this.x === food.x && this.y === food.y) {
-            this.maxTails++;
-            score.increase();
-
-            field.draw();
-            this.draw();
-            food.generate();
-            food.draw();
-        };
-
-        if (score.score >= 97) {
-            dialog.end();
-            clearInterval(interval);
-        };
-
-        if (document.querySelector('.snakeHead').classList.contains('snakeTail')) {
-            dialog.end();
-            clearInterval(interval);
-        };
-
-        this.steps = true;
+        this.tails = [
+            { x: this.x, y: this.y },
+            { x: this.x - this.dx, y: this.y - this.dy },
+            { x: this.x - (this.dx + this.dx), y: this.y - (this.dy + this.dy) }
+        ];
     };
 };
 
@@ -239,10 +252,10 @@ class Food {
             };
         });
 
-        let rnd = getRandomInteger(1, emptyCell.length);
+        let randomInteger = getRandomInteger(1, emptyCell.length);
 
-        this.x = +emptyCell[rnd].getAttribute('x');
-        this.y = +emptyCell[rnd].getAttribute('y');
+        this.x = +emptyCell[randomInteger].getAttribute('x');
+        this.y = +emptyCell[randomInteger].getAttribute('y');
     };
 
     draw = () => {
@@ -256,38 +269,62 @@ class Food {
 
 class Game {
 
-    constructor(gameWrapper, scoreWrapper, timerWrapper, dialogWrapper) {
-        this.gameWrapper = gameWrapper;
+    constructor(mapContainer, scoreWrapper, timerWrapper, dialogWrapper) {
+        this.mapContainer = mapContainer;
         this.scoreWrapper = scoreWrapper;
         this.timerWrapper = timerWrapper;
         this.dialogWrapper = dialogWrapper;
 
-        this.start();
+        this.interval = '';
+
+        this._controls();
+        this._start();
     };
 
-    start = () => {
-        this.field = new Field(this.gameWrapper);
-        this.score = new Score(this.scoreWrapper, this.dialogWrapper);
-        this.dialog = new Dialog(this.dialogWrapper);
+    _start = () => {
+        this.map = new Map(this.mapContainer);
+        this.score = new Score(this.scoreWrapper);
         this.timer = new Timer(this.timerWrapper);
+        this.dialog = new Dialog(this.dialogWrapper);
         this.snake = new Snake();
         this.food = new Food();
 
-        this._controls();
-        this.interval = setInterval(this._animate, 250);
+        this.interval = setInterval(this._gameLoop, 250);
     };
 
-    _animate = () => {
-        this._update();
+    _gameLoop = () => {
+        this._move();
         this._draw();
+        this._eventHandler();
     };
 
-    _update = () => {
-        this.snake.update(this.field, this.score, this.dialog, this.food, this.interval);
+    _eventHandler = () => {
+        if (this.score.balance >= 3) this.snake.canGrow = true;
+
+        if (this.snake.x === this.food.x && this.snake.y === this.food.y) {
+            
+            if (this.snake.canGrow) this.snake.maxTails++;
+            this.score.increase();
+
+            this.map.draw();
+            this.snake.draw();
+
+            this.food.generate();
+            this.food.draw();
+        };
+
+        if (document.querySelector('.snakeHead').classList.contains('snakeTail') || this.score.balance >= 100) {
+            this.dialog.end(this.score.balance);
+            clearInterval(this.interval);
+        };
+    };
+
+    _move = () => {
+        this.snake.move();
     };
 
     _draw = () => {
-        this.field.draw();
+        this.map.draw();
         this.score.draw();
         this.timer.draw();
         this.snake.draw();
@@ -298,46 +335,47 @@ class Game {
 
         window.addEventListener('keydown', (e) => {
 
-            if (this.snake.steps === true) {
-                if ((e.code === 'ArrowLeft' || e.code === "KeyA") && this.snake.direction !== 'right') {
+            if (this.snake.canRotate === true) {
+                if ((e.code === 'ArrowLeft' || e.code === "KeyA") && this.snake.direction !== 'Right') {
                     this.snake.dx = -1;
                     this.snake.dy = 0;
-                    this.snake.direction = 'left';
-                    this.snake.steps = false;
-                } else if ((e.code === 'ArrowUp' || e.code === "KeyW") && this.snake.direction !== 'down') {
+                    this.snake.direction = 'Left';
+                    this.snake.canRotate = false;
+                } else if ((e.code === 'ArrowUp' || e.code === "KeyW") && this.snake.direction !== 'Down') {
                     this.snake.dx = 0;
                     this.snake.dy = 1;
-                    this.snake.direction = 'up';
-                    this.snake.steps = false;
-                } else if ((e.code === 'ArrowRight' || e.code === "KeyD") && this.snake.direction !== 'left') {
+                    this.snake.direction = 'Up';
+                    this.snake.canRotate = false;
+                } else if ((e.code === 'ArrowRight' || e.code === "KeyD") && this.snake.direction !== 'Left') {
                     this.snake.dx = 1;
                     this.snake.dy = 0;
-                    this.snake.direction = 'right';
-                    this.snake.steps = false;
-                } else if ((e.code === 'ArrowDown' || e.code === "KeyS") && this.snake.direction !== 'up') {
+                    this.snake.direction = 'Right';
+                    this.snake.canRotate = false;
+                } else if ((e.code === 'ArrowDown' || e.code === "KeyS") && this.snake.direction !== 'Up') {
                     this.snake.dx = 0;
                     this.snake.dy = -1;
-                    this.snake.direction = 'down';
-                    this.snake.steps = false;
+                    this.snake.direction = 'Down';
+                    this.snake.canRotate = false;
                 };
             };
 
             if (e.code === 'KeyR') {
                 clearInterval(this.interval);
-                this.start();
+                this._start();
             };
         });
     };
+
 };
 
 /* -------------- */
 /* INITIALIZATION */
 /* -------------- */
 
-const GAME_WRAPPER = document.querySelector('.snake-game__field-wrapper');
+const MAP_CONTAINER = document.querySelector('.snake-game__map-wrapper');
 const SCORE_WRAPPER = document.querySelector('.snake-game__score');
 const TIMER_WRAPPER = document.querySelector('.snake-game__timer');
 const DIALOG_WRAPPER = document.querySelector('.snake-game__dialog');
 
-const GAME = new Game(GAME_WRAPPER, SCORE_WRAPPER, TIMER_WRAPPER, DIALOG_WRAPPER);
+const GAME = new Game(MAP_CONTAINER, SCORE_WRAPPER, TIMER_WRAPPER, DIALOG_WRAPPER);
 
