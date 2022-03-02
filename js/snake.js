@@ -81,7 +81,17 @@ class Dialog {
 
     constructor(dialogWrapper) {
         this.dialogWrapper = dialogWrapper;
-        this.dialogWrapper.innerText = `Eat all`;
+
+        this.splashes = ['Eat all', 'Big snake', 'Just out of the oven', 'We are in the matrix!',
+            'Apples or mice?', 'Hurry up!', 'What does this food allow itself?', 'Beware the tail',
+            'Keep it up!', 'Ha-ha, nice'];
+
+        this.draw();
+    };
+
+    draw = () => {
+        let randomInteger = getRandomInteger(0, this.splashes.length);
+        this.dialogWrapper.innerText = this.splashes[randomInteger];
     };
 
     end = (score) => {
@@ -311,6 +321,8 @@ class Game {
 
             this.food.generate();
             this.food.draw();
+
+            this.dialog.draw();
         };
 
         if (document.querySelector('.snakeHead').classList.contains('snakeTail') || this.score.balance >= 400) {
