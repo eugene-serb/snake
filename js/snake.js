@@ -82,9 +82,9 @@ class Dialog {
     constructor(dialogWrapper) {
         this.dialogWrapper = dialogWrapper;
 
-        this.splashes = ['Follow me on Twitter @eugene-serb', 'Eat all', 'Big snake', 'Just out of the oven', 'We are in the matrix!',
+        this.splashes = ['Follow me on Twitter @eugene_serb', 'Eat all', 'Big snake', 'Just out of the oven', 'We are in the matrix!',
             'Apples or mice?', 'Hurry up!', 'What does this food allow itself?', 'Beware the tail', 'Hmmmrmm.', 'Open-world alpha sandbox!',
-            'Keep it up!', 'Ha-ha, nice', 'Home-made!', 'Contains simulated food', 'This splash text is now available', 'Quite Indie!'];
+            'Keep it up!', 'Ha-ha, nice', 'Home-made!', 'Contains simulated food', 'This splash text is now available', 'Quite Indie!', 'Is it poisonous?'];
 
         this.draw();
     };
