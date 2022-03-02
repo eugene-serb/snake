@@ -7,27 +7,9 @@
 /* --------- */
 
 .snake-game {
-    width: 200px;
+    width: 500px;
     margin: 0 auto;
 }
-
-    @media only screen and (min-width: 350px) {
-        .snake-game {
-            width: 300px;
-        }
-    }
-
-    @media only screen and (min-width: 450px) {
-        .snake-game {
-            width: 400px;
-        }
-    }
-
-    @media only screen and (min-width: 550px) {
-        .snake-game {
-            width: 500px;
-        }
-    }
 
 .snake-game__header {
     text-align: center;
@@ -66,8 +48,8 @@
 /* ---- */
 
 .map {
-    width: 200px;
-    height: 200px;
+    width: 500px;
+    height: 500px;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
@@ -83,9 +65,9 @@
     }
 
 .cell {
-    width: 20px;
-    height: 20px;
-    padding: 2px;
+    width: 25px;
+    height: 25px;
+    padding: 2.5px;
 }
 
 .food {
@@ -99,43 +81,4 @@
 .snakeHead {
     background-color: var(--color-a-monocromatic-a);
 }
-
-    @media only screen and (min-width: 350px) {
-        .map {
-            width: 300px;
-            height: 300px;
-        }
-
-        .cell {
-            width: 30px;
-            height: 30px;
-            padding: 3px;
-        }
-    }
-
-    @media only screen and (min-width: 450px) {
-        .map {
-            width: 400px;
-            height: 400px;
-        }
-
-        .cell {
-            width: 40px;
-            height: 40px;
-            padding: 4px;
-        }
-    }
-
-    @media only screen and (min-width: 550px) {
-        .map {
-            width: 500px;
-            height: 500px;
-        }
-
-        .cell {
-            width: 50px;
-            height: 50px;
-            padding: 5px;
-        }
-    }
 

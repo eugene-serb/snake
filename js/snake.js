@@ -85,7 +85,7 @@ class Dialog {
     };
 
     end = (score) => {
-        if (score >= 100) {
+        if (score >= 400) {
             this.dialogWrapper.innerText = `Game Over! You won!`;
         } else {
             this.dialogWrapper.innerText = `Game Over! You lose!`;
@@ -101,8 +101,8 @@ class Map {
 
     constructor(container) {
         this.container = container;
-        this.width = 10;
-        this.height = 10;
+        this.width = 20;
+        this.height = 20;
 
         this.draw();
     };
@@ -173,16 +173,16 @@ class Snake {
     };
 
     _collisionBorder = () => {
-        if (this.x > 10) {
+        if (this.x > 20) {
             this.x = 1;
         } else if (this.x < 1) {
-            this.x = 10;
+            this.x = 20;
         };
 
-        if (this.y > 10) {
+        if (this.y > 20) {
             this.y = 1;
         } else if (this.y < 1) {
-            this.y = 10
+            this.y = 20;
         };
     };
 
@@ -195,25 +195,25 @@ class Snake {
                 this.dx = 0;
                 this.dy = 1;
                 this.direction = 'Up';
-                xMin = 1; xMax = 10; yMin = 3; yMax = 10;
+                xMin = 1; xMax = 20; yMin = 3; yMax = 20;
                 break;
             case 2:
                 this.dx = 1;
                 this.dy = 0;
                 this.direction = 'Right';
-                xMin = 3; xMax = 10; yMin = 1; yMax = 10;
+                xMin = 3; xMax = 20; yMin = 1; yMax = 20;
                 break;
             case 3:
                 this.dx = 0;
                 this.dy = -1;
                 this.direction = 'Down';
-                xMin = 1; xMax = 10; yMin = 1; yMax = 8;
+                xMin = 1; xMax = 20; yMin = 1; yMax = 18;
                 break;
             default:
                 this.dx = -1;
                 this.dy = 0;
                 this.direction = 'Left';
-                xMin = 1; xMax = 8; yMin = 3; yMax = 10;
+                xMin = 1; xMax = 18; yMin = 1; yMax = 20;
                 break;
         };
 
@@ -289,7 +289,7 @@ class Game {
         this.snake = new Snake();
         this.food = new Food();
 
-        this.interval = setInterval(this._gameLoop, 250);
+        this.interval = setInterval(this._gameLoop, 200);
     };
 
     _gameLoop = () => {
@@ -313,7 +313,7 @@ class Game {
             this.food.draw();
         };
 
-        if (document.querySelector('.snakeHead').classList.contains('snakeTail') || this.score.balance >= 100) {
+        if (document.querySelector('.snakeHead').classList.contains('snakeTail') || this.score.balance >= 400) {
             this.dialog.end(this.score.balance);
             clearInterval(this.interval);
         };
