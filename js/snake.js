@@ -23,8 +23,8 @@ class Score {
         this.draw();
     };
 
-    increase = () => {
-        this.balance++;
+    increase = (n) => {
+        this.balance += n;
         this.draw();
     };
 
@@ -61,7 +61,7 @@ class Timer {
         let seconds = Math.floor(delta / 1000);
         let minutes = 0;
 
-        if (seconds > 60) {
+        if (seconds >= 60) {
             minutes = Math.floor(seconds / 60);
             seconds = seconds - (minutes * 60);
         };
@@ -167,7 +167,7 @@ class Snake {
         });
     };
 
-    move = () => {
+    update = () => {
         this.x += this.dx;
         this.y += this.dy;
 
@@ -238,18 +238,62 @@ class Snake {
     };
 };
 
-/* ---- */
-/* FOOD */
-/* ---- */
+/* ---------------- */
+/* THINGS FACTORIES */
+/* ---------------- */
 
-class Food {
+class ThingsFactory {
+    createThing = () => { };
+};
+
+class BorderFactory extends ThingsFactory {
+    createThing = () => {
+        return new Border();
+    };
+};
+
+class AppleFactory extends ThingsFactory {
+    createThing = () => {
+        return new Apple();
+    };
+};
+
+class MouseFactory extends ThingsFactory {
+    createThing = () => {
+        return new Mouse();
+    };
+};
+
+class CrapFactory extends ThingsFactory {
+    createThing = () => {
+        return new Crap();
+    };
+};
+
+class BombFactory extends ThingsFactory {
+    createThing = () => {
+        return new Bomb();
+    };
+};
+
+/* ------ */
+/* THINGS */
+/* ------ */
+
+class Subject {
 
     constructor() {
         this.x = 0;
         this.y = 0;
 
-        this.generate();
-        this.draw();
+        this.rottingStage = 0;
+        this.maxRottingStage = 0;
+
+        this.className = '';
+    };
+
+    update = () => {
+        this.rottingStage++;
     };
 
     generate = () => {
@@ -257,7 +301,7 @@ class Food {
         let emptyCell = [];
 
         allCells.forEach((item) => {
-            if (!item.classList.contains('snakeTail') && !item.classList.contains('snakeHead') && !item.classList.contains('food')) {
+            if (!item.classList.contains('snakeTail') && !item.classList.contains('snakeHead') && !item.classList.contains(this.className)) {
                 emptyCell.push(item);
             };
         });
@@ -269,7 +313,74 @@ class Food {
     };
 
     draw = () => {
-        document.querySelector(`[x = "${this.x}"][y = "${this.y}"]`).classList.add('food');
+        document.querySelector(`[x = "${this.x}"][y = "${this.y}"]`).classList.add(this.className);
+    };
+};
+
+class Border extends Subject {
+
+    constructor() {
+        super();
+
+        this.className = 'border';
+        this.maxRottingStage = 0;
+
+        this.generate();
+        this.draw();
+    };
+
+    update = () => {};
+};
+
+class Apple extends Subject {
+
+    constructor() {
+        super();
+        
+        this.className = 'apple';
+        this.maxRottingStage = 50;
+
+        this.generate();
+        this.draw();
+    };
+};
+
+class Mouse extends Subject {
+
+    constructor() {
+        super();
+
+        this.className = 'mouse';
+        this.maxRottingStage = 25;
+
+        this.generate();
+        this.draw();
+    };
+};
+
+class Crap extends Subject {
+
+    constructor() {
+        super();
+
+        this.className = 'crap';
+        this.maxRottingStage = 100;
+
+        this.generate();
+        this.draw();
+    };
+};
+
+class Bomb extends Subject {
+
+    constructor() {
+        super();
+
+        this.className = 'bomb';
+        this.maxRottingStage = 100;
+
+        this.generate();
+        this.draw();
     };
 };
 
@@ -297,41 +408,138 @@ class Game {
         this.timer = new Timer(this.timerWrapper);
         this.dialog = new Dialog(this.dialogWrapper);
         this.snake = new Snake();
-        this.food = new Food();
+
+        this.factories = [new BorderFactory, new AppleFactory, new MouseFactory, new CrapFactory, new BombFactory];
+        this.things = [];
+        this.borders = [];
+
+        for (let i = 0; i < 5; i++) {
+            this.borders.push(this.factories[0].createThing());
+        };
+
+        for (let i = 0; i < 2; i++) {
+            this.things.push(this.factories[1].createThing());
+        };
 
         this.dialog.draw();
         this.interval = setInterval(this._gameLoop, 200);
     };
 
     _gameLoop = () => {
-        this._move();
+        this._update();
         this._draw();
         this._eventHandler();
     };
 
     _eventHandler = () => {
-        if (this.score.balance >= 3) this.snake.canGrow = true;
+        if (this.score.balance >= 3) {
+            this.snake.canGrow = true;
+        } else {
+            this.snake.canGrow = false;
+        }
 
-        if (this.snake.x === this.food.x && this.snake.y === this.food.y) {
+        this.things.forEach((item, index) => {
+
+            if (item.rottingStage > item.maxRottingStage) {
+                this.things.splice(index, 1);
+            };
+
+            if (this.snake.x === item.x && this.snake.y === item.y) {
+
+                if (document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('apple')) {
+
+                    if (this.snake.canGrow) this.snake.maxTails++;
+                    this.score.increase(1);
+
+                    this.map.draw();
+                    this.snake.draw();
+
+                    this.borders.forEach((item) => {
+                        item.draw();
+                    });
+
+                    this.things.splice(index, 1);
+                };
+
+                if (document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('mouse')) {
+
+                    if (this.snake.canGrow) this.snake.maxTails++;
+                    this.score.increase(5);
+
+                    this.map.draw();
+                    this.snake.draw();
+
+                    this.borders.forEach((item) => {
+                        item.draw();
+                    });
+
+                    this.things.splice(index, 1);
+                };
+
+                if (document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('crap')) {
+
+                    if (this.snake.maxTails >= 5) this.snake.maxTails - 2;
+                    this.score.increase(-10);
+
+                    this.map.draw();
+                    this.snake.draw();
+
+                    this.borders.forEach((item) => {
+                        item.draw();
+                    });
+
+                    if (this.score.balance < 0) {
+                        this.dialog.end(this.score.balance);
+                        clearInterval(this.interval);
+                    };
+                };
+
+                if (document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('bomb')) {
+
+                    this.dialog.end(this.score.balance);
+                    clearInterval(this.interval);
+                };
+
+            };
+        });
+
+        if (this.things.length < 2) {
             
-            if (this.snake.canGrow) this.snake.maxTails++;
-            this.score.increase();
+            let randomInteger = getRandomInteger(1, 100);
+            let randomChoose = 0;
 
-            this.map.draw();
-            this.snake.draw();
+            if (randomInteger <= 80) {
+                randomChoose = 1;
+            } else if (randomInteger > 80 && randomInteger <= 90) {
+                randomChoose = 2;
+            } else if (randomInteger > 90 && randomInteger <= 95) {
+                randomChoose = 3;
+            } else if (randomInteger > 95) {
+                randomChoose = 4;
+            };
 
-            this.food.generate();
-            this.food.draw();
+            this.things.push(this.factories[randomChoose].createThing());
+
+            this.things.forEach((item) => {
+                item.draw();
+            });
         };
 
-        if (document.querySelector('.snakeHead').classList.contains('snakeTail') || this.score.balance >= 225) {
+        if (document.querySelector('.snakeHead').classList.contains('snakeTail') ||
+            document.querySelector('.snakeHead').classList.contains('border') ||
+            this.score.balance >= 225) {
+
             this.dialog.end(this.score.balance);
             clearInterval(this.interval);
         };
     };
 
-    _move = () => {
-        this.snake.move();
+    _update = () => {
+        this.snake.update();
+
+        this.things.forEach((item) => {
+            item.update();
+        });
     };
 
     _draw = () => {
@@ -339,7 +547,14 @@ class Game {
         this.score.draw();
         this.timer.draw();
         this.snake.draw();
-        this.food.draw();
+
+        this.things.forEach((item) => {
+            item.draw();
+        });
+
+        this.borders.forEach((item) => {
+            item.draw();
+        });
     };
 
     _controls = () => {

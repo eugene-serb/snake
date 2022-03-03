@@ -70,8 +70,24 @@
     padding: 3.6px;
 }
 
-.food {
+.border {
+    background-color: grey;
+}
+
+.apple {
     background-color: var(--color-e);
+}
+
+.mouse {
+    background-color: rebeccapurple;
+}
+
+.crap {
+    background-color: saddlebrown;
+}
+
+.bomb {
+    background-color: seagreen;
 }
 
 .snakeTail {
