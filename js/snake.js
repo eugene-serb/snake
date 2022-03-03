@@ -24,6 +24,8 @@ class Configurations {
     constructor() {
         this.MAP_WIDTH = 15;
         this.MAP_HEIGHT = 15;
+        this.WIN_SCORE = 100;
+        this.SPEED_GAME = 200;
         
         this.MAP_WRAPPER = document.querySelector('.snake-game__map-wrapper');
         this.SCORE_WRAPPER = document.querySelector('.snake-game__score');
@@ -124,7 +126,7 @@ class Dialog {
     };
 
     end = (score) => {
-        if (score >= 100) {
+        if (score >= this.configurations.WIN_SCORE) {
             this.dialogWrapper.innerText = `Game Over! You won!`;
         } else {
             this.dialogWrapper.innerText = `Game Over! You lose!`;
@@ -452,6 +454,7 @@ class Bomb extends Subject {
 class Game {
 
     constructor() {
+        this.configurations = new Configurations();
         this.support = new Support();
 
         this._controls();
@@ -479,7 +482,7 @@ class Game {
         };
 
 
-        this.interval = setInterval(this._gameloop, 200);
+        this.interval = setInterval(this._gameloop, this.configurations.SPEED_GAME);
     };
 
     _gameloop = () => {
@@ -631,7 +634,7 @@ class Game {
 
         if (document.querySelector('.snakeHead').classList.contains('snakeTail') ||
             document.querySelector('.snakeHead').classList.contains('border') ||
-            this.score.balance >= 100) {
+            this.score.balance >= this.configurations.WIN_SCORE) {
 
             this.snake.isAlive = false;
             this.dialog.end(this.score.balance);
@@ -673,7 +676,7 @@ class Game {
             if (this.snake.isAlive === true) {
                 if (e.code === 'KeyP') {
                     if (this.snake.isPaused === true) {
-                        this.interval = setInterval(this._gameloop, 200);
+                        this.interval = setInterval(this._gameloop, this.configurations.SPEED_GAME);
                         this.snake.isPaused = false;
                     } else {
                         clearInterval(this.interval);
