@@ -299,6 +299,7 @@ class Game {
         this.snake = new Snake();
         this.food = new Food();
 
+        this.dialog.draw();
         this.interval = setInterval(this._gameLoop, 200);
     };
 
@@ -321,8 +322,6 @@ class Game {
 
             this.food.generate();
             this.food.draw();
-
-            this.dialog.draw();
         };
 
         if (document.querySelector('.snakeHead').classList.contains('snakeTail') || this.score.balance >= 225) {
