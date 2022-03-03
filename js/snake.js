@@ -95,7 +95,7 @@ class Dialog {
     };
 
     end = (score) => {
-        if (score >= 400) {
+        if (score >= 225) {
             this.dialogWrapper.innerText = `Game Over! You won!`;
         } else {
             this.dialogWrapper.innerText = `Game Over! You lose!`;
@@ -325,7 +325,7 @@ class Game {
             this.dialog.draw();
         };
 
-        if (document.querySelector('.snakeHead').classList.contains('snakeTail') || this.score.balance >= 400) {
+        if (document.querySelector('.snakeHead').classList.contains('snakeTail') || this.score.balance >= 225) {
             this.dialog.end(this.score.balance);
             clearInterval(this.interval);
         };
