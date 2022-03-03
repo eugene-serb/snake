@@ -82,9 +82,9 @@ class Dialog {
     constructor(dialogWrapper) {
         this.dialogWrapper = dialogWrapper;
 
-        this.splashes = ['Follow me on Twitter @eugene_serb', 'Eat all', 'Big snake', 'Just out of the oven', 'We are in the matrix!',
-            'Apples or mice?', 'Hurry up!', 'What does this food allow itself?', 'Beware the tail', 'Hmmmrmm.', 'Open-world alpha sandbox!',
-            'Keep it up!', 'Ha-ha, nice', 'Home-made!', 'Contains simulated food', 'This splash text is now available', 'Quite Indie!', 'Is it poisonous?'];
+        this.splashes = ['Eat all', 'Big snake', 'Just out of the oven', 'We are in the matrix!', 'Open-world alpha sandbox!',
+            'Apples or mice?', 'Hurry up!', 'What does this food allow itself?', 'Beware the tail', 'Hmmmrmm.', 'Is it poisonous?',
+            'Keep it up!', 'Ha-ha, nice', 'Home-made!', 'Contains simulated food', 'This splash text is now available', 'Quite Indie!'];
 
         this.draw();
     };
@@ -299,7 +299,7 @@ class Game {
         this.snake = new Snake();
         this.food = new Food();
 
-        this.interval = setInterval(this._gameLoop, 150);
+        this.interval = setInterval(this._gameLoop, 200);
     };
 
     _gameLoop = () => {
