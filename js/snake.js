@@ -613,13 +613,13 @@ class Game {
             if (randomInteger <= 80) {
                 randomChoose = 1;
             } else if (randomInteger > 80 && randomInteger <= 85) {
-                randomChoose = 3;
+                randomChoose = 2;
             } else if (randomInteger > 85 && randomInteger <= 90) {
                 randomChoose = 3;
             } else if (randomInteger > 90 && randomInteger <= 95) {
-                randomChoose = 3;
+                randomChoose = 4;
             } else if (randomInteger > 95) {
-                randomChoose = 3;
+                randomChoose = 5;
             };
 
             this.things.push(this.factories[randomChoose].createThing());
