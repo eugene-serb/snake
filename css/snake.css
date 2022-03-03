@@ -71,23 +71,27 @@
 }
 
 .border {
-    background-color: grey;
+    background-color: #422D37;
 }
 
 .apple {
-    background-color: var(--color-e);
+    background-color: #CC4E86;
 }
 
 .mouse {
-    background-color: rebeccapurple;
+    background-color: #C1839F;
 }
 
 .crap {
-    background-color: saddlebrown;
+    background-color: #C2968D;
 }
 
 .bomb {
-    background-color: seagreen;
+    background-color: #7AC2A5;
+}
+
+.holywater {
+    background-color: #7A91C2;
 }
 
 .snakeTail {
