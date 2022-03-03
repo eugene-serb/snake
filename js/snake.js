@@ -111,8 +111,8 @@ class Map {
 
     constructor(container) {
         this.container = container;
-        this.width = 20;
-        this.height = 20;
+        this.width = 15;
+        this.height = 15;
 
         this.draw();
     };
@@ -183,16 +183,16 @@ class Snake {
     };
 
     _collisionBorder = () => {
-        if (this.x > 20) {
+        if (this.x > 15) {
             this.x = 1;
         } else if (this.x < 1) {
-            this.x = 20;
+            this.x = 15;
         };
 
-        if (this.y > 20) {
+        if (this.y > 15) {
             this.y = 1;
         } else if (this.y < 1) {
-            this.y = 20;
+            this.y = 15;
         };
     };
 
@@ -205,25 +205,25 @@ class Snake {
                 this.dx = 0;
                 this.dy = 1;
                 this.direction = 'Up';
-                xMin = 1; xMax = 20; yMin = 3; yMax = 20;
+                xMin = 1; xMax = 15; yMin = 3; yMax = 15;
                 break;
             case 2:
                 this.dx = 1;
                 this.dy = 0;
                 this.direction = 'Right';
-                xMin = 3; xMax = 20; yMin = 1; yMax = 20;
+                xMin = 3; xMax = 15; yMin = 1; yMax = 15;
                 break;
             case 3:
                 this.dx = 0;
                 this.dy = -1;
                 this.direction = 'Down';
-                xMin = 1; xMax = 20; yMin = 1; yMax = 18;
+                xMin = 1; xMax = 15; yMin = 1; yMax = 13;
                 break;
             default:
                 this.dx = -1;
                 this.dy = 0;
                 this.direction = 'Left';
-                xMin = 1; xMax = 18; yMin = 1; yMax = 20;
+                xMin = 1; xMax = 13; yMin = 1; yMax = 15;
                 break;
         };
 
