@@ -70,8 +70,28 @@
     padding: 3.6px;
 }
 
-.food {
-    background-color: var(--color-e);
+.border {
+    background-color: #333C4F;
+}
+
+.apple {
+    background-color: #D98A89;
+}
+
+.mouse {
+    background-color: #C1839F;
+}
+
+.crap {
+    background-color: #CFAB8C;
+}
+
+.bomb {
+    background-color: #7AC2A5;
+}
+
+.holywater {
+    background-color: #7A91C2;
 }
 
 .snakeTail {
