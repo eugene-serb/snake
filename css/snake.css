@@ -2,12 +2,14 @@
 /* SNAKE GAME */
 /* ---------- */
 
+@charset 'UTF-8';
+
 /* --------- */
 /* INTERFACE */
 /* --------- */
 
 .snake-game {
-    width: 540px;
+    width: 240px;
     margin: 0 auto;
 }
 
@@ -48,8 +50,8 @@
 /* ---- */
 
 .map {
-    width: 540px;
-    height: 540px;
+    width: 240px;
+    height: 240px;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
@@ -65,9 +67,9 @@
     }
 
 .cell {
-    width: 36px;
-    height: 36px;
-    padding: 3.6px;
+    width: 16px;
+    height: 16px;
+    padding: 1.6px;
 }
 
 .border {
@@ -100,5 +102,58 @@
 
 .snakeHead {
     background-color: var(--color-a-monocromatic-a);
+}
+
+/**/
+
+@media only screen and (min-width: 380px) {
+    .snake-game {
+        width: 340px;
+    }
+
+    .map {
+        width: 340px;
+        height: 340px;
+    }
+
+    .cell {
+        width: 22.66px;
+        height: 22.6px;
+        padding: 2.26px;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+    .snake-game {
+        width: 440px;
+    }
+
+    .map {
+        width: 440px;
+        height: 440px;
+    }
+
+    .cell {
+        width: 29.33px;
+        height: 29.33px;
+        padding: 2.93px;
+    }
+}
+
+@media only screen and (min-width: 580px) {
+    .snake-game {
+        width: 540px;
+    }
+
+    .map {
+        width: 540px;
+        height: 540px;
+    }
+
+    .cell {
+        width: 36px;
+        height: 36px;
+        padding: 3.6px;
+    }
 }
 
