@@ -2,6 +2,8 @@
 /* SNAKE GAME */
 /* ---------- */
 
+'use strict'
+
 /* ------- */
 /* SUPPORT */
 /* ------- */
@@ -458,6 +460,8 @@ class Game {
         this.support = new Support();
 
         this._controls();
+        this._gamepads();
+
         this._start();
     };
 
@@ -685,6 +689,95 @@ class Game {
                 };
             };
         });
+    };
+
+    _gamepads = () => {
+
+        const gamepadHandler = (button) => {
+            if (this.snake.canRotate === true) {
+                if (button === 12 && this.snake.direction !== 'Down') {
+                    this.snake.dx = 0;
+                    this.snake.dy = 1;
+                    this.snake.direction = 'Up';
+                    this.snake.canRotate = false;
+                } else if (button === 13 && this.snake.direction !== 'Up') {
+                    this.snake.dx = 0;
+                    this.snake.dy = -1;
+                    this.snake.direction = 'Down';
+                    this.snake.canRotate = false;
+                } else if (button === 14 && this.snake.direction !== 'Right') {
+                    this.snake.dx = -1;
+                    this.snake.dy = 0;
+                    this.snake.direction = 'Left';
+                    this.snake.canRotate = false;
+                } else if (button === 15 && this.snake.direction !== 'Left') {
+                    this.snake.dx = 1;
+                    this.snake.dy = 0;
+                    this.snake.direction = 'Right';
+                    this.snake.canRotate = false;
+                };
+            };
+
+            if (keyPressInterval >= 500) {
+                if (this.snake.isAlive === true) {
+                    if (button === 2) {
+                        if (this.snake.isPaused === true) {
+                            this.interval = setInterval(this._gameloop, this.configurations.SPEED_GAME);
+                            this.snake.isPaused = false;
+                            keyPressInterval = 0;
+                        } else {
+                            clearInterval(this.interval);
+                            this.snake.isPaused = true;
+                            keyPressInterval = 0;
+                        };
+                    };
+                };
+
+                if (button === 3) {
+                    clearInterval(this.interval);
+                    this._start();
+                    keyPressInterval = 0;
+                };
+            };
+        };
+
+        const checkGamepadSupport = () => {
+            return 'getGamepads' in window.navigator
+        };
+
+        const addGamepad = () => {
+            if (!checkGamepadSupport()) {
+                return;
+            };
+
+            window.addEventListener('gamepadconnected', (e) => {
+
+                const update = () => {
+                    keyPressInterval += 10;
+                    let gamepads = navigator.getGamepads();
+                    let isPressed = false;
+                    let button;
+
+                    gamepads[0].buttons.forEach((item, index) => {
+                        if (item.value === 1) {
+                            button = index;
+                            isPressed = true;
+                        };
+                    });
+
+                    if (!isPressed) {
+                        return;
+                    } else {
+                        gamepadHandler(button);
+                    };
+                };
+
+                setInterval(update, 10);
+            });
+        };
+
+        let keyPressInterval = 0;
+        addGamepad();
     };
 };
 
