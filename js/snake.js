@@ -82,10 +82,11 @@ class Timer {
 
 class Dialog {
 
-    constructor(wrapper) {
+    constructor(wrapper, winScore) {
         this.support = new Support();
 
         this.dialogWrapper = wrapper;
+        this.winScore = winScore;
 
         this.splashes = ['Eat all', 'Big snake', 'Just out of the oven', 'We are in the matrix!', 'Open-world alpha sandbox!',
             'Apples or mice?', 'Hurry up!', 'What does this food allow itself?', 'Beware the tail', 'Hmmmrmm.', 'Is it poisonous?',
@@ -100,7 +101,7 @@ class Dialog {
     };
 
     end = (score) => {
-        if (score >= this.configurations.WIN_SCORE) {
+        if (score >= this.winScore) {
             this.dialogWrapper.innerText = `Game Over! You won!`;
         } else {
             this.dialogWrapper.innerText = `Game Over! You lose!`;
@@ -435,7 +436,7 @@ class Game {
         this.map = new Map(this.configurations.MAP_WRAPPER, this.configurations.MAP_WIDTH, this.configurations.MAP_HEIGHT);
         this.score = new Score(this.configurations.SCORE_WRAPPER);
         this.timer = new Timer(this.configurations.TIMER_WRAPPER);
-        this.dialog = new Dialog(this.configurations.DIALOG_WRAPPER);
+        this.dialog = new Dialog(this.configurations.DIALOG_WRAPPER, this.configurations.WIN_SCORE);
         this.snake = new Snake();
 
         this.factories = [new BorderFactory, new AppleFactory, new MouseFactory, new HolyWaterFactory, new CrapFactory, new BombFactory];
