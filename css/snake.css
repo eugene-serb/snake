@@ -60,12 +60,6 @@
     border-radius: 4px;
 }
 
-    @media (prefers-color-scheme: dark) {
-        .map {
-            background-color: var(--color-a-monocromatic-d);
-        }
-    }
-
 .cell {
     width: 16px;
     height: 16px;
@@ -104,7 +98,15 @@
     background-color: var(--color-a-monocromatic-a);
 }
 
-/**/
+/* ----- */
+/* MEDIA */
+/* ----- */
+
+@media (prefers-color-scheme: dark) {
+    .map {
+        background-color: var(--color-a-monocromatic-d);
+    }
+}
 
 @media only screen and (min-width: 380px) {
     .snake-game {

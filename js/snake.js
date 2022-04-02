@@ -4,22 +4,11 @@
 
 'use strict'
 
-/* ------- */
-/* SUPPORT */
-/* ------- */
-
 class Support {
-
-    constructor() { };
-
     getRandomInteger = (min, max) => {
         return Math.floor(Math.random() * (max - min) + min);
     };
 };
-
-/* -------------- */
-/* CONFIGURATIONS */
-/* -------------- */
 
 class Configurations {
 
@@ -36,16 +25,10 @@ class Configurations {
     };
 };
 
-/* ----- */
-/* SCORE */
-/* ----- */
-
 class Score {
 
-    constructor() {
-        this.configurations = new Configurations();
-
-        this.scoreWrapper = this.configurations.SCORE_WRAPPER;
+    constructor(wrapper) {
+        this.scoreWrapper = wrapper;
         this.balance = 0;
 
         this.draw();
@@ -61,16 +44,10 @@ class Score {
     };
 };
 
-/* ----- */
-/* TIMER */
-/* ----- */
-
 class Timer {
 
-    constructor() {
-        this.configurations = new Configurations();
-
-        this.timerWrapper = this.configurations.TIMER_WRAPPER;
+    constructor(wrapper) {
+        this.timerWrapper = wrapper;
         this.time = '00:00';
 
         this.timeStart = Date.now();
@@ -103,17 +80,12 @@ class Timer {
     };
 };
 
-/* ------ */
-/* DIALOG */
-/* ------ */
-
 class Dialog {
 
-    constructor() {
-        this.configurations = new Configurations();
+    constructor(wrapper) {
         this.support = new Support();
 
-        this.dialogWrapper = this.configurations.DIALOG_WRAPPER;
+        this.dialogWrapper = wrapper;
 
         this.splashes = ['Eat all', 'Big snake', 'Just out of the oven', 'We are in the matrix!', 'Open-world alpha sandbox!',
             'Apples or mice?', 'Hurry up!', 'What does this food allow itself?', 'Beware the tail', 'Hmmmrmm.', 'Is it poisonous?',
@@ -136,18 +108,12 @@ class Dialog {
     };
 };
 
-/* --- */
-/* MAP */
-/* --- */
-
 class Map {
 
-    constructor() {
-        this.configurations = new Configurations();
-
-        this.container = this.configurations.MAP_WRAPPER;
-        this.width = this.configurations.MAP_WIDTH;
-        this.height = this.configurations.MAP_HEIGHT;
+    constructor(wrapper, width, height) {
+        this.container = wrapper;
+        this.width = width;
+        this.height = height;
 
         this.draw();
     };
@@ -456,9 +422,6 @@ class Bomb extends Subject {
 class Game {
 
     constructor() {
-        this.configurations = new Configurations();
-        this.support = new Support();
-
         this._controls();
         this._gamepads();
 
@@ -466,12 +429,14 @@ class Game {
     };
 
     _start = () => {
-        this.map = new Map();
-        this.score = new Score();
-        this.timer = new Timer();
-        this.dialog = new Dialog();
-        this.snake = new Snake();
+        this.configurations = new Configurations();
+        this.support = new Support();
 
+        this.map = new Map(this.configurations.MAP_WRAPPER, this.configurations.MAP_WIDTH, this.configurations.MAP_HEIGHT);
+        this.score = new Score(this.configurations.SCORE_WRAPPER);
+        this.timer = new Timer(this.configurations.TIMER_WRAPPER);
+        this.dialog = new Dialog(this.configurations.DIALOG_WRAPPER);
+        this.snake = new Snake();
 
         this.factories = [new BorderFactory, new AppleFactory, new MouseFactory, new HolyWaterFactory, new CrapFactory, new BombFactory];
         this.things = [];
@@ -484,7 +449,6 @@ class Game {
         for (let i = 0; i < 2; i++) {
             this.things.push(this.factories[1].createThing());
         };
-
 
         this.interval = setInterval(this._gameloop, this.configurations.SPEED_GAME);
     };
