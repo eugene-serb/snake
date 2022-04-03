@@ -432,6 +432,7 @@ class Game {
 
         this._keyboard();
         this._gamepads();
+        this._touches();
 
         this._start();
     };
@@ -747,6 +748,54 @@ class Game {
 
         let keyPressInterval = 0;
         addGamepad();
+    };
+
+    _touches = () => {
+        let startX = 0;
+        let startY = 0;
+        let endX = 0;
+        let endY = 0;
+
+        this.configurations.MAP_WRAPPER.addEventListener('touchstart', (event) => {
+            startX = event.touches[0].pageX;
+            startY = event.touches[0].pageY;
+        });
+
+        this.configurations.MAP_WRAPPER.addEventListener('touchend', (event) => {
+            endX = event.changedTouches[0].pageX;
+            endY = event.changedTouches[0].pageY;
+
+            let x = endX - startX;
+            let y = endY - startY;
+
+            let absX = Math.abs(x) > Math.abs(y);
+            let absY = Math.abs(y) > Math.abs(x);
+
+            if (this.snake.canRotate === true) {
+                if (x > 0 && absX && this.snake.direction !== 'Left') {
+                    this.snake.dx = 1;
+                    this.snake.dy = 0;
+                    this.snake.direction = 'Right';
+                    this.snake.canRotate = false;
+                } else if (x < 0 && absX && this.snake.direction !== 'Right') {
+                    this.snake.dx = -1;
+                    this.snake.dy = 0;
+                    this.snake.direction = 'Left';
+                    this.snake.canRotate = false;
+                } else if (y > 0 && absY && this.snake.direction !== 'Up') {
+                    this.snake.dx = 0;
+                    this.snake.dy = -1;
+                    this.snake.direction = 'Down';
+                    this.snake.canRotate = false;
+                } else if (y < 0 && absY && this.snake.direction !== 'Down') {
+                    this.snake.dx = 0;
+                    this.snake.dy = 1;
+                    this.snake.direction = 'Up';
+                    this.snake.canRotate = false;
+                };
+            };
+
+        });
     };
 };
 
