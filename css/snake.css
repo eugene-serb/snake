@@ -24,8 +24,8 @@
 .snake-game__dialog {
     display: block;
     text-align: center;
-    font-size: 32px;
-    margin-block-end: 16px;
+    font-size: 24px;
+    margin-block-end: 8px;
 }
 
 .snake-game__banner {
@@ -33,16 +33,13 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
-    font-size: 24px;
-    margin-block-end: 16px;
+    font-size: 18px;
+    margin-block-end: 8px;
 }
-
-.snake-game__score {}
-.snake-game__timer {}
 
 .snake-game__rules {
     text-align: center;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 /* ---- */
@@ -63,7 +60,6 @@
 .cell {
     width: 16px;
     height: 16px;
-    padding: 1.6px;
 }
 
 .border {
@@ -121,7 +117,6 @@
     .cell {
         width: 22.66px;
         height: 22.6px;
-        padding: 2.26px;
     }
 }
 
@@ -138,13 +133,26 @@
     .cell {
         width: 29.33px;
         height: 29.33px;
-        padding: 2.93px;
     }
 }
 
 @media only screen and (min-width: 580px) {
     .snake-game {
         width: 540px;
+    }
+
+    .snake-game__dialog {
+        font-size: 32px;
+        margin-block-end: 16px;
+    }
+
+    .snake-game__banner {
+        font-size: 24px;
+        margin-block-end: 16px;
+    }
+
+    .snake-game__rules {
+        font-size: 16px;
     }
 
     .map {
@@ -155,7 +163,6 @@
     .cell {
         width: 36px;
         height: 36px;
-        padding: 3.6px;
     }
 }
 

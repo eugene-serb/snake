@@ -423,16 +423,20 @@ class Bomb extends Subject {
 class Game {
 
     constructor() {
-        this._controls();
+        this._init();
+    };
+
+    _init = () => {
+        this.configurations = new Configurations();
+        this.support = new Support();
+
+        this._keyboard();
         this._gamepads();
 
         this._start();
     };
 
     _start = () => {
-        this.configurations = new Configurations();
-        this.support = new Support();
-
         this.map = new Map(this.configurations.MAP_WRAPPER, this.configurations.MAP_WIDTH, this.configurations.MAP_HEIGHT);
         this.score = new Score(this.configurations.SCORE_WRAPPER);
         this.timer = new Timer(this.configurations.TIMER_WRAPPER);
@@ -611,7 +615,7 @@ class Game {
         };
     };
 
-    _controls = () => {
+    _keyboard = () => {
         window.addEventListener('keydown', (e) => {
             if (this.snake.canRotate === true) {
                 if ((e.code === 'ArrowLeft' || e.code === "KeyA") && this.snake.direction !== 'Right') {
