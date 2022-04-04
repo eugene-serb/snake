@@ -4,22 +4,11 @@
 
 'use strict'
 
-/* ------- */
-/* SUPPORT */
-/* ------- */
-
 class Support {
-
-    constructor() { };
-
     getRandomInteger = (min, max) => {
         return Math.floor(Math.random() * (max - min) + min);
     };
 };
-
-/* -------------- */
-/* CONFIGURATIONS */
-/* -------------- */
 
 class Configurations {
 
@@ -36,16 +25,10 @@ class Configurations {
     };
 };
 
-/* ----- */
-/* SCORE */
-/* ----- */
-
 class Score {
 
-    constructor() {
-        this.configurations = new Configurations();
-
-        this.scoreWrapper = this.configurations.SCORE_WRAPPER;
+    constructor(wrapper) {
+        this.scoreWrapper = wrapper;
         this.balance = 0;
 
         this.draw();
@@ -61,16 +44,10 @@ class Score {
     };
 };
 
-/* ----- */
-/* TIMER */
-/* ----- */
-
 class Timer {
 
-    constructor() {
-        this.configurations = new Configurations();
-
-        this.timerWrapper = this.configurations.TIMER_WRAPPER;
+    constructor(wrapper) {
+        this.timerWrapper = wrapper;
         this.time = '00:00';
 
         this.timeStart = Date.now();
@@ -103,17 +80,13 @@ class Timer {
     };
 };
 
-/* ------ */
-/* DIALOG */
-/* ------ */
-
 class Dialog {
 
-    constructor() {
-        this.configurations = new Configurations();
+    constructor(wrapper, winScore) {
         this.support = new Support();
 
-        this.dialogWrapper = this.configurations.DIALOG_WRAPPER;
+        this.dialogWrapper = wrapper;
+        this.winScore = winScore;
 
         this.splashes = ['Eat all', 'Big snake', 'Just out of the oven', 'We are in the matrix!', 'Open-world alpha sandbox!',
             'Apples or mice?', 'Hurry up!', 'What does this food allow itself?', 'Beware the tail', 'Hmmmrmm.', 'Is it poisonous?',
@@ -128,7 +101,7 @@ class Dialog {
     };
 
     end = (score) => {
-        if (score >= this.configurations.WIN_SCORE) {
+        if (score >= this.winScore) {
             this.dialogWrapper.innerText = `Game Over! You won!`;
         } else {
             this.dialogWrapper.innerText = `Game Over! You lose!`;
@@ -136,18 +109,12 @@ class Dialog {
     };
 };
 
-/* --- */
-/* MAP */
-/* --- */
-
 class Map {
 
-    constructor() {
-        this.configurations = new Configurations();
-
-        this.container = this.configurations.MAP_WRAPPER;
-        this.width = this.configurations.MAP_WIDTH;
-        this.height = this.configurations.MAP_HEIGHT;
+    constructor(wrapper, width, height) {
+        this.container = wrapper;
+        this.width = width;
+        this.height = height;
 
         this.draw();
     };
@@ -456,22 +423,26 @@ class Bomb extends Subject {
 class Game {
 
     constructor() {
+        this._init();
+    };
+
+    _init = () => {
         this.configurations = new Configurations();
         this.support = new Support();
 
-        this._controls();
+        this._keyboard();
         this._gamepads();
+        this._touches();
 
         this._start();
     };
 
     _start = () => {
-        this.map = new Map();
-        this.score = new Score();
-        this.timer = new Timer();
-        this.dialog = new Dialog();
+        this.map = new Map(this.configurations.MAP_WRAPPER, this.configurations.MAP_WIDTH, this.configurations.MAP_HEIGHT);
+        this.score = new Score(this.configurations.SCORE_WRAPPER);
+        this.timer = new Timer(this.configurations.TIMER_WRAPPER);
+        this.dialog = new Dialog(this.configurations.DIALOG_WRAPPER, this.configurations.WIN_SCORE);
         this.snake = new Snake();
-
 
         this.factories = [new BorderFactory, new AppleFactory, new MouseFactory, new HolyWaterFactory, new CrapFactory, new BombFactory];
         this.things = [];
@@ -484,7 +455,6 @@ class Game {
         for (let i = 0; i < 2; i++) {
             this.things.push(this.factories[1].createThing());
         };
-
 
         this.interval = setInterval(this._gameloop, this.configurations.SPEED_GAME);
     };
@@ -646,7 +616,7 @@ class Game {
         };
     };
 
-    _controls = () => {
+    _keyboard = () => {
         window.addEventListener('keydown', (e) => {
             if (this.snake.canRotate === true) {
                 if ((e.code === 'ArrowLeft' || e.code === "KeyA") && this.snake.direction !== 'Right') {
@@ -778,6 +748,54 @@ class Game {
 
         let keyPressInterval = 0;
         addGamepad();
+    };
+
+    _touches = () => {
+        let startX = 0;
+        let startY = 0;
+        let endX = 0;
+        let endY = 0;
+
+        this.configurations.MAP_WRAPPER.addEventListener('touchstart', (event) => {
+            startX = event.touches[0].pageX;
+            startY = event.touches[0].pageY;
+        });
+
+        this.configurations.MAP_WRAPPER.addEventListener('touchend', (event) => {
+            endX = event.changedTouches[0].pageX;
+            endY = event.changedTouches[0].pageY;
+
+            let x = endX - startX;
+            let y = endY - startY;
+
+            let absX = Math.abs(x) > Math.abs(y);
+            let absY = Math.abs(y) > Math.abs(x);
+
+            if (this.snake.canRotate === true) {
+                if (x > 0 && absX && this.snake.direction !== 'Left') {
+                    this.snake.dx = 1;
+                    this.snake.dy = 0;
+                    this.snake.direction = 'Right';
+                    this.snake.canRotate = false;
+                } else if (x < 0 && absX && this.snake.direction !== 'Right') {
+                    this.snake.dx = -1;
+                    this.snake.dy = 0;
+                    this.snake.direction = 'Left';
+                    this.snake.canRotate = false;
+                } else if (y > 0 && absY && this.snake.direction !== 'Up') {
+                    this.snake.dx = 0;
+                    this.snake.dy = -1;
+                    this.snake.direction = 'Down';
+                    this.snake.canRotate = false;
+                } else if (y < 0 && absY && this.snake.direction !== 'Down') {
+                    this.snake.dx = 0;
+                    this.snake.dy = 1;
+                    this.snake.direction = 'Up';
+                    this.snake.canRotate = false;
+                };
+            };
+
+        });
     };
 };
 
