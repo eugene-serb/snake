@@ -5,63 +5,44 @@
 'use strict'
 
 class Support {
-    getRandomInteger = (min, max) => {
-        return Math.floor(Math.random() * (max - min) + min);
-    };
-};
-
-class Configurations {
-
     constructor() {
-        this.MAP_WIDTH = 15;
-        this.MAP_HEIGHT = 15;
-        this.WIN_SCORE = 100;
-        this.SPEED_GAME = 200;
-        
-        this.MAP_WRAPPER = document.querySelector('.snake-game__map-wrapper');
-        this.SCORE_WRAPPER = document.querySelector('.snake-game__score');
-        this.TIMER_WRAPPER = document.querySelector('.snake-game__timer');
-        this.DIALOG_WRAPPER = document.querySelector('.snake-game__dialog');
+        this.getRandomInteger = (min, max) => {
+            return Math.floor(Math.random() * (max - min) + min);
+        };
     };
 };
 
 class Score {
-
-    constructor(wrapper) {
-        this.scoreWrapper = wrapper;
+    constructor(container) {
+        this.$container = container;
         this.balance = 0;
-
-        this.draw();
     };
 
     increase = (n) => {
         this.balance += n;
         this.draw();
     };
-
     draw = () => {
-        this.scoreWrapper.innerText = `Your Score: ${this.balance}`;
+        this.$container.innerText = `Your Score: ${this.balance}`;
     };
 };
 
 class Timer {
+    constructor(container) {
+        this.$container = container;
 
-    constructor(wrapper) {
-        this.timerWrapper = wrapper;
-        this.time = '00:00';
-
+        this.time = '00:00'
         this.timeStart = Date.now();
         this.timeNow = this.timeStart;
 
-        this.draw();
+        this.draw()
     };
 
-    draw() {
-        this._calculate();
-        this.timerWrapper.innerText = `Round Time: ${this.time}`;
+    draw = () => {
+        this.#calculate();
+        this.$container.innerText = `Round Time: ${this.time}`;
     };
-
-    _calculate() {
+    #calculate = () => {
         this.timeNow = Date.now();
         let delta = this.timeNow - this.timeStart;
 
@@ -81,12 +62,11 @@ class Timer {
 };
 
 class Dialog {
-
-    constructor(wrapper, winScore) {
-        this.support = new Support();
-
-        this.dialogWrapper = wrapper;
+    constructor(container, winScore) {
+        this.$container = container;
         this.winScore = winScore;
+
+        this.support = new Support();
 
         this.splashes = ['Eat all', 'Big snake', 'Just out of the oven', 'We are in the matrix!', 'Open-world alpha sandbox!',
             'Apples or mice?', 'Hurry up!', 'What does this food allow itself?', 'Beware the tail', 'Hmmmrmm.', 'Is it poisonous?',
@@ -97,22 +77,20 @@ class Dialog {
 
     draw = () => {
         let randomInteger = this.support.getRandomInteger(0, this.splashes.length);
-        this.dialogWrapper.innerText = this.splashes[randomInteger];
+        this.$container.innerText = this.splashes[randomInteger];
     };
-
     end = (score) => {
         if (score >= this.winScore) {
-            this.dialogWrapper.innerText = `Game Over! You won!`;
+            this.$container.innerText = `Game Over! You won!`;
         } else {
-            this.dialogWrapper.innerText = `Game Over! You lose!`;
+            this.$container.innerText = `Game Over! You lose!`;
         };
     };
 };
 
 class Map {
-
-    constructor(wrapper, width, height) {
-        this.container = wrapper;
+    constructor(container, width, height) {
+        this.$container = container;
         this.width = width;
         this.height = height;
 
@@ -120,32 +98,29 @@ class Map {
     };
 
     draw = () => {
-        this.container.innerHTML = '';
+        this.$container.innerHTML = '';
 
-        let map = document.createElement('div');
-        map.classList.add('map');
-        this.container.appendChild(map);
+        let $map = document.createElement('div');
+        $map.classList.add('map');
+        this.$container.appendChild($map);
 
         for (let y = this.height; y >= 1; y--) {
             for (let x = 1; x <= this.width; x++) {
-                let cell = document.createElement('div');
-                cell.classList.add('cell');
-                cell.setAttribute('x', x);
-                cell.setAttribute('y', y);
-                map.appendChild(cell);
+                let $cell = document.createElement('div');
+                $cell.classList.add('cell');
+                $cell.setAttribute('x', x);
+                $cell.setAttribute('y', y);
+                $map.appendChild($cell);
             };
         };
     };
 };
 
-/* ----- */
-/* SNAKE */
-/* ----- */
-
 class Snake {
+    constructor(map_width, map_height) {
+        this.map_width = map_width;
+        this.map_height = map_height;
 
-    constructor() {
-        this.configurations = new Configurations();
         this.support = new Support();
 
         this.x = 0;
@@ -160,7 +135,7 @@ class Snake {
         this.tails = [];
         this.maxTails = 3;
 
-        this._generate();
+        this.#generate();
         this.draw();
     };
 
@@ -168,7 +143,7 @@ class Snake {
         this.x += this.dx;
         this.y += this.dy;
 
-        this._collisionBorder();
+        this.#collisionBorder();
 
         this.tails.unshift({ x: this.x, y: this.y });
 
@@ -178,7 +153,6 @@ class Snake {
 
         this.canRotate = true;
     };
-
     draw = () => {
         this.tails.forEach((item, index) => {
             if (index === 0) {
@@ -189,21 +163,20 @@ class Snake {
         });
     };
 
-    _collisionBorder = () => {
-        if (this.x > this.configurations.MAP_WIDTH) {
+    #collisionBorder = () => {
+        if (this.x > this.map_width) {
             this.x = 1;
         } else if (this.x < 1) {
-            this.x = this.configurations.MAP_WIDTH;
+            this.x = this.map_width;
         };
 
-        if (this.y > this.configurations.MAP_HEIGHT) {
+        if (this.y > this.map_height) {
             this.y = 1;
         } else if (this.y < 1) {
-            this.y = this.configurations.MAP_HEIGHT;
+            this.y = this.map_height;
         };
     };
-
-    _generate = () => {
+    #generate = () => {
         let randomDirection = this.support.getRandomInteger(1, 5);
         let xMin = 0, xMax = 0, yMin = 0, yMax = 0;
 
@@ -212,29 +185,29 @@ class Snake {
                 this.dx = 0;
                 this.dy = 1;
                 this.direction = 'Up';
-                xMin = 1; xMax = this.configurations.MAP_WIDTH;
-                yMin = 3; yMax = this.configurations.MAP_HEIGHT;
+                xMin = 1; xMax = this.map_width;
+                yMin = 3; yMax = this.map_height;
                 break;
             case 2:
                 this.dx = 1;
                 this.dy = 0;
                 this.direction = 'Right';
-                xMin = 3; xMax = this.configurations.MAP_WIDTH;
-                yMin = 1; yMax = this.configurations.MAP_HEIGHT;
+                xMin = 3; xMax = this.map_width;
+                yMin = 1; yMax = this.map_height;
                 break;
             case 3:
                 this.dx = 0;
                 this.dy = -1;
                 this.direction = 'Down';
-                xMin = 1; xMax = this.configurations.MAP_WIDTH;
-                yMin = 1; yMax = this.configurations.MAP_HEIGHT - 2;
+                xMin = 1; xMax = this.map_width;
+                yMin = 1; yMax = this.map_height - 2;
                 break;
             default:
                 this.dx = -1;
                 this.dy = 0;
                 this.direction = 'Left';
-                xMin = 1; xMax = this.configurations.MAP_WIDTH - 2;
-                yMin = 1; yMax = this.configurations.MAP_HEIGHT;
+                xMin = 1; xMax = this.map_width - 2;
+                yMin = 1; yMax = this.map_height;
                 break;
         };
 
@@ -254,42 +227,68 @@ class Snake {
 /* ---------------- */
 
 class ThingsFactory {
-    createThing = () => { };
+    constructor() {
+        this.createThing = () => { };
+    };
 };
 
 class BorderFactory extends ThingsFactory {
-    createThing = () => {
-        return new Border();
+    constructor() {
+        super();
+
+        this.createThing = () => {
+            return new Border();
+        };
     };
 };
 
 class AppleFactory extends ThingsFactory {
-    createThing = () => {
-        return new Apple();
+    constructor() {
+        super();
+
+        this.createThing = () => {
+            return new Apple();
+        };
     };
 };
 
 class MouseFactory extends ThingsFactory {
-    createThing = () => {
-        return new Mouse();
+    constructor() {
+        super();
+
+        this.createThing = () => {
+            return new Mouse();
+        };
     };
 };
 
 class HolyWaterFactory extends ThingsFactory {
-    createThing = () => {
-        return new HolyWater();
+    constructor() {
+        super();
+
+        this.createThing = () => {
+            return new HolyWater();
+        };
     };
 };
 
 class CrapFactory extends ThingsFactory {
-    createThing = () => {
-        return new Crap();
+    constructor() {
+        super();
+
+        this.createThing = () => {
+            return new Crap();
+        };
     };
 };
 
 class BombFactory extends ThingsFactory {
-    createThing = () => {
-        return new Bomb();
+    constructor() {
+        super();
+
+        this.createThing = () => {
+            return new Bomb();
+        };
     };
 };
 
@@ -298,7 +297,6 @@ class BombFactory extends ThingsFactory {
 /* ------ */
 
 class Subject {
-
     constructor() {
         this.support = new Support();
 
@@ -314,7 +312,6 @@ class Subject {
     update = () => {
         this.rottingStage++;
     };
-
     generate = () => {
         let allCells = document.querySelectorAll('.cell');
         let emptyCell = [];
@@ -330,14 +327,12 @@ class Subject {
         this.x = +emptyCell[randomInteger].getAttribute('x');
         this.y = +emptyCell[randomInteger].getAttribute('y');
     };
-
     draw = () => {
         document.querySelector(`[x = "${this.x}"][y = "${this.y}"]`).classList.add('thing', this.className);
     };
 };
 
 class Border extends Subject {
-
     constructor() {
         super();
 
@@ -352,7 +347,6 @@ class Border extends Subject {
 };
 
 class Apple extends Subject {
-
     constructor() {
         super();
 
@@ -365,7 +359,6 @@ class Apple extends Subject {
 };
 
 class Mouse extends Subject {
-
     constructor() {
         super();
 
@@ -378,7 +371,6 @@ class Mouse extends Subject {
 };
 
 class HolyWater extends Subject {
-
     constructor() {
         super();
 
@@ -391,7 +383,6 @@ class HolyWater extends Subject {
 };
 
 class Crap extends Subject {
-
     constructor() {
         super();
 
@@ -404,7 +395,6 @@ class Crap extends Subject {
 };
 
 class Bomb extends Subject {
-
     constructor() {
         super();
 
@@ -421,28 +411,22 @@ class Bomb extends Subject {
 /* ---- */
 
 class Game {
-
     constructor() {
-        this._init();
-    };
+        this.#configurations();
+        this.#DOMs();
+        this.#eventListeners();
 
-    _init = () => {
-        this.configurations = new Configurations();
         this.support = new Support();
 
-        this._keyboard();
-        this._gamepads();
-        this._touches();
-
-        this._start();
+        this.#start();
     };
 
-    _start = () => {
-        this.map = new Map(this.configurations.MAP_WRAPPER, this.configurations.MAP_WIDTH, this.configurations.MAP_HEIGHT);
-        this.score = new Score(this.configurations.SCORE_WRAPPER);
-        this.timer = new Timer(this.configurations.TIMER_WRAPPER);
-        this.dialog = new Dialog(this.configurations.DIALOG_WRAPPER, this.configurations.WIN_SCORE);
-        this.snake = new Snake();
+    #start = () => {
+        this.map = new Map(this.$MAP_WRAPPER, this.MAP_WIDTH, this.MAP_HEIGHT);
+        this.score = new Score(this.$SCORE_WRAPPER);
+        this.timer = new Timer(this.$TIMER_WRAPPER);
+        this.dialog = new Dialog(this.$DIALOG_WRAPPER, this.WIN_SCORE);
+        this.snake = new Snake(this.MAP_WIDTH, this.MAP_HEIGHT);
 
         this.factories = [new BorderFactory, new AppleFactory, new MouseFactory, new HolyWaterFactory, new CrapFactory, new BombFactory];
         this.things = [];
@@ -451,29 +435,25 @@ class Game {
         for (let i = 0; i < 5; i++) {
             this.borders.push(this.factories[0].createThing());
         };
-
         for (let i = 0; i < 2; i++) {
             this.things.push(this.factories[1].createThing());
         };
 
-        this.interval = setInterval(this._gameloop, this.configurations.SPEED_GAME);
+        this.interval = setInterval(this.#eventLoop, this.SPEED_RATE);
     };
-
-    _gameloop = () => {
-        this._update();
-        this._draw();
-        this._eventHandler();
+    #eventLoop = () => {
+        this.#update();
+        this.#draw();
+        this.#eventHandler();
     };
-
-    _update = () => {
+    #update = () => {
         this.snake.update();
 
         this.things.forEach((item) => {
             item.update();
         });
     };
-
-    _draw = () => {
+    #draw = () => {
         this.map.draw();
         this.score.draw();
         this.timer.draw();
@@ -482,14 +462,11 @@ class Game {
         this.things.forEach((item) => {
             item.draw();
         });
-
         this.borders.forEach((item) => {
             item.draw();
         });
     };
-
-    _eventHandler = () => {
-
+    #eventHandler = () => {
         if (this.score.balance >= 3) {
             this.snake.canGrow = true;
         } else {
@@ -532,7 +509,6 @@ class Game {
                 };
 
                 if (document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('holywater')) {
-                    console.log(this.snake.maxTails);
 
                     if (this.snake.maxTails >= 5) {
                         this.snake.maxTails -= 2;
@@ -608,7 +584,7 @@ class Game {
 
         if (document.querySelector('.snakeHead').classList.contains('snakeTail') ||
             document.querySelector('.snakeHead').classList.contains('border') ||
-            this.score.balance >= this.configurations.WIN_SCORE) {
+            this.score.balance >= this.WIN_SCORE) {
 
             this.snake.isAlive = false;
             this.dialog.end(this.score.balance);
@@ -616,7 +592,7 @@ class Game {
         };
     };
 
-    _keyboard = () => {
+    #keyboard = () => {
         window.addEventListener('keydown', (e) => {
             if (this.snake.canRotate === true) {
                 if ((e.code === 'ArrowLeft' || e.code === "KeyA") && this.snake.direction !== 'Right') {
@@ -644,13 +620,13 @@ class Game {
 
             if (e.code === 'KeyR') {
                 clearInterval(this.interval);
-                this._start();
+                this.#start();
             };
 
             if (this.snake.isAlive === true) {
                 if (e.code === 'KeyP') {
                     if (this.snake.isPaused === true) {
-                        this.interval = setInterval(this._gameloop, this.configurations.SPEED_GAME);
+                        this.interval = setInterval(this.#eventLoop, this.SPEED_RATE);
                         this.snake.isPaused = false;
                     } else {
                         clearInterval(this.interval);
@@ -660,9 +636,38 @@ class Game {
             };
         });
     };
+    #gamepads = () => {
+        const checkGamepadSupport = () => {
+            return 'getGamepads' in window.navigator;
+        };
+        const addGamepad = () => {
+            if (!checkGamepadSupport()) {
+                return;
+            };
 
-    _gamepads = () => {
+            window.addEventListener('gamepadconnected', (e) => {
+                const update = () => {
+                    keyPressInterval += 10;
+                    let gamepads = navigator.getGamepads();
+                    let isPressed = false;
+                    let button;
 
+                    gamepads[0].buttons.forEach((item, index) => {
+                        if (item.value === 1) {
+                            button = index;
+                            isPressed = true;
+                        };
+                    });
+
+                    if (!isPressed) {
+                        return;
+                    } else {
+                        gamepadHandler(button);
+                    };
+                };
+                setInterval(update, 10);
+            });
+        };
         const gamepadHandler = (button) => {
             if (this.snake.canRotate === true) {
                 if (button === 12 && this.snake.direction !== 'Down') {
@@ -692,7 +697,7 @@ class Game {
                 if (this.snake.isAlive === true) {
                     if (button === 2) {
                         if (this.snake.isPaused === true) {
-                            this.interval = setInterval(this._gameloop, this.configurations.SPEED_GAME);
+                            this.interval = setInterval(this.#eventLoop, this.SPEED_RATE);
                             this.snake.isPaused = false;
                             keyPressInterval = 0;
                         } else {
@@ -705,63 +710,27 @@ class Game {
 
                 if (button === 3) {
                     clearInterval(this.interval);
-                    this._start();
+                    this.#start();
                     keyPressInterval = 0;
                 };
             };
         };
 
-        const checkGamepadSupport = () => {
-            return 'getGamepads' in window.navigator
-        };
-
-        const addGamepad = () => {
-            if (!checkGamepadSupport()) {
-                return;
-            };
-
-            window.addEventListener('gamepadconnected', (e) => {
-
-                const update = () => {
-                    keyPressInterval += 10;
-                    let gamepads = navigator.getGamepads();
-                    let isPressed = false;
-                    let button;
-
-                    gamepads[0].buttons.forEach((item, index) => {
-                        if (item.value === 1) {
-                            button = index;
-                            isPressed = true;
-                        };
-                    });
-
-                    if (!isPressed) {
-                        return;
-                    } else {
-                        gamepadHandler(button);
-                    };
-                };
-
-                setInterval(update, 10);
-            });
-        };
-
         let keyPressInterval = 0;
         addGamepad();
     };
-
-    _touches = () => {
+    #touches = () => {
         let startX = 0;
         let startY = 0;
         let endX = 0;
         let endY = 0;
 
-        this.configurations.MAP_WRAPPER.addEventListener('touchstart', (event) => {
+        this.$MAP_WRAPPER.addEventListener('touchstart', (event) => {
             startX = event.touches[0].pageX;
             startY = event.touches[0].pageY;
         });
 
-        this.configurations.MAP_WRAPPER.addEventListener('touchend', (event) => {
+        this.$MAP_WRAPPER.addEventListener('touchend', (event) => {
             endX = event.changedTouches[0].pageX;
             endY = event.changedTouches[0].pageY;
 
@@ -796,6 +765,24 @@ class Game {
             };
 
         });
+    };
+
+    #configurations = () => {
+        this.MAP_WIDTH = 15;
+        this.MAP_HEIGHT = 15;
+        this.WIN_SCORE = 100;
+        this.SPEED_RATE = 200;
+    };
+    #DOMs = () => {
+        this.$MAP_WRAPPER = document.querySelector('.snake-game__map-wrapper');
+        this.$SCORE_WRAPPER = document.querySelector('.snake-game__score');
+        this.$TIMER_WRAPPER = document.querySelector('.snake-game__timer');
+        this.$DIALOG_WRAPPER = document.querySelector('.snake-game__dialog');
+    };
+    #eventListeners = () => {
+        this.#keyboard();
+        this.#gamepads();
+        this.#touches();
     };
 };
 
