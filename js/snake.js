@@ -2,7 +2,7 @@
 /* SNAKE GAME */
 /* ---------- */
 
-'use strict'
+'use strict';
 
 class Support {
     constructor() {
