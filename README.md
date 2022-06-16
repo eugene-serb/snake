@@ -1,5 +1,5 @@
 # Snake Game
-This is a simple browser snake-game. Let's have fun!
+This is a simple browser snake-game. Let's have fun! **[[rep](https://github.com/eugene-serb/snake-game/), [site](https://eugene-serb.github.io/snake-game/)]**
 
 This is a simple browser snake-game in JavaScript, HTML and CSS, BEM and OOP, and no canvas, no libraries or frameworks. Keyboard, gamepad and touchscreen are supported. Contains dark and light themes.
 
