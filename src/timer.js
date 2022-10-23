@@ -9,12 +9,13 @@ export class Timer {
     this.timeNow = this.timeStart;
 
     this.draw()
-  };
+  }
 
   draw = () => {
     this.#calculate();
     this.$container.innerText = `Round Time: ${this.time}`;
   };
+
   #calculate = () => {
     this.timeNow = Date.now();
     let delta = this.timeNow - this.timeStart;
@@ -25,13 +26,13 @@ export class Timer {
     if (seconds >= 60) {
       minutes = Math.floor(seconds / 60);
       seconds = seconds - (minutes * 60);
-    };
+    }
 
     minutes = (minutes < 10) ? `0${minutes}` : `${minutes}`;
     seconds = (seconds < 10) ? `0${seconds}` : `${seconds}`;
 
     this.time = `${minutes}:${seconds}`;
   };
-};
+}
 
 export default Timer;

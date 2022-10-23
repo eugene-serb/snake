@@ -23,7 +23,7 @@ export class Snake {
 
     this.#generate();
     this.draw();
-  };
+  }
 
   update = () => {
     this.x += this.dx;
@@ -35,17 +35,18 @@ export class Snake {
 
     if (this.tails.length > this.maxTails) {
       this.tails.pop();
-    };
+    }
 
     this.canRotate = true;
   };
+
   draw = () => {
     this.tails.forEach((item, index) => {
       if (index === 0) {
         document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.add('snakeHead');
       } else {
         document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.add('snakeTail');
-      };
+      }
     });
   };
 
@@ -54,14 +55,15 @@ export class Snake {
       this.x = 1;
     } else if (this.x < 1) {
       this.x = this.map_width;
-    };
+    }
 
     if (this.y > this.map_height) {
       this.y = 1;
     } else if (this.y < 1) {
       this.y = this.map_height;
-    };
+    }
   };
+
   #generate = () => {
     let randomDirection = this.support.getRandomInteger(1, 5);
     let xMin = 0, xMax = 0, yMin = 0, yMax = 0;
@@ -95,7 +97,7 @@ export class Snake {
         xMin = 1; xMax = this.map_width - 2;
         yMin = 1; yMax = this.map_height;
         break;
-    };
+    }
 
     this.x = this.support.getRandomInteger(xMin, xMax);
     this.y = this.support.getRandomInteger(yMin, yMax);
@@ -106,6 +108,6 @@ export class Snake {
       { x: this.x - (this.dx + this.dx), y: this.y - (this.dy + this.dy) }
     ];
   };
-};
+}
 
 export default Snake;

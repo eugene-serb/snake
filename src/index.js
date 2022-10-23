@@ -20,7 +20,7 @@ class Game {
     this.support = new Support();
 
     this.#start();
-  };
+  }
 
   #start = () => {
     this.map = new Map(this.$MAP_WRAPPER, this.MAP_WIDTH, this.MAP_HEIGHT);
@@ -35,18 +35,21 @@ class Game {
 
     for (let i = 0; i < 5; i++) {
       this.borders.push(this.factories[0].createThing());
-    };
+    }
+
     for (let i = 0; i < 2; i++) {
       this.things.push(this.factories[1].createThing());
-    };
+    }
 
     this.interval = setInterval(this.#eventLoop, this.SPEED_RATE);
   };
+
   #eventLoop = () => {
     this.#update();
     this.#draw();
     this.#eventHandler();
   };
+
   #update = () => {
     this.snake.update();
 
@@ -54,6 +57,7 @@ class Game {
       item.update();
     });
   };
+
   #draw = () => {
     this.map.draw();
     this.score.draw();
@@ -63,10 +67,12 @@ class Game {
     this.things.forEach((item) => {
       item.draw();
     });
+
     this.borders.forEach((item) => {
       item.draw();
     });
   };
+
   #eventHandler = () => {
     if (this.score.balance >= 3) {
       this.snake.canGrow = true;
@@ -77,7 +83,7 @@ class Game {
     this.things.forEach((item, index) => {
       if (item.rottingStage > item.maxRottingStage) {
         this.things.splice(index, 1);
-      };
+      }
 
       if (this.snake.x === item.x && this.snake.y === item.y) {
 
@@ -93,7 +99,7 @@ class Game {
           });
 
           this.things.splice(index, 1);
-        };
+        }
 
         if (document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('mouse')) {
           if (this.snake.canGrow) this.snake.maxTails++;
@@ -107,7 +113,7 @@ class Game {
           });
 
           this.things.splice(index, 1);
-        };
+        }
 
         if (document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('holywater')) {
 
@@ -115,7 +121,7 @@ class Game {
             this.snake.maxTails -= 2;
             this.snake.tails.pop();
             this.snake.tails.pop();
-          };
+          }
 
           this.map.draw();
           this.snake.draw();
@@ -125,7 +131,7 @@ class Game {
           });
 
           this.things.splice(index, 1);
-        };
+        }
 
         if (document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('crap')) {
 
@@ -133,7 +139,7 @@ class Game {
             this.snake.maxTails -= 2;
             this.snake.tails.pop();
             this.snake.tails.pop();
-          };
+          }
 
           this.score.increase(-10);
 
@@ -148,16 +154,16 @@ class Game {
             this.snake.isAlive = false;
             this.dialog.end(this.score.balance);
             clearInterval(this.interval);
-          };
-        };
+          }
+        }
 
         if (document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('bomb')) {
           this.snake.isAlive = false;
           this.dialog.end(this.score.balance);
           clearInterval(this.interval);
-        };
+        }
 
-      };
+      }
     });
 
     if (this.things.length < 2) {
@@ -174,14 +180,14 @@ class Game {
         randomChoose = 4;
       } else if (randomInteger > 95) {
         randomChoose = 5;
-      };
+      }
 
       this.things.push(this.factories[randomChoose].createThing());
 
       this.things.forEach((item) => {
         item.draw();
       });
-    };
+    }
 
     if (document.querySelector('.snakeHead').classList.contains('snakeTail') ||
       document.querySelector('.snakeHead').classList.contains('border') ||
@@ -190,7 +196,7 @@ class Game {
       this.snake.isAlive = false;
       this.dialog.end(this.score.balance);
       clearInterval(this.interval);
-    };
+    }
   };
 
   #keyboard = () => {
@@ -216,13 +222,13 @@ class Game {
           this.snake.dy = -1;
           this.snake.direction = 'Down';
           this.snake.canRotate = false;
-        };
-      };
+        }
+      }
 
       if (e.code === 'KeyR') {
         clearInterval(this.interval);
         this.#start();
-      };
+      }
 
       if (this.snake.isAlive === true) {
         if (e.code === 'KeyP') {
@@ -232,21 +238,23 @@ class Game {
           } else {
             clearInterval(this.interval);
             this.snake.isPaused = true;
-          };
-        };
-      };
+          }
+        }
+      }
     });
   };
+
   #gamepads = () => {
     const checkGamepadSupport = () => {
       return 'getGamepads' in window.navigator;
     };
+
     const addGamepad = () => {
       if (!checkGamepadSupport()) {
         return;
-      };
+      }
 
-      window.addEventListener('gamepadconnected', (e) => {
+      window.addEventListener('gamepadconnected', () => {
         const update = () => {
           keyPressInterval += 10;
           let gamepads = navigator.getGamepads();
@@ -257,18 +265,19 @@ class Game {
             if (item.value === 1) {
               button = index;
               isPressed = true;
-            };
+            }
           });
 
           if (!isPressed) {
             return;
           } else {
             gamepadHandler(button);
-          };
+          }
         };
         setInterval(update, 10);
       });
     };
+
     const gamepadHandler = (button) => {
       if (this.snake.canRotate === true) {
         if (button === 12 && this.snake.direction !== 'Down') {
@@ -291,8 +300,8 @@ class Game {
           this.snake.dy = 0;
           this.snake.direction = 'Right';
           this.snake.canRotate = false;
-        };
-      };
+        }
+      }
 
       if (keyPressInterval >= 500) {
         if (this.snake.isAlive === true) {
@@ -305,21 +314,22 @@ class Game {
               clearInterval(this.interval);
               this.snake.isPaused = true;
               keyPressInterval = 0;
-            };
-          };
-        };
+            }
+          }
+        }
 
         if (button === 3) {
           clearInterval(this.interval);
           this.#start();
           keyPressInterval = 0;
-        };
-      };
+        }
+      }
     };
 
     let keyPressInterval = 0;
     addGamepad();
   };
+
   #touches = () => {
     let startX = 0;
     let startY = 0;
@@ -362,8 +372,8 @@ class Game {
           this.snake.dy = 1;
           this.snake.direction = 'Up';
           this.snake.canRotate = false;
-        };
-      };
+        }
+      }
 
     });
   };
@@ -374,17 +384,19 @@ class Game {
     this.WIN_SCORE = 100;
     this.SPEED_RATE = 200;
   };
+
   #DOMs = () => {
     this.$MAP_WRAPPER = document.querySelector('.snake-game__map-wrapper');
     this.$SCORE_WRAPPER = document.querySelector('.snake-game__score');
     this.$TIMER_WRAPPER = document.querySelector('.snake-game__timer');
     this.$DIALOG_WRAPPER = document.querySelector('.snake-game__dialog');
   };
+
   #eventListeners = () => {
     this.#keyboard();
     this.#gamepads();
     this.#touches();
   };
-};
+}
 
-const GAME = new Game();
+new Game();

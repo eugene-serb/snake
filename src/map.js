@@ -7,7 +7,7 @@ export class Map {
     this.height = height;
 
     this.draw();
-  };
+  }
 
   draw = () => {
     this.$container.innerHTML = '';
@@ -23,9 +23,9 @@ export class Map {
         $cell.setAttribute('x', x);
         $cell.setAttribute('y', y);
         $map.appendChild($cell);
-      };
-    };
+      }
+    }
   };
-};
+}
 
 export default Map;

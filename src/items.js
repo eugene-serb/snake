@@ -5,8 +5,8 @@ import Support from '@/support.js';
 export class ThingsFactory {
   constructor() {
     this.createThing = () => { };
-  };
-};
+  }
+}
 
 export class BorderFactory extends ThingsFactory {
   constructor() {
@@ -15,8 +15,8 @@ export class BorderFactory extends ThingsFactory {
     this.createThing = () => {
       return new Border();
     };
-  };
-};
+  }
+}
 
 export class AppleFactory extends ThingsFactory {
   constructor() {
@@ -25,8 +25,8 @@ export class AppleFactory extends ThingsFactory {
     this.createThing = () => {
       return new Apple();
     };
-  };
-};
+  }
+}
 
 export class MouseFactory extends ThingsFactory {
   constructor() {
@@ -35,8 +35,8 @@ export class MouseFactory extends ThingsFactory {
     this.createThing = () => {
       return new Mouse();
     };
-  };
-};
+  }
+}
 
 export class HolyWaterFactory extends ThingsFactory {
   constructor() {
@@ -45,8 +45,8 @@ export class HolyWaterFactory extends ThingsFactory {
     this.createThing = () => {
       return new HolyWater();
     };
-  };
-};
+  }
+}
 
 export class CrapFactory extends ThingsFactory {
   constructor() {
@@ -55,8 +55,8 @@ export class CrapFactory extends ThingsFactory {
     this.createThing = () => {
       return new Crap();
     };
-  };
-};
+  }
+}
 
 export class BombFactory extends ThingsFactory {
   constructor() {
@@ -65,8 +65,8 @@ export class BombFactory extends ThingsFactory {
     this.createThing = () => {
       return new Bomb();
     };
-  };
-};
+  }
+}
 
 export class Subject {
   constructor() {
@@ -79,11 +79,12 @@ export class Subject {
     this.maxRottingStage = 0;
 
     this.className = '';
-  };
+  }
 
   update = () => {
     this.rottingStage++;
   };
+
   generate = () => {
     let allCells = document.querySelectorAll('.cell');
     let emptyCell = [];
@@ -91,7 +92,7 @@ export class Subject {
     allCells.forEach((item) => {
       if (!item.classList.contains('snakeTail') && !item.classList.contains('snakeHead') && !item.classList.contains('thing')) {
         emptyCell.push(item);
-      };
+      }
     });
 
     let randomInteger = this.support.getRandomInteger(1, emptyCell.length);
@@ -99,10 +100,11 @@ export class Subject {
     this.x = +emptyCell[randomInteger].getAttribute('x');
     this.y = +emptyCell[randomInteger].getAttribute('y');
   };
+
   draw = () => {
     document.querySelector(`[x = "${this.x}"][y = "${this.y}"]`).classList.add('thing', this.className);
   };
-};
+}
 
 export class Border extends Subject {
   constructor() {
@@ -113,10 +115,10 @@ export class Border extends Subject {
 
     this.generate();
     this.draw();
-  };
+  }
 
   update = () => { };
-};
+}
 
 export class Apple extends Subject {
   constructor() {
@@ -127,8 +129,8 @@ export class Apple extends Subject {
 
     this.generate();
     this.draw();
-  };
-};
+  }
+}
 
 export class Mouse extends Subject {
   constructor() {
@@ -139,8 +141,8 @@ export class Mouse extends Subject {
 
     this.generate();
     this.draw();
-  };
-};
+  }
+}
 
 export class HolyWater extends Subject {
   constructor() {
@@ -151,8 +153,8 @@ export class HolyWater extends Subject {
 
     this.generate();
     this.draw();
-  };
-};
+  }
+}
 
 export class Crap extends Subject {
   constructor() {
@@ -163,8 +165,8 @@ export class Crap extends Subject {
 
     this.generate();
     this.draw();
-  };
-};
+  }
+}
 
 export class Bomb extends Subject {
   constructor() {
@@ -175,5 +177,5 @@ export class Bomb extends Subject {
 
     this.generate();
     this.draw();
-  };
-};
+  }
+}

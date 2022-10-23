@@ -14,19 +14,20 @@ export class Dialog {
       'Keep it up!', 'Ha-ha, nice', 'Home-made!', 'Contains simulated food', 'This splash text is now available', 'Quite Indie!'];
 
     this.draw();
-  };
+  }
 
   draw = () => {
     let randomInteger = this.support.getRandomInteger(0, this.splashes.length);
     this.$container.innerText = this.splashes[randomInteger];
   };
+
   end = (score) => {
     if (score >= this.winScore) {
       this.$container.innerText = `Game Over! You won!`;
     } else {
       this.$container.innerText = `Game Over! You lose!`;
-    };
+    }
   };
-};
+}
 
 export default Dialog;
