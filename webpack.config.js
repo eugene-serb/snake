@@ -13,6 +13,11 @@ module.exports = {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'docs'),
   },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
   resolve: {
     extensions: ['.js', '.json'],
     alias: {
@@ -25,12 +30,26 @@ module.exports = {
       patterns: [
         {
           from: path.resolve(__dirname, 'static'),
-          to: path.resolve(__dirname, 'docs')
-        }
-      ]
+          to: path.resolve(__dirname, 'docs'),
+        },
+      ],
     }),
     new HTMLWebpackPlugin({
       template: './index.html',
     }),
   ],
+  module: {
+    rules: [
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
+      },
+    ],
+  },
 };
