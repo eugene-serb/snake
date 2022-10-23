@@ -1,0 +1,39 @@
+{
+  "name": "snake-game",
+  "version": "1.0.0",
+  "description": "This is a simple browser snake-game. Let's have fun!",
+  "keywords": [
+    "snake-game",
+    "snake",
+    "game"
+  ],
+  "license": "GNU GPL v3",
+  "private": "true",
+  "homepage": "https://eugene-serb.github.io/snake-game/",
+  "author": {
+    "name": "Eugene Serb",
+    "email": "eugene.serb@gmail.com",
+    "url": "https://eugene-serb.github.io/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eugene-serb/snake-game.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eugene-serb/snake-game/issues"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --mode development --open",
+    "build": "webpack --mode production",
+    "serve": "webpack --mode development",
+    "watch": "webpack --mode development --watch",
+    "test": "exit 0"
+  },
+  "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  }
+}
