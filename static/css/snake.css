@@ -1,0 +1,150 @@
+/* ---------- */
+/* SNAKE GAME */
+/* ---------- */
+
+@charset 'UTF-8';
+
+/* --------- */
+/* INTERFACE */
+/* --------- */
+
+.snake-game {
+  width: 240px;
+  margin: 0 auto;
+}
+
+.snake-game__map-wrapper {
+  width: 240px;
+  height: 240px;
+  margin-block-end: 32px;
+  background-color: var(--color-d);
+}
+
+.snake-game__dialog {
+  display: block;
+  text-align: center;
+  font-size: 24px;
+  margin-block-end: 8px;
+}
+
+.snake-game__banner {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  font-size: 18px;
+  margin-block-end: 8px;
+}
+
+.snake-game__rules {
+  text-align: center;
+  font-size: 14px;
+}
+
+/* ---- */
+/* GAME */
+/* ---- */
+
+.map {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  grid-template-rows: repeat(15, 1fr);
+}
+
+.cell {
+}
+
+.border {
+  background-color: #333C4F;
+}
+
+.apple {
+  background-color: #D98A89;
+}
+
+.mouse {
+  background-color: #C1839F;
+}
+
+.crap {
+  background-color: #CFAB8C;
+}
+
+.bomb {
+  background-color: #7AC2A5;
+}
+
+.holywater {
+  background-color: #7A91C2;
+}
+
+.snakeTail {
+  background-color: var(--color-a-monocromatic-b);
+}
+
+.snakeHead {
+  background-color: var(--color-a-monocromatic-a);
+}
+
+/* ----- */
+/* MEDIA */
+/* ----- */
+
+@media (prefers-color-scheme: dark) {
+  .map {
+    background-color: var(--color-a-monocromatic-d);
+  }
+}
+
+@media only screen and (min-width: 380px) {
+  .snake-game {
+    width: 340px;
+  }
+
+  .snake-game__map-wrapper {
+    width: 340px;
+    height: 340px;
+    margin-block-end: 32px;
+  }
+}
+
+@media only screen and (min-width: 480px) {
+  .snake-game {
+    width: 440px;
+  }
+
+  .snake-game__map-wrapper {
+    width: 440px;
+    height: 440px;
+    margin-block-end: 32px;
+  }
+}
+
+@media only screen and (min-width: 580px) {
+  .snake-game {
+    width: 540px;
+  }
+
+  .snake-game__dialog {
+    font-size: 32px;
+    margin-block-end: 16px;
+  }
+
+  .snake-game__banner {
+    font-size: 24px;
+    margin-block-end: 16px;
+  }
+
+  .snake-game__rules {
+    font-size: 16px;
+  }
+
+  .snake-game__map-wrapper {
+    width: 540px;
+    height: 540px;
+    margin-block-end: 32px;
+  }
+}
