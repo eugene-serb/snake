@@ -1,8 +1,8 @@
 const path = require('path');
+const ESLintWebpackPlugin = require('eslint-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const ESLintWebpackPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
@@ -26,6 +26,7 @@ module.exports = {
     },
   },
   plugins: [
+    new ESLintWebpackPlugin(),
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
       patterns: [
@@ -38,7 +39,6 @@ module.exports = {
     new HTMLWebpackPlugin({
       template: './index.html',
     }),
-    new ESLintWebpackPlugin(),
   ],
   module: {
     rules: [
