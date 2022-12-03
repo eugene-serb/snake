@@ -13,7 +13,7 @@ export class Timer {
 
   draw = () => {
     this.#calculate();
-    this.$container.innerText = `Round Time: ${this.time}`;
+    this.$container.innerText = `Time: ${this.time}`;
   };
 
   #calculate = () => {
