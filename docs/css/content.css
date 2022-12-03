@@ -1,6 +1,4 @@
-/* ---- */
-/* PAGE */
-/* ---- */
+@charset 'UTF-8';
 
 .page {
   flex-grow: 1;
@@ -15,10 +13,6 @@
   }
 }
 
-/* ---- */
-/* POST */
-/* ---- */
-
 .post {
   margin: 0 auto;
 }
@@ -27,12 +21,17 @@
   text-align: center;
   margin-block-start: 32px;
   margin-block-end: 32px;
-  font-size: 48px;
+  font-size: 24px;
 }
 
-/* ------- */
-/* CONTENT */
-/* ------- */
+@media only screen and (min-width: 540px) {
+  .post__header {
+    text-align: center;
+    margin-block-start: 32px;
+    margin-block-end: 32px;
+    font-size: 48px;
+  }
+}
 
 .content {
   margin-bottom: 32px;
