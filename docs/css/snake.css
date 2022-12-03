@@ -1,12 +1,4 @@
-/* ---------- */
-/* SNAKE GAME */
-/* ---------- */
-
 @charset 'UTF-8';
-
-/* --------- */
-/* INTERFACE */
-/* --------- */
 
 .snake-game {
   width: 200px;
@@ -40,10 +32,6 @@
   text-align: left;
   font-size: 10px;
 }
-
-/* ---- */
-/* GAME */
-/* ---- */
 
 .map {
   width: 100%;
@@ -88,10 +76,6 @@
 .snakeHead {
   background-color: var(--color-a-monocromatic-a);
 }
-
-/* ----- */
-/* MEDIA */
-/* ----- */
 
 @media (prefers-color-scheme: dark) {
   .map {

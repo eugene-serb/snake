@@ -122,7 +122,6 @@ dd {
 }
 
 kbd {
-  margin: 0 0.1ch;
   padding: 0 0.5ch;
   border: 2px solid var(--color-d-monocromatic-d);
   border-radius: 2px;
