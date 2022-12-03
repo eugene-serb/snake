@@ -25,6 +25,7 @@
 
 .post__header {
   text-align: center;
+  margin-block-start: 32px;
   margin-block-end: 32px;
   font-size: 48px;
 }

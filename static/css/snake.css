@@ -9,13 +9,13 @@
 /* --------- */
 
 .snake-game {
-  width: 240px;
+  width: 200px;
   margin: 0 auto;
 }
 
 .snake-game__map-wrapper {
-  width: 240px;
-  height: 240px;
+  width: 200px;
+  height: 200px;
   margin-block-end: 32px;
   background-color: var(--color-d);
 }
@@ -99,33 +99,33 @@
   }
 }
 
-@media only screen and (min-width: 380px) {
+@media only screen and (min-width: 340px) {
   .snake-game {
-    width: 340px;
+    width: 300px;
   }
 
   .snake-game__map-wrapper {
-    width: 340px;
-    height: 340px;
+    width: 300px;
+    height: 300px;
     margin-block-end: 32px;
   }
 }
 
-@media only screen and (min-width: 480px) {
+@media only screen and (min-width: 440px) {
   .snake-game {
-    width: 440px;
+    width: 400px;
   }
 
   .snake-game__map-wrapper {
-    width: 440px;
-    height: 440px;
+    width: 400px;
+    height: 400px;
     margin-block-end: 32px;
   }
 }
 
-@media only screen and (min-width: 580px) {
+@media only screen and (min-width: 540px) {
   .snake-game {
-    width: 540px;
+    width: 500px;
   }
 
   .snake-game__dialog {
@@ -143,8 +143,8 @@
   }
 
   .snake-game__map-wrapper {
-    width: 540px;
-    height: 540px;
+    width: 500px;
+    height: 500px;
     margin-block-end: 32px;
   }
 }
