@@ -17,15 +17,3 @@
   justify-content: space-between;
   gap: 32px;
 }
-
-.created-by {
-  align-self: flex-end;
-}
-
-  .created-by > span {
-    padding-right: 8px;
-  }
-
-  .created-by > a {
-    font-size: 32px;
-  }
