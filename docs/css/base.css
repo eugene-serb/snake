@@ -125,6 +125,6 @@ kbd {
   padding: 0 0.5ch;
   border: 2px solid var(--color-d-monocromatic-d);
   border-radius: 2px;
-  line-height: 32px;
-  font-size: 18px;
+  line-height: 24px;
+  font-size: 14px;
 }
