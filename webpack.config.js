@@ -1,3 +1,5 @@
+'use strict';
+
 const path = require('path');
 const ESLintWebpackPlugin = require('eslint-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
