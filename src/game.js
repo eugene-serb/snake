@@ -1,19 +1,18 @@
 'use strict';
 
-import Dialog from '@/dialog.js';
 import Map from '@/map.js';
 import Snake from '@/snake.js';
-import {
-  BorderFactory, AppleFactory, MouseFactory,
-  HolyWaterFactory, CrapFactory, BombFactory
-} from '@/items.js';
-
-import { getRandomInteger } from '@/helpers.js';
+import Dialog from '@/dialog.js';
 import Timer from '@/timer.js';
 import Score from '@/score.js';
 import Gameloop from '@/gameloop.js';
 import Keyboard from '@/keyboard.js';
 import Gamepad from '@/gamepad.js';
+import { getRandomInteger } from '@/helpers.js';
+import {
+  BorderFactory, AppleFactory, MouseFactory,
+  HolyWaterFactory, CrapFactory, BombFactory
+} from '@/items.js';
 
 export class Game extends Gameloop {
   constructor() {
@@ -82,7 +81,15 @@ export class Game extends Gameloop {
     this.timer = new Timer();
     this.score = new Score();
 
-    this.factories = [new BorderFactory, new AppleFactory, new MouseFactory, new HolyWaterFactory, new CrapFactory, new BombFactory];
+    this.factories = [
+      new BorderFactory,
+      new AppleFactory,
+      new MouseFactory,
+      new HolyWaterFactory,
+      new CrapFactory,
+      new BombFactory
+    ];
+
     this.things = [];
     this.borders = [];
 

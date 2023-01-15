@@ -68,7 +68,7 @@
   font-size: 12px;
 }
 
-@media only screen and (min-width: 720px) {
+@media only screen and (min-width: 880px) {
   .game {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -91,7 +91,7 @@
   }
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1400px) {
   .game {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
