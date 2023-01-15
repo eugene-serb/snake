@@ -12,6 +12,7 @@ import {
 import Timer from '@/timer.js';
 import Score from '@/score.js';
 import Gameloop from '@/gameloop.js';
+import Keyboard from '@/keyboard.js';
 
 export class Game extends Gameloop {
   constructor() {
@@ -25,6 +26,42 @@ export class Game extends Gameloop {
     this.#configurations();
     this.#eventListeners();
     this.#init();
+  }
+
+  moveToLeft() {
+    if (this.snake.canRotate === true && this.snake.direction !== 'Right') {
+      this.snake.dx = -1;
+      this.snake.dy = 0;
+      this.snake.direction = 'Left';
+      this.snake.canRotate = false;
+    }
+  }
+
+  moveToUp() {
+    if (this.snake.canRotate === true && this.snake.direction !== 'Down') {
+      this.snake.dx = 0;
+      this.snake.dy = 1;
+      this.snake.direction = 'Up';
+      this.snake.canRotate = false;
+    }
+  }
+
+  moveToRight() {
+    if (this.snake.canRotate === true && this.snake.direction !== 'Left') {
+      this.snake.dx = 1;
+      this.snake.dy = 0;
+      this.snake.direction = 'Right';
+      this.snake.canRotate = false;
+    }
+  }
+
+  moveToDown() {
+    if (this.snake.canRotate === true && this.snake.direction !== 'Up') {
+      this.snake.dx = 0;
+      this.snake.dy = -1;
+      this.snake.direction = 'Down';
+      this.snake.canRotate = false;
+    }
   }
 
   start() {
@@ -169,14 +206,14 @@ export class Game extends Gameloop {
           if (this.score.value < 0) {
             this.snake.isAlive = false;
             this.dialog.end(this.score.value);
-            clearInterval(this.interval);
+            this.setGameOver();
           }
         }
 
         if (document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('bomb')) {
           this.snake.isAlive = false;
           this.dialog.end(this.score.value);
-          clearInterval(this.interval);
+          this.setGameOver();
         }
 
       }
@@ -211,51 +248,8 @@ export class Game extends Gameloop {
 
       this.snake.isAlive = false;
       this.dialog.end(this.score.value);
-      clearInterval(this.interval);
+      this.setGameOver();
     }
-  }
-
-  #keyboard() {
-    window.addEventListener('keydown', (e) => {
-      if (this.snake.canRotate === true) {
-        if ((e.code === 'ArrowLeft' || e.code === "KeyA") && this.snake.direction !== 'Right') {
-          this.snake.dx = -1;
-          this.snake.dy = 0;
-          this.snake.direction = 'Left';
-          this.snake.canRotate = false;
-        } else if ((e.code === 'ArrowUp' || e.code === "KeyW") && this.snake.direction !== 'Down') {
-          this.snake.dx = 0;
-          this.snake.dy = 1;
-          this.snake.direction = 'Up';
-          this.snake.canRotate = false;
-        } else if ((e.code === 'ArrowRight' || e.code === "KeyD") && this.snake.direction !== 'Left') {
-          this.snake.dx = 1;
-          this.snake.dy = 0;
-          this.snake.direction = 'Right';
-          this.snake.canRotate = false;
-        } else if ((e.code === 'ArrowDown' || e.code === "KeyS") && this.snake.direction !== 'Up') {
-          this.snake.dx = 0;
-          this.snake.dy = -1;
-          this.snake.direction = 'Down';
-          this.snake.canRotate = false;
-        }
-      }
-
-      if (e.code === 'KeyR') {
-        this.clear();
-        this.start();
-      }
-
-      if (this.snake.isAlive === true) {
-        if (e.code === 'KeyP') {
-          if (this.isPaused === true) {
-            this.start();
-          } else {
-            this.stop();
-          }
-        }
-      }
-    });
   }
 
   #gamepads() {
@@ -406,7 +400,8 @@ export class Game extends Gameloop {
   }
 
   #eventListeners() {
-    this.#keyboard();
+    this._keyboard = new Keyboard(this);
+
     this.#gamepads();
     this.#touches();
   }
