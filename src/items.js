@@ -1,6 +1,6 @@
 'use strict';
 
-import Support from '@/support.js';
+import { getRandomInteger } from '@/helpers.js';
 
 export class ThingsFactory {
   constructor() {
@@ -70,8 +70,6 @@ export class BombFactory extends ThingsFactory {
 
 export class Subject {
   constructor() {
-    this.support = new Support();
-
     this.x = 0;
     this.y = 0;
 
@@ -95,7 +93,7 @@ export class Subject {
       }
     });
 
-    let randomInteger = this.support.getRandomInteger(1, emptyCell.length);
+    let randomInteger = getRandomInteger(1, emptyCell.length);
 
     this.x = +emptyCell[randomInteger].getAttribute('x');
     this.y = +emptyCell[randomInteger].getAttribute('y');

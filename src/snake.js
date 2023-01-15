@@ -1,13 +1,11 @@
 'use strict';
 
-import Support from '@/support.js';
+import { getRandomInteger } from '@/helpers.js';
 
 export class Snake {
   constructor(map_width, map_height) {
     this.map_width = map_width;
     this.map_height = map_height;
-
-    this.support = new Support();
 
     this.x = 0;
     this.y = 0;
@@ -65,7 +63,7 @@ export class Snake {
   };
 
   #generate = () => {
-    let randomDirection = this.support.getRandomInteger(1, 5);
+    let randomDirection = getRandomInteger(1, 5);
     let xMin = 0, xMax = 0, yMin = 0, yMax = 0;
 
     switch (randomDirection) {
@@ -99,8 +97,8 @@ export class Snake {
         break;
     }
 
-    this.x = this.support.getRandomInteger(xMin, xMax);
-    this.y = this.support.getRandomInteger(yMin, yMax);
+    this.x = getRandomInteger(xMin, xMax);
+    this.y = getRandomInteger(yMin, yMax);
 
     this.tails = [
       { x: this.x, y: this.y },

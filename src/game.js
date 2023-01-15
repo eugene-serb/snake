@@ -1,6 +1,5 @@
 'use strict';
 
-import Support from '@/support.js';
 import Dialog from '@/dialog.js';
 import Map from '@/map.js';
 import Snake from '@/snake.js';
@@ -9,6 +8,7 @@ import {
   HolyWaterFactory, CrapFactory, BombFactory
 } from '@/items.js';
 
+import { getRandomInteger } from '@/helpers.js';
 import Timer from '@/timer.js';
 import Score from '@/score.js';
 import Gameloop from '@/gameloop.js';
@@ -76,8 +76,6 @@ export class Game extends Gameloop {
   }
 
   #init() {
-    this.support = new Support();
-
     this.map = new Map(this.$MAP_WRAPPER, this.MAP_WIDTH, this.MAP_HEIGHT);
     this.dialog = new Dialog(this.$DIALOG_WRAPPER, this.WIN_SCORE);
     this.snake = new Snake(this.MAP_WIDTH, this.MAP_HEIGHT);
@@ -221,7 +219,7 @@ export class Game extends Gameloop {
     });
 
     if (this.things.length < 2) {
-      let randomInteger = this.support.getRandomInteger(1, 100);
+      let randomInteger = getRandomInteger(1, 100);
       let randomChoose = 0;
 
       if (randomInteger <= 80) {
