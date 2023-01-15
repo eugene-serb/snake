@@ -9,7 +9,7 @@ export class Map {
     this.draw();
   }
 
-  draw = () => {
+  draw() {
     this.$container.innerHTML = '';
 
     let $map = document.createElement('div');
@@ -25,7 +25,7 @@ export class Map {
         $map.appendChild($cell);
       }
     }
-  };
+  }
 }
 
 export default Map;

@@ -14,18 +14,18 @@ export class Dialog {
     this.draw();
   }
 
-  draw = () => {
+  draw() {
     let randomInteger = getRandomInteger(0, this.splashes.length);
     this.$container.innerText = this.splashes[randomInteger];
-  };
+  }
 
-  end = (score) => {
+  end(score) {
     if (score >= this.winScore) {
       this.$container.innerText = `Game Over! You won!`;
     } else {
       this.$container.innerText = `Game Over! You lose!`;
     }
-  };
+  }
 }
 
 export default Dialog;

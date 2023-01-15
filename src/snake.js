@@ -23,7 +23,7 @@ export class Snake {
     this.draw();
   }
 
-  update = () => {
+  update() {
     this.x += this.dx;
     this.y += this.dy;
 
@@ -36,9 +36,9 @@ export class Snake {
     }
 
     this.canRotate = true;
-  };
+  }
 
-  draw = () => {
+  draw() {
     this.tails.forEach((item, index) => {
       if (index === 0) {
         document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.add('snakeHead');
@@ -46,9 +46,9 @@ export class Snake {
         document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.add('snakeTail');
       }
     });
-  };
+  }
 
-  #collisionBorder = () => {
+  #collisionBorder() {
     if (this.x > this.map_width) {
       this.x = 1;
     } else if (this.x < 1) {
@@ -60,9 +60,9 @@ export class Snake {
     } else if (this.y < 1) {
       this.y = this.map_height;
     }
-  };
+  }
 
-  #generate = () => {
+  #generate() {
     let randomDirection = getRandomInteger(1, 5);
     let xMin = 0, xMax = 0, yMin = 0, yMax = 0;
 
@@ -105,7 +105,7 @@ export class Snake {
       { x: this.x - this.dx, y: this.y - this.dy },
       { x: this.x - (this.dx + this.dx), y: this.y - (this.dy + this.dy) }
     ];
-  };
+  }
 }
 
 export default Snake;
