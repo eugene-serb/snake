@@ -2,7 +2,6 @@
 
 import Support from '@/support.js';
 import Score from '@/score.js';
-import Timer from '@/timer.js';
 import Dialog from '@/dialog.js';
 import Map from '@/map.js';
 import Snake from '@/snake.js';
@@ -10,6 +9,8 @@ import {
   BorderFactory, AppleFactory, MouseFactory,
   HolyWaterFactory, CrapFactory, BombFactory
 } from '@/items.js';
+
+import Timer from '@/timer.js';
 
 class Game {
   constructor() {
@@ -25,7 +26,7 @@ class Game {
   #start = () => {
     this.map = new Map(this.$MAP_WRAPPER, this.MAP_WIDTH, this.MAP_HEIGHT);
     this.score = new Score(this.$SCORE_WRAPPER);
-    this.timer = new Timer(this.$TIMER_WRAPPER);
+    this.timer = new Timer();
     this.dialog = new Dialog(this.$DIALOG_WRAPPER, this.WIN_SCORE);
     this.snake = new Snake(this.MAP_WIDTH, this.MAP_HEIGHT);
 
@@ -61,7 +62,6 @@ class Game {
   #draw = () => {
     this.map.draw();
     this.score.draw();
-    this.timer.draw();
     this.snake.draw();
 
     this.things.forEach((item) => {
@@ -71,6 +71,8 @@ class Game {
     this.borders.forEach((item) => {
       item.draw();
     });
+
+    this.$TIMER.innerText = `Time: ${this.timer.value}`;
   };
 
   #eventHandler = () => {
@@ -388,7 +390,7 @@ class Game {
   #DOMs = () => {
     this.$MAP_WRAPPER = document.querySelector('#map');
     this.$SCORE_WRAPPER = document.querySelector('#score');
-    this.$TIMER_WRAPPER = document.querySelector('#timer');
+    this.$TIMER = document.querySelector('#timer');
     this.$DIALOG_WRAPPER = document.querySelector('#dialog');
   };
 

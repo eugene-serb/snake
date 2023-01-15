@@ -1,24 +1,29 @@
-'use strict';
+﻿'use strict';
 
 export class Timer {
-  constructor(container) {
-    this.$container = container;
-
-    this.time = '00:00'
-    this.timeStart = Date.now();
-    this.timeNow = this.timeStart;
-
-    this.draw()
+  constructor() {
+    this.#init();
   }
 
-  draw = () => {
-    this.#calculate();
-    this.$container.innerText = `Time: ${this.time}`;
-  };
+  get value() {
+    this.#update();
+    return this._value;
+  }
 
-  #calculate = () => {
-    this.timeNow = Date.now();
-    let delta = this.timeNow - this.timeStart;
+  reset() {
+    this.#init();
+  }
+
+  #init() {
+    this._timeStart = Date.now();
+    this._timeNow = this._timeStart;
+    this._value = '00:00';
+  }
+
+  #update() {
+    this._timeNow = Date.now();
+
+    const delta = this._timeNow - this._timeStart;
 
     let seconds = Math.floor(delta / 1000);
     let minutes = 0;
@@ -31,8 +36,8 @@ export class Timer {
     minutes = (minutes < 10) ? `0${minutes}` : `${minutes}`;
     seconds = (seconds < 10) ? `0${seconds}` : `${seconds}`;
 
-    this.time = `${minutes}:${seconds}`;
-  };
+    this._value = `${minutes}:${seconds}`;
+  }
 }
 
 export default Timer;
