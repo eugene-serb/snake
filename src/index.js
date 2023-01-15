@@ -1,7 +1,6 @@
 'use strict';
 
 import Support from '@/support.js';
-import Score from '@/score.js';
 import Dialog from '@/dialog.js';
 import Map from '@/map.js';
 import Snake from '@/snake.js';
@@ -11,6 +10,7 @@ import {
 } from '@/items.js';
 
 import Timer from '@/timer.js';
+import Score from '@/score.js';
 
 class Game {
   constructor() {
@@ -25,10 +25,10 @@ class Game {
 
   #start = () => {
     this.map = new Map(this.$MAP_WRAPPER, this.MAP_WIDTH, this.MAP_HEIGHT);
-    this.score = new Score(this.$SCORE_WRAPPER);
-    this.timer = new Timer();
     this.dialog = new Dialog(this.$DIALOG_WRAPPER, this.WIN_SCORE);
     this.snake = new Snake(this.MAP_WIDTH, this.MAP_HEIGHT);
+    this.timer = new Timer();
+    this.score = new Score();
 
     this.factories = [new BorderFactory, new AppleFactory, new MouseFactory, new HolyWaterFactory, new CrapFactory, new BombFactory];
     this.things = [];
@@ -61,7 +61,6 @@ class Game {
 
   #draw = () => {
     this.map.draw();
-    this.score.draw();
     this.snake.draw();
 
     this.things.forEach((item) => {
@@ -73,10 +72,11 @@ class Game {
     });
 
     this.$TIMER.innerText = `Time: ${this.timer.value}`;
+    this.$SCORE.innerText = `Score: ${this.score.value}`;
   };
 
   #eventHandler = () => {
-    if (this.score.balance >= 3) {
+    if (this.score.value >= 3) {
       this.snake.canGrow = true;
     } else {
       this.snake.canGrow = false;
@@ -143,7 +143,7 @@ class Game {
             this.snake.tails.pop();
           }
 
-          this.score.increase(-10);
+          this.score.decrease(10);
 
           this.map.draw();
           this.snake.draw();
@@ -152,16 +152,16 @@ class Game {
             item.draw();
           });
 
-          if (this.score.balance < 0) {
+          if (this.score.value < 0) {
             this.snake.isAlive = false;
-            this.dialog.end(this.score.balance);
+            this.dialog.end(this.score.value);
             clearInterval(this.interval);
           }
         }
 
         if (document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('bomb')) {
           this.snake.isAlive = false;
-          this.dialog.end(this.score.balance);
+          this.dialog.end(this.score.value);
           clearInterval(this.interval);
         }
 
@@ -193,10 +193,10 @@ class Game {
 
     if (document.querySelector('.snakeHead').classList.contains('snakeTail') ||
       document.querySelector('.snakeHead').classList.contains('border') ||
-      this.score.balance >= this.WIN_SCORE) {
+      this.score.value >= this.WIN_SCORE) {
 
       this.snake.isAlive = false;
-      this.dialog.end(this.score.balance);
+      this.dialog.end(this.score.value);
       clearInterval(this.interval);
     }
   };
@@ -389,9 +389,9 @@ class Game {
 
   #DOMs = () => {
     this.$MAP_WRAPPER = document.querySelector('#map');
-    this.$SCORE_WRAPPER = document.querySelector('#score');
-    this.$TIMER = document.querySelector('#timer');
     this.$DIALOG_WRAPPER = document.querySelector('#dialog');
+    this.$TIMER = document.querySelector('#timer');
+    this.$SCORE = document.querySelector('#score');
   };
 
   #eventListeners = () => {

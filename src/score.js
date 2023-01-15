@@ -1,19 +1,33 @@
-'use strict';
+﻿'use strict';
 
 export class Score {
-  constructor(container) {
-    this.$container = container;
-    this.balance = 0;
+  constructor(value) {
+    this._value = (value && typeof value === 'number') ? value : 0;
   }
 
-  increase = (n) => {
-    this.balance += n;
-    this.draw();
-  };
+  get value() {
+    return this._value;
+  }
 
-  draw = () => {
-    this.$container.innerText = `Score: ${this.balance}`;
-  };
+  set value(value) {
+    if (value && typeof value === 'number') {
+      this._value = value;
+    } else {
+      return;
+    }
+  }
+
+  increase(value) {
+    this._value += (value && typeof value === 'number') ? value : 1;
+  }
+
+  decrease(value) {
+    this._value -= (value && typeof value === 'number') ? value : 1;
+  }
+
+  reset() {
+    this._value = 0;
+  }
 }
 
 export default Score;
