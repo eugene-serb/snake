@@ -57,7 +57,7 @@
     --color-border: #4ECBD940;
     --color-background: var(--color-white);
     --color-text: var(--color-c);
-    --color-text-header: var(--color-�);
+    --color-text-header: var(--color-c);
     --color-link: var(--color-a);
     --color-link-hover: var(--color-a-monocromatic-a);
     --color-selection: var(--color-a-monocromatic-c);

@@ -305,7 +305,7 @@ class Game {
 
       if (keyPressInterval >= 500) {
         if (this.snake.isAlive === true) {
-          if (button === 2) {
+          if (button === 8) {
             if (this.snake.isPaused === true) {
               this.interval = setInterval(this.#eventLoop, this.SPEED_RATE);
               this.snake.isPaused = false;
@@ -318,7 +318,7 @@ class Game {
           }
         }
 
-        if (button === 3) {
+        if (button === 9) {
           clearInterval(this.interval);
           this.#start();
           keyPressInterval = 0;
@@ -386,10 +386,10 @@ class Game {
   };
 
   #DOMs = () => {
-    this.$MAP_WRAPPER = document.querySelector('.snake-game__map-wrapper');
-    this.$SCORE_WRAPPER = document.querySelector('.snake-game__score');
-    this.$TIMER_WRAPPER = document.querySelector('.snake-game__timer');
-    this.$DIALOG_WRAPPER = document.querySelector('.snake-game__dialog');
+    this.$MAP_WRAPPER = document.querySelector('#map');
+    this.$SCORE_WRAPPER = document.querySelector('#score');
+    this.$TIMER_WRAPPER = document.querySelector('#timer');
+    this.$DIALOG_WRAPPER = document.querySelector('#dialog');
   };
 
   #eventListeners = () => {
