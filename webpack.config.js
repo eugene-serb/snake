@@ -1,59 +1,55 @@
-'use strict';
+﻿'use strict';
 
 const path = require('path');
 const ESLintWebpackPlugin = require('eslint-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const babelConfig = require('./babel.config');
 
-module.exports = {
-  context: path.resolve(__dirname, 'src'),
-  mode: 'development',
-  entry: {
-    index: './index.js',
-  },
-  output: {
-    filename: '[name].[contenthash].js',
-    path: path.resolve(__dirname, 'docs'),
-  },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
+module.exports = (env, argv) => {
+  return {
+    mode: argv.mode || 'development',
+    context: path.resolve(__dirname, 'src'),
+    entry: {
+      index: './index.js',
     },
-  },
-  resolve: {
-    extensions: ['.js', '.json'],
-    alias: {
-      '@': path.resolve(__dirname, 'src'),
+    output: {
+      filename: '[name].[contenthash].js',
+      path: path.resolve(__dirname, 'docs'),
     },
-  },
-  plugins: [
-    new ESLintWebpackPlugin(),
-    new CleanWebpackPlugin(),
-    new CopyWebpackPlugin({
-      patterns: [
+    resolve: {
+      extensions: ['.js', '.mjs', '.jsx', '.json'],
+      alias: {
+        '@': path.resolve(__dirname, 'src'),
+      },
+    },
+    plugins: [
+      new ESLintWebpackPlugin(),
+      new CleanWebpackPlugin(),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: path.resolve(__dirname, 'static'),
+            to: path.resolve(__dirname, 'docs'),
+          },
+        ],
+      }),
+      new HTMLWebpackPlugin({
+        template: './index.html',
+      }),
+    ],
+    module: {
+      rules: [
         {
-          from: path.resolve(__dirname, 'static'),
-          to: path.resolve(__dirname, 'docs'),
-        },
-      ],
-    }),
-    new HTMLWebpackPlugin({
-      template: './index.html',
-    }),
-  ],
-  module: {
-    rules: [
-      {
-        test: /\.m?js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
+          test: /\.m?jsx?$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: babelConfig,
           },
         },
-      },
-    ],
-  },
+      ],
+    },
+  };
 };

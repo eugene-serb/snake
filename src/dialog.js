@@ -1,13 +1,11 @@
 'use strict';
 
-import Support from '@/support.js';
+import { getRandomInteger } from '@/helpers.js';
 
 export class Dialog {
   constructor(container, winScore) {
     this.$container = container;
     this.winScore = winScore;
-
-    this.support = new Support();
 
     this.splashes = ['Eat all', 'Big snake', 'Just out of the oven', 'We are in the matrix!', 'Open-world alpha sandbox!',
       'Apples or mice?', 'Hurry up!', 'What does this food allow itself?', 'Beware the tail', 'Hmmmrmm.', 'Is it poisonous?',
@@ -16,18 +14,18 @@ export class Dialog {
     this.draw();
   }
 
-  draw = () => {
-    let randomInteger = this.support.getRandomInteger(0, this.splashes.length);
+  draw() {
+    let randomInteger = getRandomInteger(0, this.splashes.length);
     this.$container.innerText = this.splashes[randomInteger];
-  };
+  }
 
-  end = (score) => {
+  end(score) {
     if (score >= this.winScore) {
       this.$container.innerText = `Game Over! You won!`;
     } else {
       this.$container.innerText = `Game Over! You lose!`;
     }
-  };
+  }
 }
 
 export default Dialog;
