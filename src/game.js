@@ -13,6 +13,7 @@ import Timer from '@/timer.js';
 import Score from '@/score.js';
 import Gameloop from '@/gameloop.js';
 import Keyboard from '@/keyboard.js';
+import Gamepad from '@/gamepad.js';
 
 export class Game extends Gameloop {
   constructor() {
@@ -252,92 +253,6 @@ export class Game extends Gameloop {
     }
   }
 
-  #gamepads() {
-    const checkGamepadSupport = () => {
-      return 'getGamepads' in window.navigator;
-    };
-
-    const addGamepad = () => {
-      if (!checkGamepadSupport()) {
-        return;
-      }
-
-      window.addEventListener('gamepadconnected', () => {
-        const update = () => {
-          keyPressInterval += 10;
-          let gamepads = navigator.getGamepads();
-          let isPressed = false;
-          let button;
-
-          gamepads[0].buttons.forEach((item, index) => {
-            if (item.value === 1) {
-              button = index;
-              isPressed = true;
-            }
-          });
-
-          if (!isPressed) {
-            return;
-          } else {
-            gamepadHandler(button);
-          }
-        };
-        setInterval(update, 10);
-      });
-    };
-
-    const gamepadHandler = (button) => {
-      if (this.snake.canRotate === true) {
-        if (button === 12 && this.snake.direction !== 'Down') {
-          this.snake.dx = 0;
-          this.snake.dy = 1;
-          this.snake.direction = 'Up';
-          this.snake.canRotate = false;
-        } else if (button === 13 && this.snake.direction !== 'Up') {
-          this.snake.dx = 0;
-          this.snake.dy = -1;
-          this.snake.direction = 'Down';
-          this.snake.canRotate = false;
-        } else if (button === 14 && this.snake.direction !== 'Right') {
-          this.snake.dx = -1;
-          this.snake.dy = 0;
-          this.snake.direction = 'Left';
-          this.snake.canRotate = false;
-        } else if (button === 15 && this.snake.direction !== 'Left') {
-          this.snake.dx = 1;
-          this.snake.dy = 0;
-          this.snake.direction = 'Right';
-          this.snake.canRotate = false;
-        }
-      }
-
-      if (keyPressInterval >= 500) {
-        if (this.snake.isAlive === true) {
-          if (button === 8) {
-            if (this.isPaused === true) {
-              this.interval = setInterval(this.#eventLoop, this.SPEED_RATE);
-              this.isPaused = false;
-              keyPressInterval = 0;
-            } else {
-              clearInterval(this.interval);
-              this.isPaused = true;
-              keyPressInterval = 0;
-            }
-          }
-        }
-
-        if (button === 9) {
-          clearInterval(this.interval);
-          this.start();
-          keyPressInterval = 0;
-        }
-      }
-    };
-
-    let keyPressInterval = 0;
-    addGamepad();
-  }
-
   #touches() {
     let startX = 0;
     let startY = 0;
@@ -401,8 +316,8 @@ export class Game extends Gameloop {
 
   #eventListeners() {
     this._keyboard = new Keyboard(this);
+    this._gamepads = new Gamepad(this);
 
-    this.#gamepads();
     this.#touches();
   }
 }
