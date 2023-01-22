@@ -9,8 +9,8 @@
 
 .game__map-wrapper {
   margin: 0 auto;
-  width: 500px;
-  height: 500px;
+  width: 200px;
+  height: 200px;
   background-color: var(--color-d);
 }
 
@@ -21,7 +21,7 @@
 }
 
 .game__title {
-  font-size: 48px;
+  font-size: 32px;
 }
 
 .game__dialog {
@@ -66,6 +66,31 @@
   flex-direction: row;
   justify-content: space-between;
   font-size: 12px;
+}
+
+@media only screen and (min-width: 340px) {
+  .game__map-wrapper {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+@media only screen and (min-width: 440px) {
+  .game__map-wrapper {
+    width: 400px;
+    height: 400px;
+  }
+}
+
+@media only screen and (min-width: 540px) {
+  .game__map-wrapper {
+    width: 500px;
+    height: 500px;
+  }
+
+  .game__title {
+    font-size: 48px;
+  }
 }
 
 @media only screen and (min-width: 880px) {
