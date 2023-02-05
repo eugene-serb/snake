@@ -17,12 +17,18 @@ import {
 } from '@/items.js';
 
 export class SnakeGame extends Gameloop {
-  constructor() {
+  constructor(params) {
     super();
+
+    this._params = params;
 
     this.SPEED_RATE = (this._params?.speedRate &&
       typeof this._params?.speedRate === 'number'
     ) ? this._params?.speedRate : 250;
+
+    this.KEY_RATING = (this._params?.keyRating &&
+      typeof this._params?.keyRating === 'string'
+    ) ? this._params?.keyRating : 'es:snake';
 
     this.#DOMs();
     this.#configurations();
