@@ -1,10 +1,10 @@
 ﻿'use strict';
 
-import Game from '@/game.js';
+import SnakeGame from '@/snake-game.js';
 
 const params = {
   speedRate: 200,
 };
 
-const game = new Game(params);
-game.start();
+const snakeGame = new SnakeGame(params);
+snakeGame.start();

@@ -1,20 +1,22 @@
 'use strict';
 
-import Map from '@/map.js';
+import GridDrawer from '@/grid-drawer.js';
 import Snake from '@/snake.js';
 import Dialog from '@/dialog.js';
 import Timer from '@/timer.js';
 import Score from '@/score.js';
+import Rating from '@/rating.js';
 import Gameloop from '@/gameloop.js';
 import Keyboard from '@/keyboard.js';
 import Gamepad from '@/gamepad.js';
+import Touchscreen from '@/touchscreen.js';
 import { getRandomInteger } from '@/helpers.js';
 import {
   BorderFactory, AppleFactory, MouseFactory,
   HolyWaterFactory, CrapFactory, BombFactory
 } from '@/items.js';
 
-export class Game extends Gameloop {
+export class SnakeGame extends Gameloop {
   constructor() {
     super();
 
@@ -69,13 +71,51 @@ export class Game extends Gameloop {
     this.interval = setInterval(this.#eventLoop.bind(this), this.SPEED_RATE);
   }
 
+  setGameOver() {
+    super.setGameOver();
+
+    const score = this.score.value;
+    const time = this.timer.value;
+
+    this.rating.add(score, time);
+    this.drawRating();
+  }
+
   clear() {
     super.clear();
     this.#init();
   }
 
+  drawRating() {
+    this.$RATING.innerHTML = '';
+
+    const rating = this.rating.value;
+
+    for (let i = 0; i < rating.length && i < 10; i++) {
+      const row = document.createElement('tr');
+      const a = document.createElement('td');
+      const b = document.createElement('td');
+      const c = document.createElement('td');
+      const d = document.createElement('td');
+
+      const time = new Date(rating[i].date)
+
+      a.innerText = i + 1;
+      b.innerText = rating[i].score;
+      c.innerText = rating[i].time;
+      d.innerText = time.toLocaleDateString();
+
+      row.append(a, b, c, d);
+
+      this.$RATING.appendChild(row);
+    }
+  }
+
   #init() {
-    this.map = new Map(this.$MAP_WRAPPER, this.MAP_WIDTH, this.MAP_HEIGHT);
+    this.rating = new Rating(this.KEY_RATING);
+    this.drawRating();
+
+    this.drawer = new GridDrawer(this.$MAP_WRAPPER, this.MAP_WIDTH, this.MAP_HEIGHT);
     this.dialog = new Dialog(this.$DIALOG_WRAPPER, this.WIN_SCORE);
     this.snake = new Snake(this.MAP_WIDTH, this.MAP_HEIGHT);
     this.timer = new Timer();
@@ -117,7 +157,7 @@ export class Game extends Gameloop {
   }
 
   #draw() {
-    this.map.draw();
+    this.drawer.draw();
     this.snake.draw();
 
     this.things.forEach((item) => {
@@ -150,7 +190,7 @@ export class Game extends Gameloop {
           if (this.snake.canGrow) this.snake.maxTails++;
           this.score.increase(1);
 
-          this.map.draw();
+          this.drawer.draw();
           this.snake.draw();
 
           this.borders.forEach((item) => {
@@ -164,7 +204,7 @@ export class Game extends Gameloop {
           if (this.snake.canGrow) this.snake.maxTails++;
           this.score.increase(5);
 
-          this.map.draw();
+          this.drawer.draw();
           this.snake.draw();
 
           this.borders.forEach((item) => {
@@ -182,7 +222,7 @@ export class Game extends Gameloop {
             this.snake.tails.pop();
           }
 
-          this.map.draw();
+          this.drawer.draw();
           this.snake.draw();
 
           this.borders.forEach((item) => {
@@ -202,7 +242,7 @@ export class Game extends Gameloop {
 
           this.score.decrease(10);
 
-          this.map.draw();
+          this.drawer.draw();
           this.snake.draw();
 
           this.borders.forEach((item) => {
@@ -258,54 +298,6 @@ export class Game extends Gameloop {
     }
   }
 
-  #touches() {
-    let startX = 0;
-    let startY = 0;
-    let endX = 0;
-    let endY = 0;
-
-    this.$MAP_WRAPPER.addEventListener('touchstart', (event) => {
-      startX = event.touches[0].pageX;
-      startY = event.touches[0].pageY;
-    });
-
-    this.$MAP_WRAPPER.addEventListener('touchend', (event) => {
-      endX = event.changedTouches[0].pageX;
-      endY = event.changedTouches[0].pageY;
-
-      let x = endX - startX;
-      let y = endY - startY;
-
-      let absX = Math.abs(x) > Math.abs(y);
-      let absY = Math.abs(y) > Math.abs(x);
-
-      if (this.snake.canRotate === true) {
-        if (x > 0 && absX && this.snake.direction !== 'Left') {
-          this.snake.dx = 1;
-          this.snake.dy = 0;
-          this.snake.direction = 'Right';
-          this.snake.canRotate = false;
-        } else if (x < 0 && absX && this.snake.direction !== 'Right') {
-          this.snake.dx = -1;
-          this.snake.dy = 0;
-          this.snake.direction = 'Left';
-          this.snake.canRotate = false;
-        } else if (y > 0 && absY && this.snake.direction !== 'Up') {
-          this.snake.dx = 0;
-          this.snake.dy = -1;
-          this.snake.direction = 'Down';
-          this.snake.canRotate = false;
-        } else if (y < 0 && absY && this.snake.direction !== 'Down') {
-          this.snake.dx = 0;
-          this.snake.dy = 1;
-          this.snake.direction = 'Up';
-          this.snake.canRotate = false;
-        }
-      }
-
-    });
-  }
-
   #configurations() {
     this.MAP_WIDTH = 15;
     this.MAP_HEIGHT = 15;
@@ -317,14 +309,14 @@ export class Game extends Gameloop {
     this.$DIALOG_WRAPPER = document.querySelector('#dialog');
     this.$TIMER = document.querySelector('#timer');
     this.$SCORE = document.querySelector('#score');
+    this.$RATING = document.querySelector('#rating');
   }
 
   #eventListeners() {
     this._keyboard = new Keyboard(this);
     this._gamepads = new Gamepad(this);
-
-    this.#touches();
+    this._touchscreen = new Touchscreen(this, this.$MAP_WRAPPER);
   }
 }
 
-export default Game;
+export default SnakeGame;

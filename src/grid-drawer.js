@@ -1,6 +1,6 @@
 'use strict';
 
-export class Map {
+export class GridDrawer {
   constructor(container, width, height) {
     this.$container = container;
     this.width = width;
@@ -28,4 +28,4 @@ export class Map {
   }
 }
 
-export default Map;
+export default GridDrawer;
