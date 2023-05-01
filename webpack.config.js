@@ -18,11 +18,27 @@ module.exports = (env, argv) => {
       filename: '[name].[contenthash].js',
       path: path.resolve(__dirname, 'docs'),
     },
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+      },
+      minimize: true,
+      innerGraph: true,
+      usedExports: true,
+    },
     resolve: {
       extensions: ['.js', '.mjs', '.jsx', '.json'],
       alias: {
         '@': path.resolve(__dirname, 'src'),
       },
+    },
+    devServer: {
+      watchFiles: path.join(__dirname, 'src'),
+      static: {
+        directory: path.join(__dirname, 'static'),
+      },
+      compress: true,
+      port: 9000,
     },
     plugins: [
       new ESLintWebpackPlugin(),
@@ -36,13 +52,16 @@ module.exports = (env, argv) => {
         ],
       }),
       new HTMLWebpackPlugin({
+        inject: true,
         template: './index.html',
+        filename: 'index.html',
+        chunks: ['index'],
       }),
     ],
     module: {
       rules: [
         {
-          test: /\.m?jsx?$/,
+          test: /\.m?jsx?$/i,
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
