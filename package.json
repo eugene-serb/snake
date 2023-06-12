@@ -29,6 +29,9 @@
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development",
     "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "format": "npx prettier src --check",
+    "format:fix": "npx prettier src --write --ignore-unknown",
     "test": "jest tests"
   },
   "devDependencies": {
