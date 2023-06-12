@@ -1,20 +1,16 @@
-﻿'use strict';
+'use strict';
 
 module.exports = {
-  parser: '@babel/eslint-parser',
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-  },
+  root: true,
   env: {
     es2022: true,
     browser: true,
     node: true,
   },
-  extends: [
-    'eslint:recommended',
-  ],
-  rules: {
-    'no-unused-vars': 'warn',
+  extends: ['eslint:recommended', 'prettier'],
+  parser: '@babel/eslint-parser',
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
   },
 };
