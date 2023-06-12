@@ -1,11 +1,20 @@
-﻿'use strict';
+'use strict';
 
+/** Class Gamepad for handle gamepad controls. */
 export class Gamepad {
+  /**
+   * Create Gamepad instance.
+   * @param {any} context Context object for controls.
+   */
   constructor(context) {
     this._context = context;
     this.#init();
   }
 
+  /**
+   * Initialize Gamepad class instance.
+   * @private
+   */
   #init() {
     if (!this.#checkGamepadSupport()) {
       return;
@@ -20,6 +29,10 @@ export class Gamepad {
     this.#connectGamepad();
   }
 
+  /**
+   * Connect gamepad and listen controls.
+   * @private
+   */
   #connectGamepad() {
     window.addEventListener('gamepadconnected', () => {
       const update = () => {
@@ -48,6 +61,10 @@ export class Gamepad {
     });
   }
 
+  /**
+   * Handle controls of the gamepad.
+   * @private
+   */
   #handle(button) {
     if (button === 12) {
       this._context.moveToUp();
@@ -88,6 +105,10 @@ export class Gamepad {
     }
   }
 
+  /**
+   * Check gamepad's support.
+   * @private
+   */
   #checkGamepadSupport() {
     return 'getGamepads' in window.navigator;
   }

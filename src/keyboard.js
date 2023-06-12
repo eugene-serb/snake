@@ -1,11 +1,19 @@
-﻿'use strict';
+'use strict';
 
+/** Class Keyboard for handle keyboard controls. */
 export class Keyboard {
+  /** Create Keyboard class instance.
+   * @param {any} context Context object for controls.
+   */
   constructor(context) {
     this._context = context;
     this.#handle();
   }
 
+  /**
+   * Handle controls of the keyboard.
+   * @private
+   */
   #handle() {
     window.addEventListener('keydown', (e) => {
       if (!this._context.isGameOver) {
