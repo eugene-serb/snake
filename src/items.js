@@ -4,7 +4,7 @@ import { getRandomInteger } from '@/helpers.js';
 
 export class ThingsFactory {
   constructor() {
-    this.createThing = () => { };
+    this.createThing = () => {};
   }
 }
 
@@ -88,7 +88,11 @@ export class Subject {
     let emptyCell = [];
 
     allCells.forEach((item) => {
-      if (!item.classList.contains('snakeTail') && !item.classList.contains('snakeHead') && !item.classList.contains('thing')) {
+      if (
+        !item.classList.contains('snakeTail') &&
+        !item.classList.contains('snakeHead') &&
+        !item.classList.contains('thing')
+      ) {
         emptyCell.push(item);
       }
     });
@@ -100,7 +104,9 @@ export class Subject {
   };
 
   draw = () => {
-    document.querySelector(`[x = "${this.x}"][y = "${this.y}"]`).classList.add('thing', this.className);
+    document
+      .querySelector(`[x = "${this.x}"][y = "${this.y}"]`)
+      .classList.add('thing', this.className);
   };
 }
 
@@ -115,7 +121,7 @@ export class Border extends Subject {
     this.draw();
   }
 
-  update = () => { };
+  update = () => {};
 }
 
 export class Apple extends Subject {

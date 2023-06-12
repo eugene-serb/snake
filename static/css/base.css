@@ -1,6 +1,8 @@
-﻿@charset 'UTF-8';
+@charset 'UTF-8';
 
-*, ::after, ::before {
+*,
+::after,
+::before {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -34,7 +36,12 @@ body {
   border-color: transparent;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: var(--color-text-header);
   font-weight: 500;
   margin-block-start: 0.382em;
@@ -74,12 +81,16 @@ small {
   font-size: smaller;
 }
 
-span, p, article, blockquote {
+span,
+p,
+article,
+blockquote {
   color: var(--color-text);
   font-weight: 300;
 }
 
-ol, ul {
+ol,
+ul {
   padding: 16px;
 }
 
@@ -95,12 +106,12 @@ a {
   text-decoration: none;
 }
 
-  a:hover {
-    border-bottom: var(--number-border-size) solid var(--color-link-hover);
-    color: var(--color-link-hover);
-    transition: all 0.5s ease;
-    text-decoration: none;
-  }
+a:hover {
+  border-bottom: var(--number-border-size) solid var(--color-link-hover);
+  color: var(--color-link-hover);
+  transition: all 0.5s ease;
+  text-decoration: none;
+}
 
 dl dd:last-child {
   margin-bottom: 0;

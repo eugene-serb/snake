@@ -1,12 +1,22 @@
-﻿'use strict';
+'use strict';
 
+/** Class Touchscreen for handle touch controls. */
 export class Touchscreen {
+  /**
+   * Create Touchscreen class instance.
+   * @param {any} context Context object for controls.
+   * @param {HTMLElement} container HTML element to receive touches on it.
+   */
   constructor(context, container) {
     this._context = context;
     this._container = container;
     this.#handle();
   }
 
+  /**
+   * Handle controls of the touchscreen.
+   * @private
+   */
   #handle() {
     let startX = 0;
     let startY = 0;

@@ -64,36 +64,47 @@ export class Snake {
 
   #generate() {
     let randomDirection = getRandomInteger(1, 5);
-    let xMin = 0, xMax = 0, yMin = 0, yMax = 0;
+    let xMin = 0,
+      xMax = 0,
+      yMin = 0,
+      yMax = 0;
 
     switch (randomDirection) {
       case 1:
         this.dx = 0;
         this.dy = 1;
         this.direction = 'Up';
-        xMin = 1; xMax = this.map_width;
-        yMin = 3; yMax = this.map_height;
+        xMin = 1;
+        xMax = this.map_width;
+        yMin = 3;
+        yMax = this.map_height;
         break;
       case 2:
         this.dx = 1;
         this.dy = 0;
         this.direction = 'Right';
-        xMin = 3; xMax = this.map_width;
-        yMin = 1; yMax = this.map_height;
+        xMin = 3;
+        xMax = this.map_width;
+        yMin = 1;
+        yMax = this.map_height;
         break;
       case 3:
         this.dx = 0;
         this.dy = -1;
         this.direction = 'Down';
-        xMin = 1; xMax = this.map_width;
-        yMin = 1; yMax = this.map_height - 2;
+        xMin = 1;
+        xMax = this.map_width;
+        yMin = 1;
+        yMax = this.map_height - 2;
         break;
       default:
         this.dx = -1;
         this.dy = 0;
         this.direction = 'Left';
-        xMin = 1; xMax = this.map_width - 2;
-        yMin = 1; yMax = this.map_height;
+        xMin = 1;
+        xMax = this.map_width - 2;
+        yMin = 1;
+        yMax = this.map_height;
         break;
     }
 
@@ -103,7 +114,7 @@ export class Snake {
     this.tails = [
       { x: this.x, y: this.y },
       { x: this.x - this.dx, y: this.y - this.dy },
-      { x: this.x - (this.dx + this.dx), y: this.y - (this.dy + this.dy) }
+      { x: this.x - (this.dx + this.dx), y: this.y - (this.dy + this.dy) },
     ];
   }
 }
