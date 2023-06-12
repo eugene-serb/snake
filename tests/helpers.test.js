@@ -1,9 +1,8 @@
-﻿'use strict';
+'use strict';
 
-import { getRandomInteger } from '../src/helpers.js';
+import { getRandomInteger } from '@/helpers.js';
 
 describe('[Helpers] function getRandomInteger', () => {
-
   test('Call without params', () => {
     expect(getRandomInteger()).toBe(0);
   });
@@ -22,7 +21,7 @@ describe('[Helpers] function getRandomInteger', () => {
 
     for (let i = 0; i < arr.length; i++) {
       if (!typeof arr[i] === 'number') {
-        isntValid = true; 
+        isntValid = true;
       } else {
         if (Math.trunc(arr[i]) !== arr[i]) {
           isntValid = true;

@@ -1,6 +1,6 @@
-﻿'use strict';
+'use strict';
 
-import Gameloop from '../src/gameloop.js';
+import Gameloop from '@/gameloop.js';
 
 describe('[Class][Gameloop] create instance', () => {
   const gameloop = new Gameloop();

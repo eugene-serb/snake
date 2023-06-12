@@ -1,6 +1,6 @@
-﻿'use strict';
+'use strict';
 
-import Timer from '../src/timer.js';
+import Timer from '@/timer.js';
 
 describe('[Class][Timer] create instance', () => {
   const timer = new Timer();
