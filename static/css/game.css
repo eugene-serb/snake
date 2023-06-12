@@ -7,6 +7,13 @@
   gap: 48px;
 }
 
+.game__right-column,
+.game__left-column {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+}
+
 .game__map-wrapper {
   margin: 0 auto;
   width: 200px;
@@ -55,9 +62,9 @@
   gap: 16px;
 }
 
-  .game__rating > h3 {
-    font-size: 16px;
-  }
+.game__rating > h3 {
+  font-size: 16px;
+}
 
 .game__rating-item {
   padding: 8px;
