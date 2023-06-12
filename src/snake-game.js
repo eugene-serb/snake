@@ -12,8 +12,12 @@ import Gamepad from '@/gamepad.js';
 import Touchscreen from '@/touchscreen.js';
 import { getRandomInteger } from '@/helpers.js';
 import {
-  BorderFactory, AppleFactory, MouseFactory,
-  HolyWaterFactory, CrapFactory, BombFactory
+  BorderFactory,
+  AppleFactory,
+  MouseFactory,
+  HolyWaterFactory,
+  CrapFactory,
+  BombFactory,
 } from '@/items.js';
 
 export class SnakeGame extends Gameloop {
@@ -22,13 +26,15 @@ export class SnakeGame extends Gameloop {
 
     this._params = params;
 
-    this.SPEED_RATE = (this._params?.speedRate &&
-      typeof this._params?.speedRate === 'number'
-    ) ? this._params?.speedRate : 250;
+    this.SPEED_RATE =
+      this._params?.speedRate && typeof this._params?.speedRate === 'number'
+        ? this._params?.speedRate
+        : 250;
 
-    this.KEY_RATING = (this._params?.keyRating &&
-      typeof this._params?.keyRating === 'string'
-    ) ? this._params?.keyRating : 'es:snake';
+    this.KEY_RATING =
+      this._params?.keyRating && typeof this._params?.keyRating === 'string'
+        ? this._params?.keyRating
+        : 'es:snake';
 
     this.#DOMs();
     this.#configurations();
@@ -104,7 +110,7 @@ export class SnakeGame extends Gameloop {
       const c = document.createElement('td');
       const d = document.createElement('td');
 
-      const time = new Date(rating[i].date)
+      const time = new Date(rating[i].date);
 
       a.innerText = i + 1;
       b.innerText = rating[i].score;
@@ -128,12 +134,12 @@ export class SnakeGame extends Gameloop {
     this.score = new Score();
 
     this.factories = [
-      new BorderFactory,
-      new AppleFactory,
-      new MouseFactory,
-      new HolyWaterFactory,
-      new CrapFactory,
-      new BombFactory
+      new BorderFactory(),
+      new AppleFactory(),
+      new MouseFactory(),
+      new HolyWaterFactory(),
+      new CrapFactory(),
+      new BombFactory(),
     ];
 
     this.things = [];
@@ -191,8 +197,9 @@ export class SnakeGame extends Gameloop {
       }
 
       if (this.snake.x === item.x && this.snake.y === item.y) {
-
-        if (document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('apple')) {
+        if (
+          document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('apple')
+        ) {
           if (this.snake.canGrow) this.snake.maxTails++;
           this.score.increase(1);
 
@@ -206,7 +213,9 @@ export class SnakeGame extends Gameloop {
           this.things.splice(index, 1);
         }
 
-        if (document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('mouse')) {
+        if (
+          document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('mouse')
+        ) {
           if (this.snake.canGrow) this.snake.maxTails++;
           this.score.increase(5);
 
@@ -220,8 +229,11 @@ export class SnakeGame extends Gameloop {
           this.things.splice(index, 1);
         }
 
-        if (document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('holywater')) {
-
+        if (
+          document
+            .querySelector(`[x = "${item.x}"][y = "${item.y}"]`)
+            .classList.contains('holywater')
+        ) {
           if (this.snake.maxTails >= 5) {
             this.snake.maxTails -= 2;
             this.snake.tails.pop();
@@ -238,8 +250,9 @@ export class SnakeGame extends Gameloop {
           this.things.splice(index, 1);
         }
 
-        if (document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('crap')) {
-
+        if (
+          document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('crap')
+        ) {
           if (this.snake.maxTails >= 5) {
             this.snake.maxTails -= 2;
             this.snake.tails.pop();
@@ -262,12 +275,13 @@ export class SnakeGame extends Gameloop {
           }
         }
 
-        if (document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('bomb')) {
+        if (
+          document.querySelector(`[x = "${item.x}"][y = "${item.y}"]`).classList.contains('bomb')
+        ) {
           this.snake.isAlive = false;
           this.dialog.end(this.score.value);
           this.setGameOver();
         }
-
       }
     });
 
@@ -294,10 +308,11 @@ export class SnakeGame extends Gameloop {
       });
     }
 
-    if (document.querySelector('.snakeHead').classList.contains('snakeTail') ||
+    if (
+      document.querySelector('.snakeHead').classList.contains('snakeTail') ||
       document.querySelector('.snakeHead').classList.contains('border') ||
-      this.score.value >= this.WIN_SCORE) {
-
+      this.score.value >= this.WIN_SCORE
+    ) {
       this.snake.isAlive = false;
       this.dialog.end(this.score.value);
       this.setGameOver();
