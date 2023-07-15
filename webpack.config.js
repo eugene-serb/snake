@@ -4,16 +4,14 @@ const path = require('path');
 const ESLintWebpackPlugin = require('eslint-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HTMLWebpackPlugin = require('html-webpack-plugin');
 const babelConfig = require('./babel.config');
+const { ENTRIES, PAGES } = require('./src');
 
 module.exports = (env, argv) => {
   return {
     mode: argv.mode || 'development',
     context: path.resolve(__dirname, 'src'),
-    entry: {
-      index: './index.js',
-    },
+    entry: ENTRIES,
     output: {
       filename: '[name].[contenthash].js',
       path: path.resolve(__dirname, 'docs'),
@@ -51,12 +49,7 @@ module.exports = (env, argv) => {
           },
         ],
       }),
-      new HTMLWebpackPlugin({
-        inject: true,
-        template: './index.html',
-        filename: 'index.html',
-        chunks: ['index'],
-      }),
+      ...PAGES,
     ],
     module: {
       rules: [
@@ -67,6 +60,10 @@ module.exports = (env, argv) => {
             loader: 'babel-loader',
             options: babelConfig,
           },
+        },
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader'],
         },
       ],
     },

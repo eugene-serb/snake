@@ -1,35 +1,30 @@
 'use strict';
 
-import { getRandomInteger } from '@/helpers.js';
+import { getRandomInteger } from '@/engine/helpers.js';
 
 describe('[Helpers] function getRandomInteger', () => {
   test('Call without params', () => {
-    expect(getRandomInteger()).toBe(0);
+    const number = getRandomInteger();  
+
+    expect(number).toBe(0);
+    expect(typeof number).toBe('number');
   });
 
-  test('Generate number and only number', () => {
+  test('Generate many time number with params', () => {
     const min = 0;
     const max = 10;
     const count = 100;
-    const arr = [];
+    let isValid = true;
 
     for (let i = 0; i < count; i++) {
-      arr.push(getRandomInteger(min, max));
-    }
+      const number = getRandomInteger(min, max);
 
-    const isntValid = false;
-
-    for (let i = 0; i < arr.length; i++) {
-      if (!typeof arr[i] === 'number') {
-        isntValid = true;
-      } else {
-        if (Math.trunc(arr[i]) !== arr[i]) {
-          isntValid = true;
-        }
+      if (!typeof number === 'number' ||
+          number < min || number >= max) {
+            isValid = false;
       }
-      if (isntValid) break;
     }
 
-    expect(arr.includes(true)).not.toBe(true);
+    expect(isValid).toBe(true);
   });
 });
