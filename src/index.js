@@ -1,11 +1,9 @@
-﻿'use strict';
+'use strict';
 
-import SnakeGame from '@/snake-game.js';
+const ENTRIES = require('./entries.js');
+const PAGES = require('./pages.js');
 
-const params = {
-  speedRate: 200,
-  keyRating: 'es:snake',
+module.exports = {
+  ENTRIES,
+  PAGES,
 };
-
-const snakeGame = new SnakeGame(params);
-snakeGame.start();

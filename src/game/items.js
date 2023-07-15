@@ -1,6 +1,6 @@
 'use strict';
 
-import { getRandomInteger } from '@/helpers.js';
+import { getRandomInteger } from '@/engine/helpers.js';
 
 export class ThingsFactory {
   constructor() {

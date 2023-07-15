@@ -1,16 +1,16 @@
 'use strict';
 
-import GridDrawer from '@/grid-drawer.js';
-import Snake from '@/snake.js';
-import Dialog from '@/dialog.js';
-import Timer from '@/timer.js';
-import Score from '@/score.js';
-import Rating from '@/rating.js';
-import Gameloop from '@/gameloop.js';
-import Keyboard from '@/keyboard.js';
-import Gamepad from '@/gamepad.js';
-import Touchscreen from '@/touchscreen.js';
-import { getRandomInteger } from '@/helpers.js';
+import GridDrawer from '@/game/grid-drawer.js';
+import Snake from '@/game/snake.js';
+import Dialog from '@/game/dialog.js';
+import Timer from '@/engine/timer.js';
+import Score from '@/engine/score.js';
+import Rating from '@/engine/rating.js';
+import Gameloop from '@/engine/gameloop.js';
+import Keyboard from '@/engine/keyboard.js';
+import Gamepad from '@/engine/gamepad.js';
+import Touchscreen from '@/engine/touchscreen.js';
+import { getRandomInteger } from '@/engine/helpers.js';
 import {
   BorderFactory,
   AppleFactory,
@@ -18,7 +18,7 @@ import {
   HolyWaterFactory,
   CrapFactory,
   BombFactory,
-} from '@/items.js';
+} from '@/game/items.js';
 
 export class SnakeGame extends Gameloop {
   constructor(params) {

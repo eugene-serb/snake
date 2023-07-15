@@ -6,6 +6,7 @@ module.exports = {
     es2022: true,
     browser: true,
     node: true,
+    jest: true,
   },
   extends: ['eslint:recommended', 'prettier'],
   parser: '@babel/eslint-parser',

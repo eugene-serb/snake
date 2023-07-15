@@ -1,6 +1,6 @@
 'use strict';
 
-import Score from '@/score.js';
+import Score from '@/engine/score.js';
 
 describe('[Class][Score] create instance without params', () => {
   const score = new Score();
