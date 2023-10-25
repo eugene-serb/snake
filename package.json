@@ -1,6 +1,6 @@
 {
   "name": "snake-game",
-  "version": "1.4.3",
+  "version": "2.0.0",
   "description": "This is a simple browser snake-game. Let's have fun!",
   "keywords": [
     "snake-game",
@@ -29,9 +29,9 @@
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development",
     "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "format": "npx prettier src --check",
-    "format:fix": "npx prettier src --write --ignore-unknown",
+    "lint:fix": "eslint --fix src",
+    "format": "npx prettier --check src",
+    "format:fix": "npx prettier --write --ignore-unknown src",
     "test": "jest tests"
   },
   "devDependencies": {
