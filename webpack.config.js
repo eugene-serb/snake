@@ -14,7 +14,7 @@ module.exports = (env, argv) => {
     entry: ENTRIES,
     output: {
       filename: '[name].[contenthash].js',
-      path: path.resolve(__dirname, 'docs'),
+      path: path.resolve(__dirname, 'build'),
     },
     optimization: {
       splitChunks: {
@@ -45,7 +45,7 @@ module.exports = (env, argv) => {
         patterns: [
           {
             from: path.resolve(__dirname, 'static'),
-            to: path.resolve(__dirname, 'docs'),
+            to: path.resolve(__dirname, 'build'),
           },
         ],
       }),
