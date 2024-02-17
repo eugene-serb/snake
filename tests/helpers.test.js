@@ -4,7 +4,7 @@ import { getRandomInteger } from '@/engine/helpers.js';
 
 describe('[Helpers] function getRandomInteger', () => {
   test('Call without params', () => {
-    const number = getRandomInteger();  
+    const number = getRandomInteger();
 
     expect(number).toBe(0);
     expect(typeof number).toBe('number');
@@ -19,9 +19,8 @@ describe('[Helpers] function getRandomInteger', () => {
     for (let i = 0; i < count; i++) {
       const number = getRandomInteger(min, max);
 
-      if (!typeof number === 'number' ||
-          number < min || number >= max) {
-            isValid = false;
+      if (!typeof number === 'number' || number < min || number >= max) {
+        isValid = false;
       }
     }
 

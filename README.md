@@ -26,7 +26,7 @@ Use Aurora Game Engine **[[rep](https://github.com/eugene-serb/aurora-game-engin
 ## Commands:
 
 - npm run start — run with watcher
-- npm run serve — run dev server
+- npm run dev — run dev server
 - npm run build — build in production mode,
 - npm run build:dev — build in development mode,
 - npm run lint — run lint check,
