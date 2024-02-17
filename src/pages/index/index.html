@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en-us" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>Eugene Serb – Snake Game</title>
+    <title>Eugene Serb — Snake Game</title>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -12,22 +12,22 @@
     <meta name="robots" content="all" />
 
     <meta name="author" content="Eugene Serb" />
-    <meta name="copyright" content="Eugene Serb, 2023" />
+    <meta name="copyright" content="Eugene Serb, 2024" />
     <meta name="publisher-email" content="eugene.serb@gmail.com" />
     <meta name="publisher-url" content="https://eugene-serb.github.io/" />
     <meta
       name="keywords"
       content="Eugene Serb, eugene-serb, eugene_serb, eugene.serb, Evgeniy Serb, Евгений Серб, Novorossiysk, Новороссийск, contacts, CV, resume, portfolio, repositories, services, coder, developer, software engineer, development, frontend, backend, fullstack, Snake Game"
     />
-    <meta name="description" content="This is a simple browser snake-game. Let's have fun!" />
+    <meta name="description" content="Snake game with procedurally generated levels and support for keyboard, gamepad and touchpad. Let's play!" />
 
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Eugene Serb – Snake Game" />
+    <meta property="og:title" content="Eugene Serb — Snake Game" />
     <meta property="og:site_name" content="Eugene Serb — Website" />
     <meta
       property="og:description"
-      content="This is a simple browser snake-game. Let's have fun!"
+      content="Snake game with procedurally generated levels and support for keyboard, gamepad and touchpad. Let's play!"
     />
     <meta property="og:url" content="https://eugene-serb.github.io/" />
     <meta property="og:image" content="./img/og.png" />
@@ -35,10 +35,10 @@
 
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:creator" content="@eugene_serb" />
-    <meta name="twitter:title" content="Eugene Serb – Snake Game" />
+    <meta name="twitter:title" content="Eugene Serb — Snake Game" />
     <meta
       name="twitter:description"
-      content="This is a simple browser snake-game. Let's have fun!"
+      content="Snake game with procedurally generated levels and support for keyboard, gamepad and touchpad. Let's play!"
     />
     <meta name="twitter:image" content="./img/og.png" />
 
@@ -47,13 +47,15 @@
     <meta name="msvalidate.01" content="6E1771734F083E5366205F06314C3577" />
     <meta name="wmail-verification" content="46d069b79f9c774ce0bbf55f46aef201" />
 
-    <link rel="canonical" href="https://eugene-serb.github.io/snake-game/" />
-    <link rel="shortcut icon" type="image/x-icon" href="./img/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="./img/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png" />
+    <link rel="icon" type="image/x-icon" href="./img/favicon.ico" />
     <link rel="icon" type="image/png" sizes="16x16" href="./img/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./img/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./img/android-chrome-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="./img/android-chrome-512x512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./img/apple-touch-icon.png" />
     <link rel="manifest" href="./site.webmanifest" />
     <link rel="stylesheet" type="text/css" href="./css/index.css" />
+    <link rel="canonical" href="https://eugene-serb.github.io/snake-game/" />
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4NB4LGNNLB"></script>
@@ -100,7 +102,7 @@
     </header>
 
     <main class="page container">
-      <h1 class="visually-hidden">Eugene Serb – Snake Game</h1>
+      <h1 class="visually-hidden">Eugene Serb — Snake Game</h1>
       <section class="post">
         <div class="game">
           <div id="map" class="game__map-wrapper"></div>
@@ -115,52 +117,52 @@
               <div class="game__controls">
                 <span>Up</span>
                 <div>
-                  <span>– </span>
+                  <span>— </span>
                   <kbd>W</kbd>
-                  <span>and </span>
+                  <span>or </span>
                   <kbd>↑</kbd>
-                  <span>and </span>
+                  <span>or </span>
                   <kbd style="background-color: grey; border-radius: 2ch; color: white">↑</kbd>
                 </div>
                 <span>Down</span>
                 <div>
-                  <span>– </span>
+                  <span>— </span>
                   <kbd>S</kbd>
-                  <span>and </span>
+                  <span>or </span>
                   <kbd>↓</kbd>
-                  <span>and </span>
+                  <span>or </span>
                   <kbd style="background-color: grey; border-radius: 2ch; color: white">↓</kbd>
                 </div>
                 <span>Left</span>
                 <div>
-                  <span>– </span>
+                  <span>— </span>
                   <kbd>A</kbd>
-                  <span>and </span>
+                  <span>or </span>
                   <kbd>←</kbd>
-                  <span>and </span>
+                  <span>or </span>
                   <kbd style="background-color: grey; border-radius: 2ch; color: white">←</kbd>
                 </div>
                 <span>Rigth</span>
                 <div>
-                  <span>– </span>
+                  <span>— </span>
                   <kbd>D</kbd>
-                  <span>and </span>
+                  <span>or </span>
                   <kbd>→</kbd>
-                  <span>and </span>
+                  <span>or </span>
                   <kbd style="background-color: grey; border-radius: 2ch; color: white">→</kbd>
                 </div>
                 <span>Restart</span>
                 <div>
-                  <span>– </span>
+                  <span>— </span>
                   <kbd>R</kbd>
-                  <span>and </span>
+                  <span>or </span>
                   <kbd style="background-color: grey; border-radius: 2ch; color: white">START</kbd>
                 </div>
                 <span>Pause</span>
                 <div>
-                  <span>– </span>
+                  <span>— </span>
                   <kbd>P</kbd>
-                  <span>and </span>
+                  <span>or </span>
                   <kbd style="background-color: grey; border-radius: 2ch; color: white">BACK</kbd>
                 </div>
               </div>
@@ -190,7 +192,7 @@
       <div class="footer-wrapper container">
         <div class="annotation">
           <span class="annotation__text">
-            © 2023
+            © 2024
             <a href="https://eugene-serb.github.io/" target="_blank" translate="no">Eugene Serb</a>.
             Content licensed under
           </span>
