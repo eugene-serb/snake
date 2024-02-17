@@ -1,7 +1,23 @@
 {
-  "name": "eugene-serb.github.io",
-  "short_name": "eugene-serb",
+  "name": "Snake Game",
+  "short_name": "Snake Game",
+  "description": "Snake game with procedurally generated levels and support for keyboard, gamepad and touchpad. Let's play!",
   "icons": [
+    {
+      "src": "./img/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "./img/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "./img/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
     {
       "src": "./img/android-chrome-192x192.png",
       "sizes": "192x192",
